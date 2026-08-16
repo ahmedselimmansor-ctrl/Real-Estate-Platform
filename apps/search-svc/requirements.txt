@@ -16,7 +16,7 @@ pydantic-settings==2.6.1
 elasticsearch[async]==8.15.1
 
 # --- mongodb (read-only: canonical listings are owned by api-core) ---------
-motor==3.6.0
+motor==3.7.1
 pymongo==4.9.2
 
 # --- redis (cache + rate limiting) ----------------------------------------
