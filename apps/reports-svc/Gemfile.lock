@@ -10,7 +10,7 @@ GEM
     diff-lcs (1.6.2)
     dotenv (3.2.0)
     json (2.21.2)
-    jwt (2.10.3)
+    jwt (3.2.0)
       base64
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
@@ -130,7 +130,7 @@ DEPENDENCIES
   csv (~> 3.3)
   dotenv (~> 3.1)
   json (~> 2.7)
-  jwt (~> 2.9)
+  jwt (~> 3.2)
   logger (~> 1.6)
   mongo (~> 2.21)
   ostruct (~> 0.6)
