@@ -1,0 +1,40 @@
+[project]
+name = "nawy-rag-svc"
+version = "1.0.0"
+description = "Nawy clone — RAG chat service (FastAPI + LangGraph + Postgres/pgvector)"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["app", "tests"]
+exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "C4", "SIM", "ASYNC", "RUF"]
+ignore = [
+  "B008",   # FastAPI dependency defaults are function calls by design
+  "RUF001", # ambiguous unicode chars — the corpus is intentionally bilingual (AR)
+  "RUF002",
+  "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
+warn_unused_ignores = false
+warn_redundant_casts = true
+no_implicit_optional = true
+disallow_untyped_defs = false
+exclude = ["alembic/"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

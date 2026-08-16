@@ -1,0 +1,1583 @@
+[
+  {
+    "id": "1a63850a-81c8-5c83-a7d6-3c0b69fd93f9",
+    "slug": "palm-hills-new-cairo",
+    "name": "Palm Hills New Cairo",
+    "nameAr": "بالم هيلز نيو كايرو",
+    "developerId": "fbbdfc50-271a-535e-814b-30585c974062",
+    "areaId": "b47dcd29-cff0-5bd0-b7dd-03def1acf3b2",
+    "description": {
+      "en": "Palm Hills New Cairo spreads over 500 acres off the Ring Road in the Fifth Settlement, built around a central club and a chain of landscaped parks. The community mixes apartments, townhouses and standalone villas, with phases delivered progressively since 2019.",
+      "ar": "يمتد بالم هيلز نيو كايرو على أكثر من 500 فدان بجوار الطريق الدائري في التجمع الخامس، ويتمحور حول نادٍ مركزي وسلسلة من الحدائق المنسقة. يضم المجتمع شققًا وتاون هاوس وفيلات مستقلة، وتُسلَّم مراحله تباعًا منذ 2019."
+    },
+    "startingPrice": 9140000,
+    "maxPrice": 33960000,
+    "minAreaSqm": 145,
+    "maxAreaSqm": 400,
+    "deliveryYear": 2026,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-13.jpg",
+      "/properties/property-16.jpg"
+    ],
+    "geo": {
+      "lat": 30.0185,
+      "lng": 31.4602
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-palm-hills-new-cairo/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "890defd3-0510-50ed-b6fa-e0a7a7429dca",
+    "slug": "mivida",
+    "name": "Mivida",
+    "nameAr": "ميفيدا",
+    "developerId": "5ac4f38b-51bf-5e13-a9dc-c6b059bc782f",
+    "areaId": "b47dcd29-cff0-5bd0-b7dd-03def1acf3b2",
+    "description": {
+      "en": "Mivida is Emaar Misr's 900-acre community on the 90th Street corridor, planned around a 100-acre central park, a business park and the Mivida Downtown retail spine. Its Spanish-influenced architecture and mature landscaping make it one of the most liquid resale markets in New Cairo.",
+      "ar": "ميفيدا هي مجتمع إعمار مصر على مساحة 900 فدان بامتداد شارع التسعين، وقد خُطط حول حديقة مركزية بمساحة 100 فدان ومنطقة أعمال ومحور تجاري هو ميفيدا داون تاون. طرازها المعماري الإسباني ومساحاتها الخضراء الناضجة يجعلانها من أنشط أسواق إعادة البيع في القاهرة الجديدة."
+    },
+    "startingPrice": 7460000,
+    "maxPrice": 40580000,
+    "minAreaSqm": 120,
+    "maxAreaSqm": 390,
+    "deliveryYear": 2026,
+    "installmentYears": 6,
+    "downPaymentPercent": 15,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "f53a8f05-323c-5d5b-a179-700c011a1e87",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 30.0206,
+      "lng": 31.493
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-mivida/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa",
+      "office"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "bddd54c3-dc37-5fd7-8ef9-0e5794603d45",
+    "slug": "eastown",
+    "name": "Eastown",
+    "nameAr": "إيستاون",
+    "developerId": "e9f64807-18b4-590a-bfc2-28462b343921",
+    "areaId": "b47dcd29-cff0-5bd0-b7dd-03def1acf3b2",
+    "description": {
+      "en": "Eastown sits directly on the South Teseen axis and pairs residential buildings with the Eastown Hub, one of the busiest office and dining destinations in New Cairo. Unit sizes are compact and walkability is the selling point, which makes it popular with young professionals and rental investors.",
+      "ar": "يقع إيستاون مباشرة على محور التسعين الجنوبي ويجمع بين المباني السكنية وإيستاون هَب، أحد أنشط وجهات المكاتب والمطاعم في القاهرة الجديدة. المساحات مدمجة وسهولة التنقل سيرًا هي ميزته الأبرز، ما يجعله مفضلًا لدى الشباب المهني والمستثمرين في التأجير."
+    },
+    "startingPrice": 3240000,
+    "maxPrice": 17740000,
+    "minAreaSqm": 60,
+    "maxAreaSqm": 240,
+    "deliveryYear": 2026,
+    "installmentYears": 7,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f53a8f05-323c-5d5b-a179-700c011a1e87",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-13.jpg",
+      "/properties/property-16.jpg"
+    ],
+    "geo": {
+      "lat": 30.009,
+      "lng": 31.43
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-eastown/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "office",
+      "retail",
+      "clinic"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "d9b2b1c7-c93d-5ec7-946e-e9a08e242357",
+    "slug": "zed-east",
+    "name": "ZED East",
+    "nameAr": "زيد إيست",
+    "developerId": "43adb20f-5d76-5215-88b5-3edef18939f1",
+    "areaId": "b47dcd29-cff0-5bd0-b7dd-03def1acf3b2",
+    "description": {
+      "en": "ZED East brings Ora's tower-led format to the Fifth Settlement, with residential blocks arranged around a members-only sports club and a central lagoon. Interiors are delivered fully finished with smart-home wiring, and the payment plan is one of the longest available in New Cairo.",
+      "ar": "يقدم زيد إيست نموذج أورا القائم على الأبراج في التجمع الخامس، حيث تلتف المباني السكنية حول نادٍ رياضي للأعضاء وبحيرة مركزية. تُسلَّم الوحدات بتشطيب كامل مع تجهيزات المنزل الذكي، ونظام السداد من الأطول المتاحة في القاهرة الجديدة."
+    },
+    "startingPrice": 6160000,
+    "maxPrice": 16540000,
+    "minAreaSqm": 70,
+    "maxAreaSqm": 240,
+    "deliveryYear": 2028,
+    "installmentYears": 9,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531"
+    ],
+    "images": [
+      "/properties/property-19.jpg",
+      "/properties/property-13.jpg",
+      "/properties/property-16.jpg"
+    ],
+    "geo": {
+      "lat": 30.033,
+      "lng": 31.51
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-zed-east/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "retail"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "0fe4c63f-3c6a-583c-9a3f-1c9e7b01822d",
+    "slug": "taj-city",
+    "name": "Taj City",
+    "nameAr": "تاج سيتي",
+    "developerId": "7a6f08d8-67f7-5473-bfef-a04f9da527a7",
+    "areaId": "b47dcd29-cff0-5bd0-b7dd-03def1acf3b2",
+    "description": {
+      "en": "Taj City occupies 900 acres directly on the Suez Road, the closest large-scale compound to Heliopolis and Cairo International Airport. Madinet Masr sells it on aggressive terms, a 5% down payment over ten years, around a lagoon-fronted district and an open-air retail promenade.",
+      "ar": "تمتد تاج سيتي على 900 فدان مباشرة على طريق السويس، وهي أقرب كومباوند كبير إلى مصر الجديدة ومطار القاهرة الدولي. تطرحها مدينة مصر بشروط تنافسية تبدأ من 5% مقدم على عشر سنوات، حول منطقة مطلة على بحيرة وممشى تجاري مفتوح."
+    },
+    "startingPrice": 5100000,
+    "maxPrice": 28390000,
+    "minAreaSqm": 85,
+    "maxAreaSqm": 420,
+    "deliveryYear": 2027,
+    "installmentYears": 10,
+    "downPaymentPercent": 5,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "1d0a7f55-0ca2-5a51-bbff-b7d647dc7e65",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-19.jpg",
+      "/properties/property-13.jpg",
+      "/properties/property-16.jpg"
+    ],
+    "geo": {
+      "lat": 30.098,
+      "lng": 31.402
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-taj-city/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa",
+      "clinic"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "910204cf-c378-55fb-b3dd-78704740c462",
+    "slug": "cairo-gate",
+    "name": "Cairo Gate",
+    "nameAr": "كايرو جيت",
+    "developerId": "5ac4f38b-51bf-5e13-a9dc-c6b059bc782f",
+    "areaId": "892e559f-ae3d-5a00-b69a-0540ba787fe3",
+    "description": {
+      "en": "Cairo Gate is Emaar Misr's gateway project at the start of the Cairo–Alexandria Desert Road, wrapped around a signature retail and F&B destination. Its location gives residents a ten-minute drive to Sheikh Zayed's schools and Arkan Plaza, and direct access to the Ring Road.",
+      "ar": "كايرو جيت هو مشروع البوابة لإعمار مصر عند بداية طريق القاهرة الإسكندرية الصحراوي، ويلتف حول وجهة تجارية ومطاعم مميزة. يمنح موقعه السكان عشر دقائق إلى مدارس الشيخ زايد وأركان بلازا، واتصالًا مباشرًا بالطريق الدائري."
+    },
+    "startingPrice": 8060000,
+    "maxPrice": 20970000,
+    "minAreaSqm": 135,
+    "maxAreaSqm": 305,
+    "deliveryYear": 2027,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-02.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 30.047,
+      "lng": 31.006
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-cairo-gate/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "office",
+      "retail"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "80bdd7d8-9529-5caa-8029-386cd67aa8c4",
+    "slug": "zed-west",
+    "name": "ZED West",
+    "nameAr": "زيد ويست",
+    "developerId": "43adb20f-5d76-5215-88b5-3edef18939f1",
+    "areaId": "892e559f-ae3d-5a00-b69a-0540ba787fe3",
+    "description": {
+      "en": "ZED West is the original ZED tower community in Sheikh Zayed, built on the former Beverly Hills golf land and anchored by the ZED Park club, a 32-storey landmark tower and a curated retail strip. Units are delivered fully finished with premium fittings.",
+      "ar": "زيد ويست هو مجتمع أبراج زيد الأصلي في الشيخ زايد، وقد أُقيم على أرض جولف بيفرلي هيلز السابقة ويتمحور حول نادي زيد بارك وبرج مميز بارتفاع 32 طابقًا وممشى تجاري منتقى. تُسلَّم الوحدات بتشطيب كامل بخامات فاخرة."
+    },
+    "startingPrice": 9980000,
+    "maxPrice": 16630000,
+    "minAreaSqm": 130,
+    "maxAreaSqm": 220,
+    "deliveryYear": 2027,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "f53a8f05-323c-5d5b-a179-700c011a1e87",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 30.049,
+      "lng": 30.979
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-zed-west/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "office"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "7556c790-092a-55f8-aa1f-dd2d4e9f9f83",
+    "slug": "allegria",
+    "name": "Allegria",
+    "nameAr": "أليجريا",
+    "developerId": "e9f64807-18b4-590a-bfc2-28462b343921",
+    "areaId": "892e559f-ae3d-5a00-b69a-0540ba787fe3",
+    "description": {
+      "en": "Allegria is SODIC's mature villa community on the Cairo–Alexandria Desert Road, laid out around an 18-hole golf course designed by Greg Norman. Almost everything trading here is resale, fully delivered and surrounded by fifteen years of grown landscaping.",
+      "ar": "أليجريا هو مجتمع الفيلات الناضج لسوديك على طريق القاهرة الإسكندرية الصحراوي، ويمتد حول ملعب جولف من 18 حفرة صممه جريج نورمان. معظم ما يُتداول فيه إعادة بيع لوحدات مسلَّمة بالكامل وسط مساحات خضراء عمرها خمسة عشر عامًا."
+    },
+    "startingPrice": 13270000,
+    "maxPrice": 44950000,
+    "minAreaSqm": 190,
+    "maxAreaSqm": 450,
+    "deliveryYear": 2025,
+    "installmentYears": 5,
+    "downPaymentPercent": 20,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-04.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 30.035,
+      "lng": 30.952
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-allegria/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "1043a774-5e70-5f3e-a7da-71d3b39bee29",
+    "slug": "marassi",
+    "name": "Marassi",
+    "nameAr": "مراسي",
+    "developerId": "5ac4f38b-51bf-5e13-a9dc-c6b059bc782f",
+    "areaId": "8309f566-85d9-58a1-84da-390a50e0f2d8",
+    "description": {
+      "en": "Marassi covers 1,544 acres at Sidi Abdel Rahman and is the benchmark address on the North Coast, with a marina, an 18-hole golf course, six hotels and more than a dozen architecturally distinct neighbourhoods. It is one of the few coastal projects with genuine year-round activity.",
+      "ar": "تمتد مراسي على 1544 فدانًا في سيدي عبد الرحمن وتُعد العنوان المرجعي في الساحل الشمالي، بمارينا وملعب جولف من 18 حفرة وستة فنادق وأكثر من اثني عشر حيًا بطرز معمارية متمايزة. وهي من المشروعات الساحلية القليلة التي تنبض بالحياة طوال العام."
+    },
+    "startingPrice": 11480000,
+    "maxPrice": 69120000,
+    "minAreaSqm": 95,
+    "maxAreaSqm": 405,
+    "deliveryYear": 2027,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-20.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 30.967,
+      "lng": 28.718
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-marassi/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "twinhouse",
+      "villa",
+      "retail"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "e91caee7-249e-5a65-a6e4-97daf09f232c",
+    "slug": "hacienda-bay",
+    "name": "Hacienda Bay",
+    "nameAr": "هاسيندا باي",
+    "developerId": "fbbdfc50-271a-535e-814b-30585c974062",
+    "areaId": "8309f566-85d9-58a1-84da-390a50e0f2d8",
+    "description": {
+      "en": "Hacienda Bay at Km 200 is Palm Hills' flagship coastal community, built around a boardwalk, a beach club and one of the most active summer social calendars on the Sahel. Stock ranges from compact chalets on the lagoons to standalone villas on the first row.",
+      "ar": "هاسيندا باي عند الكيلو 200 هو المشروع الساحلي الرئيسي لبالم هيلز، ويتمحور حول الممشى ونادي الشاطئ وواحد من أنشط البرامج الاجتماعية الصيفية في الساحل. يتنوع المعروض بين شاليهات مدمجة على البحيرات وفيلات مستقلة في الصف الأول."
+    },
+    "startingPrice": 7610000,
+    "maxPrice": 73200000,
+    "minAreaSqm": 95,
+    "maxAreaSqm": 445,
+    "deliveryYear": 2026,
+    "installmentYears": 6,
+    "downPaymentPercent": 15,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-20.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 30.974,
+      "lng": 28.612
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-hacienda-bay/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "97d164c0-dea6-541a-8f3c-0c45db297e71",
+    "slug": "seazen",
+    "name": "Seazen",
+    "nameAr": "سيزن",
+    "developerId": "36f10e52-0b74-5e4b-94d2-ab7db407d951",
+    "areaId": "8309f566-85d9-58a1-84da-390a50e0f2d8",
+    "description": {
+      "en": "Seazen is Hassan Allam Properties' North Coast destination at Km 158, planned as a terraced village that steps down towards a 700-metre private beach. Every unit is positioned for a sea or lagoon view, and construction is handled in-house by the group's contracting arm.",
+      "ar": "سيزن هو وجهة حسن علام العقارية في الساحل الشمالي عند الكيلو 158، وقد خُطط كقرية مدرجة تنحدر نحو شاطئ خاص بطول 700 متر. كل وحدة موجهة لإطلالة على البحر أو البحيرة، وتتولى ذراع المقاولات في المجموعة التنفيذ بنفسها."
+    },
+    "startingPrice": 13100000,
+    "maxPrice": 49410000,
+    "minAreaSqm": 125,
+    "maxAreaSqm": 400,
+    "deliveryYear": 2028,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-02.jpg",
+      "/properties/property-15.jpg",
+      "/properties/property-15.jpg"
+    ],
+    "geo": {
+      "lat": 31.029,
+      "lng": 28.44
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-seazen/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "duplex",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "2f7bd6ca-5c04-5069-8511-2401729ee7b8",
+    "slug": "il-bosco",
+    "name": "IL BOSCO",
+    "nameAr": "إل بوسكو",
+    "developerId": "da6c8ac9-f4ae-5fc6-9f9f-48b04c9bda18",
+    "areaId": "b1a3dcdb-7081-5327-9207-d48ccfaa5a72",
+    "description": {
+      "en": "IL BOSCO in district R7 introduced vertical gardens and green facades to the New Capital, with a 200,000 m² central park and a monorail station within walking distance. Misr Italia delivers units with smart-home packages and a choice of finishing levels.",
+      "ar": "أدخل إل بوسكو في الحي R7 مفهوم الحدائق الرأسية والواجهات الخضراء إلى العاصمة الإدارية، مع حديقة مركزية بمساحة 200 ألف متر مربع ومحطة مونوريل على مسافة قريبة سيرًا. تُسلِّم مصر إيطاليا الوحدات مع باقات المنزل الذكي وخيارات متعددة للتشطيب."
+    },
+    "startingPrice": 7590000,
+    "maxPrice": 29980000,
+    "minAreaSqm": 135,
+    "maxAreaSqm": 420,
+    "deliveryYear": 2027,
+    "installmentYears": 9,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "1d0a7f55-0ca2-5a51-bbff-b7d647dc7e65",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 30.006,
+      "lng": 31.718
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-il-bosco/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa",
+      "office",
+      "clinic"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "5dab610c-6911-597c-8852-14ca8f789bf8",
+    "slug": "la-vista-city",
+    "name": "La Vista City",
+    "nameAr": "لافيستا سيتي",
+    "developerId": "21966f89-28bd-529b-9edd-64bab9a6a0ca",
+    "areaId": "b1a3dcdb-7081-5327-9207-d48ccfaa5a72",
+    "description": {
+      "en": "La Vista City sits on the New Capital's southern expansion overlooking the Green River, and is one of the few projects in the city delivered fully finished. The master plan is deliberately low-density, with villas and limited-height apartment clusters.",
+      "ar": "تقع لافيستا سيتي في الامتداد الجنوبي للعاصمة الإدارية بإطلالة على النهر الأخضر، وهي من المشروعات القليلة في المدينة التي تُسلَّم بتشطيب كامل. المخطط العام منخفض الكثافة عمدًا، ويضم فيلات ومجموعات سكنية محدودة الارتفاع."
+    },
+    "startingPrice": 6380000,
+    "maxPrice": 17210000,
+    "minAreaSqm": 140,
+    "maxAreaSqm": 340,
+    "deliveryYear": 2027,
+    "installmentYears": 7,
+    "downPaymentPercent": 15,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-05.jpg",
+      "/properties/property-13.jpg"
+    ],
+    "geo": {
+      "lat": 29.972,
+      "lng": 31.759
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-la-vista-city/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "04c64b42-5d76-5b09-850a-fdf3606753e9",
+    "slug": "celia",
+    "name": "Celia",
+    "nameAr": "سيليا",
+    "developerId": "f8268e29-a633-5ea6-beb4-ea9560c8aa00",
+    "areaId": "b1a3dcdb-7081-5327-9207-d48ccfaa5a72",
+    "description": {
+      "en": "Celia is Talaat Moustafa Group's 500-acre district in the New Capital, applying the Madinaty playbook of long payment plans, wide service allocations and in-house facility management. Phases are released annually with delivery from 2028 onwards.",
+      "ar": "سيليا هي منطقة مجموعة طلعت مصطفى على 500 فدان في العاصمة الإدارية، وتطبق فلسفة مدينتي من أنظمة سداد طويلة ونسب خدمات مرتفعة وإدارة مرافق داخلية. تُطرح المراحل سنويًا مع تسليم يبدأ من 2028."
+    },
+    "startingPrice": 6280000,
+    "maxPrice": 15480000,
+    "minAreaSqm": 175,
+    "maxAreaSqm": 280,
+    "deliveryYear": 2028,
+    "installmentYears": 10,
+    "downPaymentPercent": 5,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-15.jpg",
+      "/properties/property-15.jpg"
+    ],
+    "geo": {
+      "lat": 29.998,
+      "lng": 31.729
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-celia/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "e8abdb67-d0dd-50cd-aede-4360b9571d70",
+    "slug": "badya",
+    "name": "Badya",
+    "nameAr": "بادية",
+    "developerId": "fbbdfc50-271a-535e-814b-30585c974062",
+    "areaId": "8416a16b-e948-5c38-9a46-ca137b72b706",
+    "description": {
+      "en": "Badya is Palm Hills' 3,000-acre smart city in West October, designed around walkable neighbourhoods, a business district and an innovation hub. It is the largest single master plan in the area and is sold on the longest payment terms Palm Hills offers.",
+      "ar": "بادية هي المدينة الذكية لبالم هيلز على 3000 فدان في غرب أكتوبر، وقد صُممت حول أحياء صديقة للمشاة ومنطقة أعمال ومركز للابتكار. وهي أكبر مخطط عام منفرد في المنطقة وتُطرح بأطول أنظمة سداد تقدمها بالم هيلز."
+    },
+    "startingPrice": 5750000,
+    "maxPrice": 11830000,
+    "minAreaSqm": 145,
+    "maxAreaSqm": 275,
+    "deliveryYear": 2028,
+    "installmentYears": 10,
+    "downPaymentPercent": 5,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f53a8f05-323c-5d5b-a179-700c011a1e87",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "1d0a7f55-0ca2-5a51-bbff-b7d647dc7e65",
+      "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-05.jpg",
+      "/properties/property-13.jpg"
+    ],
+    "geo": {
+      "lat": 29.911,
+      "lng": 30.836
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-badya/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "townhouse",
+      "twinhouse",
+      "villa",
+      "office",
+      "retail",
+      "clinic"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "d9e67232-f2fb-5c17-a86c-d508b06e865c",
+    "slug": "mountain-view-icity-october",
+    "name": "Mountain View iCity October",
+    "nameAr": "ماونتن فيو آي سيتي أكتوبر",
+    "developerId": "493e507e-9f91-58e6-8ab6-d17d7fdf8574",
+    "areaId": "8416a16b-e948-5c38-9a46-ca137b72b706",
+    "description": {
+      "en": "Mountain View iCity October is organised around Central Park, a 40-acre green spine that links themed districts and the developer's Club Park. The compound is on the Central Axis, minutes from Mall of Arabia and the October universities.",
+      "ar": "يتمحور ماونتن فيو آي سيتي أكتوبر حول سنترال بارك، وهو محور أخضر بمساحة 40 فدانًا يربط الأحياء ذات الطابع الخاص بنادي المشروع. يقع الكومباوند على المحور المركزي على بعد دقائق من مول العرب وجامعات أكتوبر."
+    },
+    "startingPrice": 5230000,
+    "maxPrice": 28900000,
+    "minAreaSqm": 125,
+    "maxAreaSqm": 460,
+    "deliveryYear": 2027,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-04.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 29.953,
+      "lng": 30.937
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-mountain-view-icity-october/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "25614809-2cc5-57cb-a36a-53bb4ee77781",
+    "slug": "bloomfields",
+    "name": "Bloomfields",
+    "nameAr": "بلومفيلدز",
+    "developerId": "dec7291d-21bf-5e06-a837-6c6ace03fe0c",
+    "areaId": "a6cd8cf7-4d07-56e3-80e4-ad3d0bf6354f",
+    "description": {
+      "en": "Bloomfields is Tatweer Misr's 415-acre community in Mostakbal City, planned around a central park, a university campus and a medical hub. Districts are themed and low-rise, and the project sits ten minutes from the New Cairo boundary on the Suez Road.",
+      "ar": "بلومفيلدز هو مجتمع تطوير مصر على 415 فدانًا في مدينة المستقبل، ويتمحور حول حديقة مركزية وحرم جامعي ومركز طبي. الأحياء ذات طابع خاص ومنخفضة الارتفاع، ويبعد المشروع عشر دقائق عن حدود القاهرة الجديدة على طريق السويس."
+    },
+    "startingPrice": 5700000,
+    "maxPrice": 19960000,
+    "minAreaSqm": 125,
+    "maxAreaSqm": 440,
+    "deliveryYear": 2027,
+    "installmentYears": 9,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "1d0a7f55-0ca2-5a51-bbff-b7d647dc7e65",
+      "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "f53a8f05-323c-5d5b-a179-700c011a1e87",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-15.jpg",
+      "/properties/property-15.jpg"
+    ],
+    "geo": {
+      "lat": 30.043,
+      "lng": 31.648
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-bloomfields/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "townhouse",
+      "twinhouse",
+      "villa",
+      "office",
+      "retail"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "19c55010-c0e3-5c96-b1c3-fbac13e31f34",
+    "slug": "haptown",
+    "name": "Haptown",
+    "nameAr": "هابتاون",
+    "developerId": "36f10e52-0b74-5e4b-94d2-ab7db407d951",
+    "areaId": "a6cd8cf7-4d07-56e3-80e4-ad3d0bf6354f",
+    "description": {
+      "en": "Haptown by Hassan Allam Properties spans 360 acres in Mostakbal City and is built around a linear park with sports, co-working and retail nodes. The developer's own construction arm handles delivery, which has kept the project on its published timeline.",
+      "ar": "يمتد هابتاون من حسن علام العقارية على 360 فدانًا في مدينة المستقبل، ويتمحور حول حديقة خطية تتخللها مناطق رياضية ومساحات عمل ومحاور تجارية. تتولى ذراع المقاولات الخاصة بالمطور التنفيذ، ما أبقى المشروع ملتزمًا بجدوله المعلن."
+    },
+    "startingPrice": 4070000,
+    "maxPrice": 19340000,
+    "minAreaSqm": 125,
+    "maxAreaSqm": 420,
+    "deliveryYear": 2028,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f53a8f05-323c-5d5b-a179-700c011a1e87",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-04.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 30.057,
+      "lng": 31.672
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-haptown/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "05909602-5594-520c-9fa0-a032051e53e9",
+    "slug": "sarai",
+    "name": "Sarai",
+    "nameAr": "سراي",
+    "developerId": "7a6f08d8-67f7-5473-bfef-a04f9da527a7",
+    "areaId": "a6cd8cf7-4d07-56e3-80e4-ad3d0bf6354f",
+    "description": {
+      "en": "Sarai sits on the Cairo–Suez Road at the entrance to Mostakbal City, built around the Sarai Crystal Lagoon and the S-Walk retail destination. Madinet Masr has been delivering phases since 2020, so ready units and off-plan phases trade side by side.",
+      "ar": "تقع سراي على طريق القاهرة السويس عند مدخل مدينة المستقبل، وتتمحور حول بحيرة سراي الكريستالية ووجهة S-Walk التجارية. تسلّم مدينة مصر مراحلها منذ 2020، لذا تتداول الوحدات الجاهزة والمراحل تحت الإنشاء جنبًا إلى جنب."
+    },
+    "startingPrice": 3740000,
+    "maxPrice": 14680000,
+    "minAreaSqm": 135,
+    "maxAreaSqm": 330,
+    "deliveryYear": 2027,
+    "installmentYears": 10,
+    "downPaymentPercent": 5,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-02.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 30.018,
+      "lng": 31.594
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-sarai/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "db19e4a3-1474-5721-9c25-ac5f61772de0",
+    "slug": "madinaty",
+    "name": "Madinaty",
+    "nameAr": "مدينتي",
+    "developerId": "f8268e29-a633-5ea6-beb4-ea9560c8aa00",
+    "areaId": "d2df5b45-bc6b-5252-9f48-dad35fa3e9f5",
+    "description": {
+      "en": "Madinaty is a fully operational city of 8,000 acres with its own schools, hospitals, golf course, open-air malls and craft zone. Because deliveries started more than a decade ago, buyers can choose between ready-to-move resale units and newly launched phases from the developer.",
+      "ar": "مدينتي مدينة متكاملة عاملة بالفعل على مساحة 8000 فدان، ولها مدارسها ومستشفياتها وملعب الجولف والمولات المفتوحة والمنطقة الحرفية. ولأن التسليمات بدأت منذ أكثر من عشر سنوات، يمكن للمشتري الاختيار بين وحدات جاهزة بإعادة البيع ومراحل جديدة من المطور."
+    },
+    "startingPrice": 6360000,
+    "maxPrice": 20450000,
+    "minAreaSqm": 110,
+    "maxAreaSqm": 320,
+    "deliveryYear": 2025,
+    "installmentYears": 10,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "1d0a7f55-0ca2-5a51-bbff-b7d647dc7e65",
+      "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-04.jpg",
+      "/properties/property-05.jpg",
+      "/properties/property-13.jpg"
+    ],
+    "geo": {
+      "lat": 30.109,
+      "lng": 31.63
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-madinaty/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa",
+      "retail",
+      "clinic"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "886c678e-f271-5747-b28b-be1ef3612e13",
+    "slug": "el-patio-oro",
+    "name": "El Patio Oro",
+    "nameAr": "الباتيو أورو",
+    "developerId": "21966f89-28bd-529b-9edd-64bab9a6a0ca",
+    "areaId": "10816889-d44d-526a-af62-d9ec94e5b9f7",
+    "description": {
+      "en": "El Patio Oro is part of La Vista's El Patio series in El Shorouk, delivered fully finished with the developer's signature Mediterranean facades. Densities are low, plots are generous and the compound is a short drive from the Horreya Axis into Heliopolis.",
+      "ar": "الباتيو أورو جزء من سلسلة الباتيو للافيستا في مدينة الشروق، ويُسلَّم بتشطيب كامل بالواجهات المتوسطية المميزة للمطور. الكثافة منخفضة والمساحات كبيرة، ويبعد الكومباوند دقائق عن محور الحرية باتجاه مصر الجديدة."
+    },
+    "startingPrice": 4160000,
+    "maxPrice": 7610000,
+    "minAreaSqm": 115,
+    "maxAreaSqm": 220,
+    "deliveryYear": 2026,
+    "installmentYears": 6,
+    "downPaymentPercent": 15,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-03.jpg",
+      "/properties/property-03.jpg"
+    ],
+    "geo": {
+      "lat": 30.142,
+      "lng": 31.632
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-el-patio-oro/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "f9d2bb20-f345-5dc6-92a6-086afe854d28",
+    "slug": "il-monte-galala",
+    "name": "IL Monte Galala",
+    "nameAr": "إل مونت جلالة",
+    "developerId": "dec7291d-21bf-5e06-a837-6c6ace03fe0c",
+    "areaId": "7d6a2285-56aa-5c4f-9b37-8ce28e1cfadd",
+    "description": {
+      "en": "IL Monte Galala climbs the Galala plateau above Ain Sokhna, terracing chalets and villas so that almost every unit keeps a Red Sea view. The project includes a crystal lagoon, a hanging park, a cable car and hotel-operated serviced apartments.",
+      "ar": "يتسلق إل مونت جلالة هضبة الجلالة فوق العين السخنة، حيث تتدرج الشاليهات والفيلات بحيث تحتفظ كل وحدة تقريبًا بإطلالة على البحر الأحمر. يضم المشروع بحيرة كريستالية وحديقة معلقة وتلفريك ووحدات فندقية مخدومة."
+    },
+    "startingPrice": 5670000,
+    "maxPrice": 27880000,
+    "minAreaSqm": 115,
+    "maxAreaSqm": 370,
+    "deliveryYear": 2026,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-12.jpg",
+      "/properties/property-12.jpg"
+    ],
+    "geo": {
+      "lat": 29.521,
+      "lng": 32.348
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-il-monte-galala/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "duplex",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "371a9c60-eb2f-58a1-84ed-563dc80facdb",
+    "slug": "kai-sokhna",
+    "name": "Kai Sokhna",
+    "nameAr": "كاي سخنة",
+    "developerId": "da6c8ac9-f4ae-5fc6-9f9f-48b04c9bda18",
+    "areaId": "7d6a2285-56aa-5c4f-9b37-8ce28e1cfadd",
+    "description": {
+      "en": "Kai Sokhna sits at Km 40 on the Zaafarana Road with 400 metres of private beach and a stepped master plan that keeps the sea in view from the back rows. Misr Italia delivers units fully finished with air conditioning and kitchen cabinetry.",
+      "ar": "يقع كاي سخنة عند الكيلو 40 على طريق الزعفرانة بشاطئ خاص بطول 400 متر ومخطط متدرج يبقي البحر في مرمى البصر حتى من الصفوف الخلفية. تُسلِّم مصر إيطاليا الوحدات بتشطيب كامل مع التكييف ومطبخ مجهز."
+    },
+    "startingPrice": 8570000,
+    "maxPrice": 20000000,
+    "minAreaSqm": 140,
+    "maxAreaSqm": 325,
+    "deliveryYear": 2027,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-20.jpg",
+      "/properties/property-03.jpg",
+      "/properties/property-03.jpg"
+    ],
+    "geo": {
+      "lat": 29.644,
+      "lng": 32.321
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-kai-sokhna/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "duplex",
+      "twinhouse"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "dd5c9298-5f51-5e57-9756-9848e89dbbd9",
+    "slug": "maadi-heights",
+    "name": "Maadi Heights",
+    "nameAr": "مرتفعات المعادي",
+    "developerId": "b9bc2c99-4a7f-5b30-8cb1-ff00c883b294",
+    "areaId": "94b45be5-cd81-54d4-b4d5-ab8090101d74",
+    "description": {
+      "en": "Maadi Heights is an in-city gated community on the Zahraa El Maadi side, a rare gated product inside Maadi itself. Buildings are limited to six floors around a private club, and the compound is fifteen minutes from Road 9 and the Maadi metro line.",
+      "ar": "مرتفعات المعادي مجتمع مغلق داخل المدينة في نطاق زهراء المعادي، وهو منتج نادر داخل المعادي نفسها. لا تتجاوز المباني ستة أدوار وتلتف حول نادٍ خاص، ويبعد الكومباوند خمس عشرة دقيقة عن شارع 9 وخط مترو المعادي."
+    },
+    "startingPrice": 7450000,
+    "maxPrice": 14420000,
+    "minAreaSqm": 130,
+    "maxAreaSqm": 230,
+    "deliveryYear": 2026,
+    "installmentYears": 6,
+    "downPaymentPercent": 15,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-04.jpg",
+      "/properties/property-13.jpg",
+      "/properties/property-16.jpg"
+    ],
+    "geo": {
+      "lat": 29.952,
+      "lng": 31.296
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-maadi-heights/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "clinic"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "9a6ea7fa-3c5a-5974-aee3-77130ae9317d",
+    "slug": "nile-crest-zamalek",
+    "name": "Nile Crest Zamalek",
+    "nameAr": "نايل كريست الزمالك",
+    "developerId": "7a6f08d8-67f7-5473-bfef-a04f9da527a7",
+    "areaId": "aadc420e-394f-5077-bc13-4e0b6b23835b",
+    "description": {
+      "en": "Nile Crest Zamalek is a boutique residential building on Abou El Feda Street with direct Nile frontage and only two apartments per floor. Units are delivered fully finished with underground parking, a rarity on the island.",
+      "ar": "نايل كريست الزمالك عمارة سكنية مميزة في شارع أبو الفدا بواجهة مباشرة على النيل وشقتين فقط في كل دور. تُسلَّم الوحدات بتشطيب كامل مع جراج تحت الأرض، وهو أمر نادر في الجزيرة."
+    },
+    "startingPrice": 15300000,
+    "maxPrice": 21920000,
+    "minAreaSqm": 175,
+    "maxAreaSqm": 225,
+    "deliveryYear": 2025,
+    "installmentYears": 5,
+    "downPaymentPercent": 25,
+    "amenityIds": [
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52"
+    ],
+    "images": [
+      "/properties/property-02.jpg",
+      "/properties/property-15.jpg",
+      "/properties/property-15.jpg"
+    ],
+    "geo": {
+      "lat": 30.063,
+      "lng": 31.221
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-nile-crest-zamalek/1600/1200",
+    "unitTypes": [
+      "studio",
+      "apartment",
+      "duplex",
+      "penthouse"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "a71b46d9-4980-5176-89c9-e22770b3e5b4",
+    "slug": "solana",
+    "name": "Solana",
+    "nameAr": "سولانا",
+    "developerId": "43adb20f-5d76-5215-88b5-3edef18939f1",
+    "areaId": "9dcb7d25-5806-562f-8ff3-5353d9274bce",
+    "description": {
+      "en": "Solana is Ora's New Zayed community on the Dabaa Axis, planned around a central sports club and a green corridor that runs the length of the site. It targets buyers priced out of Sheikh Zayed who still want a club-led community and a five-minute drive to Sphinx Airport.",
+      "ar": "سولانا هو مجتمع أورا في زايد الجديدة على محور الضبعة، ويتمحور حول نادٍ رياضي مركزي وممر أخضر يمتد بطول الموقع. يستهدف المشترين الذين تجاوزت أسعار الشيخ زايد ميزانيتهم مع رغبتهم في مجتمع يقوده نادٍ وعلى بعد خمس دقائق من مطار سفنكس."
+    },
+    "startingPrice": 11340000,
+    "maxPrice": 49100000,
+    "minAreaSqm": 170,
+    "maxAreaSqm": 520,
+    "deliveryYear": 2029,
+    "installmentYears": 8,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "621d909b-3b35-5106-8016-c4374a58e0c0",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-18.jpg",
+      "/properties/property-15.jpg",
+      "/properties/property-15.jpg"
+    ],
+    "geo": {
+      "lat": 30.01,
+      "lng": 30.833
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-solana/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "b1035105-30b3-541a-8187-a664e4d34f08",
+    "slug": "rivers",
+    "name": "Rivers",
+    "nameAr": "ريفرز",
+    "developerId": "dec7291d-21bf-5e06-a837-6c6ace03fe0c",
+    "areaId": "9dcb7d25-5806-562f-8ff3-5353d9274bce",
+    "description": {
+      "en": "Rivers by Tatweer Misr threads a network of water features through New Zayed, with residential clusters set between the streams and a wellness-focused club at the centre. Delivery starts in 2028 with a nine-year plan.",
+      "ar": "يمتد مشروع ريفرز من تطوير مصر عبر شبكة من الممرات المائية في زايد الجديدة، حيث تتوزع المجموعات السكنية بين المجاري المائية ويتوسطها نادٍ يركز على الصحة والعافية. يبدأ التسليم في 2028 بنظام سداد تسع سنوات."
+    },
+    "startingPrice": 5400000,
+    "maxPrice": 39660000,
+    "minAreaSqm": 100,
+    "maxAreaSqm": 470,
+    "deliveryYear": 2028,
+    "installmentYears": 9,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f9be555e-fa88-59cf-aa1a-c39037834755",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-19.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 30.024,
+      "lng": 30.87
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-rivers/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "townhouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "c6461f87-8dcb-5d95-b58a-638439f66cbf",
+    "slug": "sheraton-heights",
+    "name": "Sheraton Heights",
+    "nameAr": "شيراتون هايتس",
+    "developerId": "b9bc2c99-4a7f-5b30-8cb1-ff00c883b294",
+    "areaId": "0a18f08a-2622-5430-8ca8-900f45b737b2",
+    "description": {
+      "en": "Sheraton Heights is an infill residential project in Sheraton Heliopolis, five minutes from Cairo International Airport and Almaza. Al Ahly Sabbour delivers the units semi finished or fully finished, with covered parking and a small rooftop club.",
+      "ar": "شيراتون هايتس مشروع سكني داخل نطاق شيراتون مصر الجديدة، على بعد خمس دقائق من مطار القاهرة الدولي والماظة. تسلّم الأهلي صبور الوحدات نصف تشطيب أو بتشطيب كامل، مع جراج مغطى ونادٍ صغير على السطح."
+    },
+    "startingPrice": 5360000,
+    "maxPrice": 10280000,
+    "minAreaSqm": 100,
+    "maxAreaSqm": 215,
+    "deliveryYear": 2026,
+    "installmentYears": 5,
+    "downPaymentPercent": 20,
+    "amenityIds": [
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "404efb88-cbd3-58b4-8d59-519e7da04f52",
+      "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 30.093,
+      "lng": 31.362
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-sheraton-heights/1600/1200",
+    "unitTypes": [
+      "apartment",
+      "duplex",
+      "penthouse",
+      "office"
+    ],
+    "isFeatured": false
+  },
+  {
+    "id": "0b1c0a57-0768-5478-b7e7-6b62dfd9047c",
+    "slug": "southmed",
+    "name": "SouthMed",
+    "nameAr": "ساوث ميد",
+    "developerId": "f8268e29-a633-5ea6-beb4-ea9560c8aa00",
+    "areaId": "a9975ff0-b87b-58fd-a644-fd10913f2beb",
+    "description": {
+      "en": "SouthMed is Talaat Moustafa Group's Ras El Hekma destination, a 1,000-acre coastal town with a marina district, hotels and a year-round downtown. Launch phases sold on a ten-year plan with delivery from 2029.",
+      "ar": "ساوث ميد هي وجهة مجموعة طلعت مصطفى في رأس الحكمة، وهي مدينة ساحلية على 1000 فدان تضم منطقة مارينا وفنادق ووسط مدينة يعمل على مدار العام. طُرحت المراحل الأولى بنظام سداد عشر سنوات وتسليم يبدأ من 2029."
+    },
+    "startingPrice": 12570000,
+    "maxPrice": 69710000,
+    "minAreaSqm": 90,
+    "maxAreaSqm": 545,
+    "deliveryYear": 2029,
+    "installmentYears": 10,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-04.jpg",
+      "/properties/property-05.jpg",
+      "/properties/property-13.jpg"
+    ],
+    "geo": {
+      "lat": 31.113,
+      "lng": 27.796
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-southmed/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "duplex",
+      "penthouse",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "2d902a50-0787-5afc-b565-116baf1af14f",
+    "slug": "mountain-view-ras-el-hekma",
+    "name": "Mountain View Ras El Hekma",
+    "nameAr": "ماونتن فيو رأس الحكمة",
+    "developerId": "493e507e-9f91-58e6-8ab6-d17d7fdf8574",
+    "areaId": "a9975ff0-b87b-58fd-a644-fd10913f2beb",
+    "description": {
+      "en": "Mountain View Ras El Hekma applies the developer's iCity concept to the coast, with a lagoon spine, a beach club and the Mountain View lifestyle programme running through the summer. The plot sits on a natural bay with shallow water and white sand.",
+      "ar": "يطبق ماونتن فيو رأس الحكمة مفهوم iCity الخاص بالمطور على الساحل، بمحور بحيرات ونادٍ على الشاطئ وبرنامج ماونتن فيو لأسلوب الحياة طوال الصيف. تقع الأرض على خليج طبيعي بمياه ضحلة ورمال بيضاء."
+    },
+    "startingPrice": 18600000,
+    "maxPrice": 54250000,
+    "minAreaSqm": 170,
+    "maxAreaSqm": 370,
+    "deliveryYear": 2029,
+    "installmentYears": 9,
+    "downPaymentPercent": 10,
+    "amenityIds": [
+      "8f162f16-e7ce-5992-abd3-2760f4540673",
+      "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+      "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+      "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+      "f148b4f1-53c7-5126-835c-062245e87f61",
+      "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+      "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+      "f061d584-8cf0-5cd0-af09-4061da557d1f",
+      "bee8880a-ac06-52d8-8275-0ae80249b35b",
+      "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+      "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+      "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+      "a27a30ab-8e5c-5af7-a232-71376d79fec1"
+    ],
+    "images": [
+      "/properties/property-01.jpg",
+      "/properties/property-16.jpg",
+      "/properties/property-05.jpg"
+    ],
+    "geo": {
+      "lat": 31.129,
+      "lng": 27.842
+    },
+    "masterPlanUrl": "https://picsum.photos/seed/nawy-masterplan-mountain-view-ras-el-hekma/1600/1200",
+    "unitTypes": [
+      "chalet",
+      "apartment",
+      "duplex",
+      "twinhouse",
+      "villa"
+    ],
+    "isFeatured": false
+  }
+]

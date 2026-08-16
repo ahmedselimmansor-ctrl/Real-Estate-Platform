@@ -1,0 +1,53 @@
+# env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+!infra/nginx/certs/.gitkeep
+
+# node
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+.turbo/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# ruby
+vendor/bundle/
+.bundle/
+*.gem
+
+# terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+# Committed on purpose: sizing and feature toggles only. Anything account
+# specific (domain, cert ARN, hosted zone) is deliberately left unset there.
+!infra/terraform/environments/*.tfvars
+.terraform.lock.hcl
+
+# tooling
+.DS_Store
+coverage/
+.idea/
+.vscode/
+*.log
+tmp/

@@ -1,0 +1,71 @@
+"""Alembic environment for the ``nawy_rag`` database.
+
+The connection URL always comes from configuration (``RAG_DATABASE_URL_SYNC``,
+forced onto psycopg v3) — never from ``alembic.ini`` — so migrations use the same
+credentials as the service.
+"""
+
+from __future__ import annotations
+
+from logging.config import fileConfig
+
+from alembic import context
+from sqlalchemy import engine_from_config, pool
+
+from app.core.config import get_settings
+from app.db.models import Base
+
+config = context.config
+
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+
+settings = get_settings()
+config.set_main_option("sqlalchemy.url", settings.alembic_database_url)
+
+target_metadata = Base.metadata
+
+
+def include_object(obj, name, type_, reflected, compare_to) -> bool:
+    """Keep Alembic away from objects it does not own."""
+    if type_ == "table" and name == "alembic_version":
+        return False
+    return True
+
+
+def run_migrations_offline() -> None:
+    """Emit SQL to stdout without a live connection."""
+    context.configure(
+        url=config.get_main_option("sqlalchemy.url"),
+        target_metadata=target_metadata,
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"},
+        compare_type=True,
+        include_object=include_object,
+    )
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+def run_migrations_online() -> None:
+    """Run migrations against a live connection."""
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section, {}),
+        prefix="sqlalchemy.",
+        poolclass=pool.NullPool,
+    )
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            compare_type=True,
+            include_object=include_object,
+        )
+        with context.begin_transaction():
+            context.run_migrations()
+
+
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()

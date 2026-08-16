@@ -1,0 +1,34 @@
+# version control / editor noise
+.git
+.gitignore
+.github
+.idea
+.vscode
+*.swp
+*~
+
+# local env & secrets — never bake these into an image
+.env
+.env.*
+!.env.example
+
+# tests & tooling (the runtime bundle excludes the test group anyway)
+spec
+.rspec
+.rubocop.yml
+Rakefile
+coverage
+tmp
+log
+*.log
+
+# a lock is produced inside the builder stage; never copy a host one in
+Gemfile.lock
+vendor/bundle
+.bundle
+
+# docs / artefacts
+README.md
+doc
+*.pdf
+*.csv

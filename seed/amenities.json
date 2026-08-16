@@ -1,0 +1,194 @@
+[
+  {
+    "id": "363cbe37-cacf-5c40-b7af-f253f978eaa6",
+    "slug": "pool",
+    "nameEn": "Swimming Pool",
+    "nameAr": "حمام سباحة",
+    "icon": "waves",
+    "category": "lifestyle"
+  },
+  {
+    "id": "bc8c79e0-f28d-54e4-850a-23d68cd6fe1e",
+    "slug": "kids-pool",
+    "nameEn": "Kids Pool",
+    "nameAr": "حمام سباحة للأطفال",
+    "icon": "life-buoy",
+    "category": "family"
+  },
+  {
+    "id": "05cdebd9-701e-50a5-b3cc-d752ba086ecb",
+    "slug": "gym",
+    "nameEn": "Gym & Fitness Centre",
+    "nameAr": "جيم ومركز لياقة",
+    "icon": "dumbbell",
+    "category": "wellness"
+  },
+  {
+    "id": "572f1dde-7d2c-5f8f-9ed4-5a9e7a9aa2bb",
+    "slug": "spa",
+    "nameEn": "Spa & Sauna",
+    "nameAr": "سبا وساونا",
+    "icon": "flower-2",
+    "category": "wellness"
+  },
+  {
+    "id": "f148b4f1-53c7-5126-835c-062245e87f61",
+    "slug": "clubhouse",
+    "nameEn": "Clubhouse",
+    "nameAr": "النادي الاجتماعي",
+    "icon": "landmark",
+    "category": "lifestyle"
+  },
+  {
+    "id": "f061d584-8cf0-5cd0-af09-4061da557d1f",
+    "slug": "security",
+    "nameEn": "24/7 Security",
+    "nameAr": "أمن على مدار الساعة",
+    "icon": "shield-check",
+    "category": "security"
+  },
+  {
+    "id": "bee8880a-ac06-52d8-8275-0ae80249b35b",
+    "slug": "cctv",
+    "nameEn": "CCTV Surveillance",
+    "nameAr": "كاميرات مراقبة",
+    "icon": "cctv",
+    "category": "security"
+  },
+  {
+    "id": "6def9658-36ba-5e7b-8049-c6a0d67bf3c3",
+    "slug": "gated-community",
+    "nameEn": "Gated Community",
+    "nameAr": "كومباوند مغلق",
+    "icon": "fence",
+    "category": "security"
+  },
+  {
+    "id": "621d909b-3b35-5106-8016-c4374a58e0c0",
+    "slug": "smart-home",
+    "nameEn": "Smart Home System",
+    "nameAr": "نظام المنزل الذكي",
+    "icon": "house-wifi",
+    "category": "lifestyle"
+  },
+  {
+    "id": "7e952bf0-072d-5cb6-a5ae-1d45cd8dd058",
+    "slug": "kids-area",
+    "nameEn": "Kids Play Area",
+    "nameAr": "منطقة ألعاب أطفال",
+    "icon": "blocks",
+    "category": "family"
+  },
+  {
+    "id": "1d0a7f55-0ca2-5a51-bbff-b7d647dc7e65",
+    "slug": "nursery",
+    "nameEn": "Nursery",
+    "nameAr": "حضانة",
+    "icon": "baby",
+    "category": "family"
+  },
+  {
+    "id": "b7cdddf4-312b-509b-9e6e-dcc8afd6aa31",
+    "slug": "international-school",
+    "nameEn": "International School",
+    "nameAr": "مدرسة دولية",
+    "icon": "graduation-cap",
+    "category": "family"
+  },
+  {
+    "id": "102a31bc-72df-565f-9e68-0bd9fb3c5a3f",
+    "slug": "mosque",
+    "nameEn": "Mosque",
+    "nameAr": "مسجد",
+    "icon": "moon-star",
+    "category": "services"
+  },
+  {
+    "id": "d75f9ffb-83cd-594e-b91a-2086874fc00e",
+    "slug": "commercial-strip",
+    "nameEn": "Commercial Strip",
+    "nameAr": "منطقة تجارية",
+    "icon": "shopping-bag",
+    "category": "services"
+  },
+  {
+    "id": "8b26d28b-1b83-5903-914b-cb46ef0a07de",
+    "slug": "medical-center",
+    "nameEn": "Medical Centre",
+    "nameAr": "مركز طبي",
+    "icon": "stethoscope",
+    "category": "services"
+  },
+  {
+    "id": "a2ec4389-1d15-5778-a21e-1bccbd92f531",
+    "slug": "underground-parking",
+    "nameEn": "Underground Parking",
+    "nameAr": "جراج تحت الأرض",
+    "icon": "circle-parking",
+    "category": "services"
+  },
+  {
+    "id": "a27a30ab-8e5c-5af7-a232-71376d79fec1",
+    "slug": "maintenance",
+    "nameEn": "Facility Maintenance",
+    "nameAr": "صيانة ومرافق",
+    "icon": "wrench",
+    "category": "services"
+  },
+  {
+    "id": "f53a8f05-323c-5d5b-a179-700c011a1e87",
+    "slug": "co-working",
+    "nameEn": "Co-Working Space",
+    "nameAr": "مساحة عمل مشتركة",
+    "icon": "laptop",
+    "category": "services"
+  },
+  {
+    "id": "404efb88-cbd3-58b4-8d59-519e7da04f52",
+    "slug": "landscaped-gardens",
+    "nameEn": "Landscaped Gardens",
+    "nameAr": "مساحات خضراء ولاندسكيب",
+    "icon": "trees",
+    "category": "lifestyle"
+  },
+  {
+    "id": "f9be555e-fa88-59cf-aa1a-c39037834755",
+    "slug": "running-track",
+    "nameEn": "Running & Cycling Track",
+    "nameAr": "مسار للجري والدراجات",
+    "icon": "footprints",
+    "category": "wellness"
+  },
+  {
+    "id": "e04d4a8f-4a03-53e7-9153-7516844a5c59",
+    "slug": "sports-courts",
+    "nameEn": "Sports Courts",
+    "nameAr": "ملاعب رياضية",
+    "icon": "volleyball",
+    "category": "wellness"
+  },
+  {
+    "id": "dde1591b-6287-5750-982b-eb3e10c5b0fb",
+    "slug": "bbq-area",
+    "nameEn": "BBQ Area",
+    "nameAr": "منطقة شواء",
+    "icon": "flame",
+    "category": "lifestyle"
+  },
+  {
+    "id": "c9fe567b-1a5f-5202-8a2d-3bd255ff3499",
+    "slug": "crystal-lagoon",
+    "nameEn": "Crystal Lagoon",
+    "nameAr": "بحيرة كريستالية",
+    "icon": "droplets",
+    "category": "lifestyle"
+  },
+  {
+    "id": "8f162f16-e7ce-5992-abd3-2760f4540673",
+    "slug": "beach-access",
+    "nameEn": "Private Beach Access",
+    "nameAr": "شاطئ خاص",
+    "icon": "umbrella",
+    "category": "lifestyle"
+  }
+]

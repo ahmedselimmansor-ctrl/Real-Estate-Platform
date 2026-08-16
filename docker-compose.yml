@@ -1,0 +1,233 @@
+name: nawy-clone
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ------------------------------------------------------------------ data ---
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: nawy-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nawy}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nawy_password}
+      POSTGRES_DB: ${POSTGRES_DB:-nawy}
+    ports: ["5432:5432"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/scripts/init-postgres.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nawy} -d ${POSTGRES_DB:-nawy}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [nawy]
+    logging: *default-logging
+
+  mongo:
+    image: mongo:7
+    container_name: nawy-mongo
+    restart: unless-stopped
+    ports: ["27017:27017"]
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [nawy]
+    logging: *default-logging
+
+  redis:
+    image: redis:7-alpine
+    container_name: nawy-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
+    ports: ["6379:6379"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks: [nawy]
+    logging: *default-logging
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: nawy-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx1g
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock: { soft: -1, hard: -1 }
+      nofile: { soft: 65536, hard: 65536 }
+    ports: ["9200:9200"]
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 40s
+    networks: [nawy]
+    logging: *default-logging
+
+  # -------------------------------------------------------------- services ---
+  api-core:
+    build:
+      context: ./apps/api-core
+      dockerfile: Dockerfile
+      target: development
+    container_name: nawy-api-core
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      PORT: 4000
+    ports: ["4000:4000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    volumes:
+      - ./apps/api-core/src:/app/src
+      - ./apps/api-core/prisma:/app/prisma
+      - ./seed:/app/seed:ro
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    networks: [nawy]
+    logging: *default-logging
+
+  search-svc:
+    build:
+      context: ./apps/search-svc
+      dockerfile: Dockerfile
+    container_name: nawy-search-svc
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      PORT: 8000
+    ports: ["8000:8000"]
+    depends_on:
+      elasticsearch: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    volumes:
+      - ./apps/search-svc/app:/app/app
+      - ./seed:/app/seed:ro
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status==200 else 1)\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks: [nawy]
+    logging: *default-logging
+
+  rag-svc:
+    build:
+      context: ./apps/rag-svc
+      dockerfile: Dockerfile
+    container_name: nawy-rag-svc
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      PORT: 8001
+    ports: ["8001:8001"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    volumes:
+      - ./apps/rag-svc/app:/app/app
+      - ./seed:/app/seed:ro
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8001/health').status==200 else 1)\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks: [nawy]
+    logging: *default-logging
+
+  reports-svc:
+    build:
+      context: ./apps/reports-svc
+      dockerfile: Dockerfile
+    container_name: nawy-reports-svc
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      PORT: 4567
+    ports: ["4567:4567"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      mongo: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    volumes:
+      - ./apps/reports-svc/lib:/app/lib
+      - ./apps/reports-svc/app.rb:/app/app.rb
+    healthcheck:
+      test: ["CMD-SHELL", "ruby -e \"require 'net/http'; exit(Net::HTTP.get_response(URI('http://localhost:4567/health')).code == '200' ? 0 : 1)\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks: [nawy]
+    logging: *default-logging
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+      target: development
+    container_name: nawy-web
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      PORT: 3000
+    ports: ["3000:3000"]
+    depends_on:
+      api-core: { condition: service_started }
+    volumes:
+      - ./apps/web/src:/app/src
+      - ./apps/web/public:/app/public
+    networks: [nawy]
+    logging: *default-logging
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: nawy-nginx
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./infra/nginx/certs:/etc/nginx/certs:ro
+    depends_on: [web, api-core, search-svc, rag-svc, reports-svc]
+    networks: [nawy]
+    logging: *default-logging
+
+volumes:
+  postgres_data:
+  mongo_data:
+  redis_data:
+  es_data:
+
+networks:
+  nawy:
+    driver: bridge

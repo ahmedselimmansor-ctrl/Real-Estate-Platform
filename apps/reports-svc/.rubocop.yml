@@ -1,0 +1,64 @@
+AllCops:
+  TargetRubyVersion: 3.3
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'config/puma.rb'
+
+# --- layout -----------------------------------------------------------------
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'routes/**/*'
+    - 'app.rb'
+
+Metrics/MethodLength:
+  Max: 45
+
+Metrics/AbcSize:
+  Max: 45
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+Metrics/PerceivedComplexity:
+  Max: 15
+
+Metrics/ClassLength:
+  Max: 300
+
+Metrics/ModuleLength:
+  Max: 400
+
+Metrics/ParameterLists:
+  Max: 8
+  MaxOptionalParameters: 5
+
+# --- style ------------------------------------------------------------------
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/RaiseArgs:
+  # `raise Errors::ValidationError.new(msg, details: [...])` is deliberate:
+  # our errors carry structured payloads.
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Naming/MethodParameterName:
+  AllowedNames: [id, to, at, io, on, up, ip]
+
+Naming/VariableNumber:
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false

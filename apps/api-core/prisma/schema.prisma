@@ -1,0 +1,438 @@
+// ============================================================================
+// Nawy clone — api-core relational model (CONTRACT §2).
+//
+// PostgreSQL database `nawy` is owned exclusively by this service. The canonical
+// property *document* lives in MongoDB; `property_index` is the thin mirror kept
+// here for referential integrity and joins.
+// ============================================================================
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------- enums (§3)
+
+enum UserRole {
+  user
+  agent
+  admin
+  superadmin
+
+  @@map("user_role")
+}
+
+enum LeadStatus {
+  new
+  contacted
+  qualified
+  viewing
+  negotiating
+  won
+  lost
+
+  @@map("lead_status")
+}
+
+enum PropertyStatus {
+  available
+  reserved
+  sold
+  off_plan
+  delivered
+
+  @@map("property_status")
+}
+
+// ------------------------------------------------------------------ identity
+
+model User {
+  id                  String    @id @default(uuid()) @db.Uuid
+  email               String    @unique @db.VarChar(320)
+  name                String    @db.VarChar(160)
+  /// Null for OAuth-only accounts (Google sign-in without a local password).
+  passwordHash        String?   @map("password_hash")
+  phone               String?   @db.VarChar(32)
+  avatarUrl           String?   @map("avatar_url")
+  role                UserRole  @default(user)
+  isVerified          Boolean   @default(false) @map("is_verified")
+  isActive            Boolean   @default(true) @map("is_active")
+  locale              String    @default("en") @db.VarChar(8)
+  resetTokenHash      String?   @map("reset_token_hash")
+  resetTokenExpiresAt DateTime? @map("reset_token_expires_at")
+  lastLoginAt         DateTime? @map("last_login_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  accounts      Account[]
+  refreshTokens RefreshToken[]
+  favorites     Favorite[]
+  savedSearches SavedSearch[]
+  leads         Lead[]         @relation("LeadSubmitter")
+  assignedLeads Lead[]         @relation("LeadAssignee")
+  reviews       Review[]
+  auditLogs     AuditLog[]
+
+  @@index([role])
+  @@index([createdAt])
+  @@index([isActive])
+  @@map("users")
+}
+
+/// OAuth identities linked to a user (CONTRACT §5 — Google OAuth 2.0).
+model Account {
+  id                String    @id @default(uuid()) @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  provider          String    @db.VarChar(32)
+  providerAccountId String    @map("provider_account_id") @db.VarChar(191)
+  type              String    @default("oauth") @db.VarChar(32)
+  accessToken       String?   @map("access_token")
+  refreshToken      String?   @map("refresh_token")
+  idToken           String?   @map("id_token")
+  tokenType         String?   @map("token_type") @db.VarChar(32)
+  scope             String?
+  expiresAt         DateTime? @map("expires_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+/// Rotating refresh tokens. `jti` is mirrored in Redis (`auth:refresh:{userId}:{jti}`)
+/// and revoked ids land in `auth:denylist:{jti}`.
+model RefreshToken {
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String    @map("user_id") @db.Uuid
+  jti           String    @unique @db.Uuid
+  tokenHash     String    @map("token_hash")
+  userAgent     String?   @map("user_agent")
+  ipAddress     String?   @map("ip_address") @db.VarChar(64)
+  expiresAt     DateTime  @map("expires_at")
+  revokedAt     DateTime? @map("revoked_at")
+  replacedByJti String?   @map("replaced_by_jti") @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([revokedAt])
+  @@map("refresh_tokens")
+}
+
+// ----------------------------------------------------------------- catalogue
+
+model Developer {
+  id            String   @id @default(uuid()) @db.Uuid
+  slug          String   @unique @db.VarChar(160)
+  name          String   @db.VarChar(160)
+  nameAr        String   @map("name_ar") @db.VarChar(160)
+  logoUrl       String?  @map("logo_url")
+  coverUrl      String?  @map("cover_url")
+  descriptionEn String?  @map("description_en")
+  descriptionAr String?  @map("description_ar")
+  foundedYear   Int?     @map("founded_year")
+  projectsCount Int      @default(0) @map("projects_count")
+  website       String?
+  phone         String?  @db.VarChar(32)
+  isFeatured    Boolean  @default(false) @map("is_featured")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+
+  compounds  Compound[]
+  properties PropertyIndex[]
+
+  @@index([name])
+  @@index([isFeatured])
+  @@map("developers")
+}
+
+model Area {
+  id                String   @id @default(uuid()) @db.Uuid
+  slug              String   @unique @db.VarChar(160)
+  nameEn            String   @map("name_en") @db.VarChar(160)
+  nameAr            String   @map("name_ar") @db.VarChar(160)
+  city              String   @db.VarChar(120)
+  governorate       String   @db.VarChar(120)
+  descriptionEn     String?  @map("description_en")
+  descriptionAr     String?  @map("description_ar")
+  lat               Float
+  lng               Float
+  heroImage         String?  @map("hero_image")
+  propertyCount     Int      @default(0) @map("property_count")
+  avgPricePerMeter  Int?     @map("avg_price_per_meter")
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  compounds  Compound[]
+  properties PropertyIndex[]
+  leads      Lead[]
+
+  @@index([city])
+  @@index([governorate])
+  @@index([nameEn])
+  @@map("areas")
+}
+
+model Amenity {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique @db.VarChar(120)
+  nameEn    String   @map("name_en") @db.VarChar(160)
+  nameAr    String   @map("name_ar") @db.VarChar(160)
+  icon      String   @db.VarChar(80)
+  category  String   @db.VarChar(60)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  compounds CompoundAmenity[]
+
+  @@index([category])
+  @@map("amenities")
+}
+
+model Compound {
+  id                 String   @id @default(uuid()) @db.Uuid
+  slug               String   @unique @db.VarChar(160)
+  name               String   @db.VarChar(160)
+  nameAr             String   @map("name_ar") @db.VarChar(160)
+  developerId        String   @map("developer_id") @db.Uuid
+  areaId             String   @map("area_id") @db.Uuid
+  descriptionEn      String?  @map("description_en")
+  descriptionAr      String?  @map("description_ar")
+  startingPrice      Int?     @map("starting_price")
+  maxPrice           Int?     @map("max_price")
+  minAreaSqm         Int?     @map("min_area_sqm")
+  maxAreaSqm         Int?     @map("max_area_sqm")
+  deliveryYear       Int?     @map("delivery_year")
+  installmentYears   Int?     @map("installment_years")
+  downPaymentPercent Int?     @map("down_payment_percent")
+  images             String[] @default([])
+  masterPlanUrl      String?  @map("master_plan_url")
+  lat                Float
+  lng                Float
+  unitTypes          String[] @default([]) @map("unit_types")
+  isFeatured         Boolean  @default(false) @map("is_featured")
+  isActive           Boolean  @default(true) @map("is_active")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @default(now()) @updatedAt @map("updated_at")
+
+  developer    Developer         @relation(fields: [developerId], references: [id], onDelete: Restrict)
+  area         Area              @relation(fields: [areaId], references: [id], onDelete: Restrict)
+  amenities    CompoundAmenity[]
+  paymentPlans PaymentPlan[]
+  properties   PropertyIndex[]
+  reviews      Review[]
+  leads        Lead[]
+
+  @@index([developerId])
+  @@index([areaId])
+  @@index([startingPrice])
+  @@index([isFeatured])
+  @@index([name])
+  @@map("compounds")
+}
+
+/// Join table: compounds ↔ amenities (seed references amenities by UUID).
+model CompoundAmenity {
+  compoundId String   @map("compound_id") @db.Uuid
+  amenityId  String   @map("amenity_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  compound Compound @relation(fields: [compoundId], references: [id], onDelete: Cascade)
+  amenity  Amenity  @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([compoundId, amenityId])
+  @@index([amenityId])
+  @@map("compound_amenities")
+}
+
+/// Developer payment plans offered on a compound (down payment + instalments).
+model PaymentPlan {
+  id                 String    @id @default(uuid()) @db.Uuid
+  compoundId         String    @map("compound_id") @db.Uuid
+  name               String    @db.VarChar(160)
+  downPaymentPercent Int       @map("down_payment_percent")
+  installmentYears   Int       @map("installment_years")
+  monthlyInstallment Int?      @map("monthly_installment")
+  deliveryDate       DateTime? @map("delivery_date") @db.Date
+  description        String?
+  isDefault          Boolean   @default(false) @map("is_default")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  compound Compound @relation(fields: [compoundId], references: [id], onDelete: Cascade)
+
+  @@index([compoundId])
+  @@index([installmentYears])
+  @@map("payment_plans")
+}
+
+/// Thin relational mirror of the Mongo `properties` document (CONTRACT §2).
+model PropertyIndex {
+  id          String         @id @db.Uuid
+  mongoId     String         @unique @map("mongo_id") @db.VarChar(24)
+  slug        String         @unique @db.VarChar(200)
+  compoundId  String?        @map("compound_id") @db.Uuid
+  developerId String?        @map("developer_id") @db.Uuid
+  areaId      String?        @map("area_id") @db.Uuid
+  priceMin    Int            @map("price_min")
+  status      PropertyStatus @default(available)
+  isFeatured  Boolean        @default(false) @map("is_featured")
+  publishedAt DateTime?      @map("published_at")
+  deletedAt   DateTime?      @map("deleted_at")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @default(now()) @updatedAt @map("updated_at")
+
+  compound  Compound?  @relation(fields: [compoundId], references: [id], onDelete: SetNull)
+  developer Developer? @relation(fields: [developerId], references: [id], onDelete: SetNull)
+  area      Area?      @relation(fields: [areaId], references: [id], onDelete: SetNull)
+
+  favorites Favorite[]
+  leads     Lead[]
+  reviews   Review[]
+
+  @@index([compoundId])
+  @@index([developerId])
+  @@index([areaId])
+  @@index([priceMin])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([publishedAt])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@index([status, publishedAt])
+  @@map("property_index")
+}
+
+// ----------------------------------------------------------- user engagement
+
+model Favorite {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  propertyId String   @map("property_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property PropertyIndex @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@index([userId])
+  @@index([propertyId])
+  @@map("favorites")
+}
+
+/// Stored filter set (`criteria` mirrors the search-svc query params).
+model SavedSearch {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  name         String   @db.VarChar(160)
+  criteria     Json     @db.JsonB
+  alertEnabled Boolean  @default(false) @map("alert_enabled")
+  lastRunAt    DateTime? @map("last_run_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([alertEnabled])
+  @@map("saved_searches")
+}
+
+model Lead {
+  id           String     @id @default(uuid()) @db.Uuid
+  propertyId   String?    @map("property_id") @db.Uuid
+  userId       String?    @map("user_id") @db.Uuid
+  name         String     @db.VarChar(160)
+  phone        String     @db.VarChar(32)
+  email        String?    @db.VarChar(320)
+  message      String?
+  source       String     @default("website") @db.VarChar(60)
+
+  // A seller enquiry describes a unit that is not on Nawy yet, so it names an
+  // area, a compound and a type rather than pointing at a listing. Buyer
+  // enquiries leave these null and set `propertyId` instead.
+  areaId       String?    @map("area_id") @db.Uuid
+  compoundId   String?    @map("compound_id") @db.Uuid
+  propertyType String?    @map("property_type") @db.VarChar(24)
+  status       LeadStatus @default(new)
+  assignedToId String?    @map("assigned_to_id") @db.Uuid
+  notes        String?
+  contactedAt  DateTime?  @map("contacted_at")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
+
+  property   PropertyIndex? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  user       User?          @relation("LeadSubmitter", fields: [userId], references: [id], onDelete: SetNull)
+  assignedTo User?          @relation("LeadAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  area       Area?          @relation(fields: [areaId], references: [id], onDelete: SetNull)
+  compound   Compound?      @relation(fields: [compoundId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([assignedToId])
+  @@index([propertyId])
+  @@index([areaId])
+  @@index([compoundId])
+  @@index([source])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([email])
+  @@index([phone])
+  @@map("leads")
+}
+
+model Review {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  propertyId String?  @map("property_id") @db.Uuid
+  compoundId String?  @map("compound_id") @db.Uuid
+  rating     Int
+  title      String?  @db.VarChar(200)
+  comment    String?
+  isApproved Boolean  @default(false) @map("is_approved")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property PropertyIndex? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  compound Compound?      @relation(fields: [compoundId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([propertyId])
+  @@index([compoundId])
+  @@index([isApproved])
+  @@index([rating])
+  @@map("reviews")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String?  @map("user_id") @db.Uuid
+  action     String   @db.VarChar(80)
+  entityType String   @map("entity_type") @db.VarChar(60)
+  entityId   String?  @map("entity_id") @db.VarChar(64)
+  metadata   Json?    @db.JsonB
+  ipAddress  String?  @map("ip_address") @db.VarChar(64)
+  userAgent  String?  @map("user_agent")
+  requestId  String?  @map("request_id") @db.VarChar(128)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

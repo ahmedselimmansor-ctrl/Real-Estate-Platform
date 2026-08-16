@@ -1,0 +1,50 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+# The Docker image is `ruby:3.3-slim`. `~> 3.3` keeps `bundle install` working on
+# any 3.3.x patch release instead of pinning a single patch that the base image
+# may not ship.
+ruby '~> 3.3'
+
+# --- web stack -------------------------------------------------------------
+gem 'puma',           '~> 6.5'
+gem 'rack',           '~> 3.1'
+gem 'rack-cors',      '~> 2.0'
+gem 'rackup',         '~> 2.2'
+gem 'sinatra',        '~> 4.1'
+gem 'sinatra-contrib', '~> 4.1'
+
+# --- serialisation / auth --------------------------------------------------
+gem 'json', '~> 2.7'
+gem 'jwt',  '~> 2.9'
+
+# --- data stores -----------------------------------------------------------
+gem 'connection_pool', '~> 2.4'
+gem 'mongo',           '~> 2.21'
+gem 'pg',              '~> 1.5'
+gem 'redis',           '~> 5.3'
+
+# --- documents -------------------------------------------------------------
+gem 'prawn',       '~> 2.5'
+gem 'prawn-table', '~> 0.2.2'
+
+# --- config ----------------------------------------------------------------
+gem 'dotenv', '~> 3.1'
+
+# --- stdlib gems that leave the default set in newer rubies ----------------
+# Declaring them explicitly keeps Ruby 3.3 quiet today and Ruby 3.4/3.5 working
+# tomorrow (csv, base64, bigdecimal and ostruct are all used transitively by
+# prawn / mongo / sinatra-contrib).
+gem 'base64',     '~> 0.2'
+gem 'bigdecimal', '~> 3.1'
+gem 'csv',        '~> 3.3'
+gem 'logger',     '~> 1.6'
+gem 'ostruct',    '~> 0.6'
+
+group :development, :test do
+  gem 'rack-test', '~> 2.1'
+  gem 'rake',      '~> 13.2'
+  gem 'rspec',     '~> 3.13'
+  gem 'rubocop',   '~> 1.66', require: false
+end

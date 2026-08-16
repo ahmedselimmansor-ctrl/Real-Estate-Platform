@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    /*
+     * The incremental cache lives inside `dist` so Nest's `deleteOutDir` clears
+     * it along with the output. Left at the project root it survives the wipe,
+     * and the next `nest build` decides everything is up to date and emits
+     * nothing — leaving `dist/main.js` missing.
+     */
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "prisma",
+    "src/test-setup.ts",
+    "**/*.spec.ts",
+    "**/*.e2e-spec.ts"
+  ]
+}

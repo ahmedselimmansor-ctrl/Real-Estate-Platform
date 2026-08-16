@@ -1,0 +1,79 @@
+version: 2
+
+updates:
+  # ------------------------------------------------------------------ node ---
+  - package-ecosystem: npm
+    directory: /apps/api-core
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+    open-pull-requests-limit: 5
+    labels: [dependencies, api-core]
+    groups:
+      nest:
+        patterns: ["@nestjs/*"]
+      dev-tooling:
+        dependency-type: development
+
+  - package-ecosystem: npm
+    directory: /apps/web
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+    open-pull-requests-limit: 5
+    labels: [dependencies, web]
+    groups:
+      next:
+        patterns: ["next", "react", "react-dom", "eslint-config-next"]
+      dev-tooling:
+        dependency-type: development
+
+  # ---------------------------------------------------------------- python ---
+  - package-ecosystem: pip
+    directory: /apps/search-svc
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+    open-pull-requests-limit: 5
+    labels: [dependencies, search-svc]
+
+  - package-ecosystem: pip
+    directory: /apps/rag-svc
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+    open-pull-requests-limit: 5
+    labels: [dependencies, rag-svc]
+
+  # ------------------------------------------------------------------ ruby ---
+  - package-ecosystem: bundler
+    directory: /apps/reports-svc
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+    open-pull-requests-limit: 5
+    labels: [dependencies, reports-svc]
+
+  # ---------------------------------------------------------------- docker ---
+  - package-ecosystem: docker
+    directories:
+      - /apps/api-core
+      - /apps/web
+      - /apps/search-svc
+      - /apps/rag-svc
+      - /apps/reports-svc
+    schedule:
+      interval: monthly
+    labels: [dependencies, docker]
+
+  # -------------------------------------------------------- github actions ---
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels: [dependencies, ci]

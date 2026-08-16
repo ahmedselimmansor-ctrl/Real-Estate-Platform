@@ -1,0 +1,194 @@
+[
+  {
+    "id": "fbbdfc50-271a-535e-814b-30585c974062",
+    "slug": "palm-hills",
+    "name": "Palm Hills Developments",
+    "nameAr": "بالم هيلز للتطوير العقاري",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-palm-hills-logo/320/320",
+    "coverUrl": "/properties/property-01.jpg",
+    "description": {
+      "en": "Palm Hills Developments is one of Egypt's largest listed developers, with a land bank spread across West Cairo, East Cairo and the North Coast. Its portfolio ranges from the mature Palm Hills October and Palm Hills New Cairo communities to Badya, a 3,000-acre smart city, and the Hacienda family of coastal resorts.",
+      "ar": "بالم هيلز للتطوير العقاري من أكبر المطورين المقيدين بالبورصة المصرية، ولديها محفظة أراضٍ تمتد في غرب القاهرة وشرقها والساحل الشمالي. تتنوع مشروعاتها بين مجتمعات بالم هيلز أكتوبر والقاهرة الجديدة الناضجة، ومدينة بادية الذكية على مساحة 3000 فدان، وسلسلة منتجعات هاسيندا الساحلية."
+    },
+    "foundedYear": 2005,
+    "projectsCount": 3,
+    "website": "https://www.palmhillsdevelopments.com",
+    "phone": "16091"
+  },
+  {
+    "id": "e9f64807-18b4-590a-bfc2-28462b343921",
+    "slug": "sodic",
+    "name": "SODIC",
+    "nameAr": "سوديك",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-sodic-logo/320/320",
+    "coverUrl": "/properties/property-18.jpg",
+    "description": {
+      "en": "SODIC (Sixth of October Development & Investment Company) is known for design-led, low-density communities and for delivering on schedule. Allegria and SODIC West anchor its West Cairo presence, while Eastown and Villette serve New Cairo and June and Caesar cover the North Coast.",
+      "ar": "سوديك (شركة السادس من أكتوبر للتنمية والاستثمار) معروفة بمجتمعاتها منخفضة الكثافة ذات التصميم المميز وبالالتزام بمواعيد التسليم. تمثل أليجريا وسوديك ويست حضورها في غرب القاهرة، بينما تخدم إيستاون وفيليت القاهرة الجديدة، ويغطي مشروعا جون وقيصر الساحل الشمالي."
+    },
+    "foundedYear": 1996,
+    "projectsCount": 2,
+    "website": "https://www.sodic.com",
+    "phone": "16220"
+  },
+  {
+    "id": "5ac4f38b-51bf-5e13-a9dc-c6b059bc782f",
+    "slug": "emaar-misr",
+    "name": "Emaar Misr",
+    "nameAr": "إعمار مصر",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-emaar-misr-logo/320/320",
+    "coverUrl": "/properties/property-18.jpg",
+    "description": {
+      "en": "Emaar Misr is the Egyptian arm of Emaar Properties and brings the group's master-community model to Cairo and the coast. Mivida in New Cairo, Uptown Cairo on the Mokattam plateau, Cairo Gate on the Alexandria Desert Road and Marassi in Sidi Abdel Rahman are its flagship developments.",
+      "ar": "إعمار مصر هي الذراع المصرية لشركة إعمار العقارية، وتنقل نموذج المجتمعات المتكاملة إلى القاهرة والساحل. تُعد ميفيدا في القاهرة الجديدة، وأب تاون كايرو على هضبة المقطم، وكايرو جيت على الطريق الصحراوي، ومراسي في سيدي عبد الرحمن أبرز مشروعاتها."
+    },
+    "foundedYear": 2005,
+    "projectsCount": 3,
+    "website": "https://www.emaarmisr.com",
+    "phone": "16116"
+  },
+  {
+    "id": "f8268e29-a633-5ea6-beb4-ea9560c8aa00",
+    "slug": "talaat-moustafa-group",
+    "name": "Talaat Moustafa Group",
+    "nameAr": "مجموعة طلعت مصطفى",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-talaat-moustafa-group-logo/320/320",
+    "coverUrl": "/properties/property-02.jpg",
+    "description": {
+      "en": "Talaat Moustafa Group is Egypt's largest community developer, responsible for Al Rehab and Madinaty, self-contained cities housing hundreds of thousands of residents, as well as Celia in the New Capital and the SouthMed project in Ras El Hekma. The group also owns and operates hotels through ICON.",
+      "ar": "مجموعة طلعت مصطفى هي أكبر مطور للمجتمعات السكنية في مصر، وصاحبة الرحاب ومدينتي، وهما مدينتان متكاملتان يقطنهما مئات الآلاف، إضافة إلى سيليا في العاصمة الإدارية ومشروع ساوث ميد في رأس الحكمة. كما تمتلك المجموعة وتدير فنادق عبر شركة آيكون."
+    },
+    "foundedYear": 1975,
+    "projectsCount": 3,
+    "website": "https://www.talaatmoustafa.com",
+    "phone": "16116"
+  },
+  {
+    "id": "493e507e-9f91-58e6-8ab6-d17d7fdf8574",
+    "slug": "mountain-view",
+    "name": "Mountain View",
+    "nameAr": "ماونتن فيو",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-mountain-view-logo/320/320",
+    "coverUrl": "/properties/property-04.jpg",
+    "description": {
+      "en": "Mountain View, the residential arm of DMG, built its reputation on the iCity concept, walkable districts organised around large central parks, with projects in New Cairo, October, Ain Sokhna and Ras El Hekma. The developer is known for lifestyle programming and hotel-style community management.",
+      "ar": "ماونتن فيو، الذراع السكنية لمجموعة DMG، بنت سمعتها على مفهوم iCity القائم على أحياء صديقة للمشاة حول حدائق مركزية كبرى، ولها مشروعات في القاهرة الجديدة وأكتوبر والعين السخنة ورأس الحكمة. يشتهر المطور ببرامج أسلوب الحياة وإدارة المجتمعات على الطريقة الفندقية."
+    },
+    "foundedYear": 2005,
+    "projectsCount": 2,
+    "website": "https://www.mountainviewegypt.com",
+    "phone": "16268"
+  },
+  {
+    "id": "43adb20f-5d76-5215-88b5-3edef18939f1",
+    "slug": "ora-developers",
+    "name": "Ora Developers",
+    "nameAr": "أورا ديفلوبرز",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-ora-developers-logo/320/320",
+    "coverUrl": "/properties/property-18.jpg",
+    "description": {
+      "en": "Ora Developers, founded by Naguib Sawiris, positions itself at the top of the market with the ZED brand in Sheikh Zayed and New Cairo, Silver Sands in the North Coast and Solana in New Zayed. Projects are design-heavy, tower-led and paired with members-only sports and social clubs.",
+      "ar": "أورا ديفلوبرز، التي أسسها نجيب ساويرس، تضع نفسها في قمة السوق عبر علامة زيد في الشيخ زايد والقاهرة الجديدة، وسيلفر ساندز في الساحل الشمالي، وسولانا في زايد الجديدة. تتميز مشروعاتها بالتصميم اللافت والأبراج السكنية والنوادي الرياضية والاجتماعية الخاصة بالأعضاء."
+    },
+    "foundedYear": 2016,
+    "projectsCount": 3,
+    "website": "https://www.oradevelopers.com",
+    "phone": "16606"
+  },
+  {
+    "id": "36f10e52-0b74-5e4b-94d2-ab7db407d951",
+    "slug": "hassan-allam-properties",
+    "name": "Hassan Allam Properties",
+    "nameAr": "حسن علام العقارية",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-hassan-allam-properties-logo/320/320",
+    "coverUrl": "/properties/property-02.jpg",
+    "description": {
+      "en": "Hassan Allam Properties is the real-estate development platform of Hassan Allam Holding, a construction group operating in Egypt since 1936. Its in-house contracting capability underpins projects such as Swan Lake, Haptown in Mostakbal City and Seazen on the North Coast.",
+      "ar": "حسن علام العقارية هي ذراع التطوير العقاري لمجموعة حسن علام القابضة العاملة في المقاولات في مصر منذ عام 1936. تعتمد مشروعاتها مثل سوان ليك وهابتاون في مدينة المستقبل وسيزن في الساحل الشمالي على قدرات التنفيذ الذاتية للمجموعة."
+    },
+    "foundedYear": 2016,
+    "projectsCount": 2,
+    "website": "https://www.hassanallamproperties.com",
+    "phone": "16992"
+  },
+  {
+    "id": "da6c8ac9-f4ae-5fc6-9f9f-48b04c9bda18",
+    "slug": "misr-italia",
+    "name": "Misr Italia Properties",
+    "nameAr": "مصر إيطاليا العقارية",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-misr-italia-logo/320/320",
+    "coverUrl": "/properties/property-02.jpg",
+    "description": {
+      "en": "Misr Italia Properties built the IL BOSCO brand of forest-inspired communities, with IL BOSCO in the New Capital, IL BOSCO City in Mostakbal City and Kai in Ain Sokhna. The developer was an early adopter of vertical-garden facades and smart-home packages in the Egyptian market.",
+      "ar": "أسست مصر إيطاليا العقارية علامة إل بوسكو المستوحاة من الغابات، بمشروعات إل بوسكو في العاصمة الإدارية وإل بوسكو سيتي في مدينة المستقبل وكاي في العين السخنة. كان المطور من أوائل من أدخلوا واجهات الحدائق الرأسية وأنظمة المنزل الذكي إلى السوق المصري."
+    },
+    "foundedYear": 1998,
+    "projectsCount": 2,
+    "website": "https://www.misritaliaproperties.com",
+    "phone": "16172"
+  },
+  {
+    "id": "dec7291d-21bf-5e06-a837-6c6ace03fe0c",
+    "slug": "tatweer-misr",
+    "name": "Tatweer Misr",
+    "nameAr": "تطوير مصر",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-tatweer-misr-logo/320/320",
+    "coverUrl": "/properties/property-02.jpg",
+    "description": {
+      "en": "Tatweer Misr focuses on integrated destinations with an education and wellness component: Bloomfields in Mostakbal City, IL Monte Galala on the Sokhna cliffs, Fouka Bay in Ras El Hekma and Rivers in New Zayed. The company was among the first to package university partnerships with residential launches.",
+      "ar": "تركز تطوير مصر على الوجهات المتكاملة التي تضم مكونات تعليمية وصحية: بلومفيلدز في مدينة المستقبل، وإل مونت جلالة على منحدرات السخنة، وفوكا باي في رأس الحكمة، وريفرز في زايد الجديدة. كانت الشركة من أوائل من ربطوا الشراكات الجامعية بالمشروعات السكنية."
+    },
+    "foundedYear": 2014,
+    "projectsCount": 3,
+    "website": "https://www.tatweermisr.com",
+    "phone": "16388"
+  },
+  {
+    "id": "b9bc2c99-4a7f-5b30-8cb1-ff00c883b294",
+    "slug": "al-ahly-sabbour",
+    "name": "Al Ahly Sabbour",
+    "nameAr": "الأهلي صبور للتنمية العقارية",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-al-ahly-sabbour-logo/320/320",
+    "coverUrl": "/properties/property-01.jpg",
+    "description": {
+      "en": "Al Ahly Sabbour Developments is a joint venture between the National Bank of Egypt and the Sabbour family, with more than thirty projects delivered across Cairo, the North Coast and Sokhna. The company is known for conservative delivery timelines and for in-city infill projects in Maadi and Heliopolis.",
+      "ar": "الأهلي صبور للتنمية العقارية شركة مشتركة بين البنك الأهلي المصري وعائلة صبور، وسلّمت أكثر من ثلاثين مشروعًا في القاهرة والساحل الشمالي والسخنة. تشتهر الشركة بالالتزام بجداول تسليم متحفظة وبمشروعات داخل المدينة في المعادي ومصر الجديدة."
+    },
+    "foundedYear": 1994,
+    "projectsCount": 2,
+    "website": "https://www.alahlysabbour.com",
+    "phone": "16116"
+  },
+  {
+    "id": "7a6f08d8-67f7-5473-bfef-a04f9da527a7",
+    "slug": "madinet-masr",
+    "name": "Madinet Masr",
+    "nameAr": "مدينة مصر للإسكان والتعمير",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-madinet-masr-logo/320/320",
+    "coverUrl": "/properties/property-20.jpg",
+    "description": {
+      "en": "Madinet Masr, formerly Madinet Nasr for Housing and Development, is one of the oldest listed developers in Egypt and the original master developer of Nasr City. Taj City on the Suez Road and Sarai near Mostakbal City are its two flagship communities today.",
+      "ar": "مدينة مصر للإسكان والتعمير، المعروفة سابقًا بمدينة نصر للإسكان والتعمير، من أقدم المطورين المقيدين بالبورصة المصرية وهي المطور الأصلي لمدينة نصر. ويُعد مشروعا تاج سيتي على طريق السويس وسراي بجوار مدينة المستقبل أبرز مجتمعاتها حاليًا."
+    },
+    "foundedYear": 1959,
+    "projectsCount": 3,
+    "website": "https://www.madinetmasr.com",
+    "phone": "16690"
+  },
+  {
+    "id": "21966f89-28bd-529b-9edd-64bab9a6a0ca",
+    "slug": "la-vista",
+    "name": "La Vista Developments",
+    "nameAr": "لافيستا للتطوير العقاري",
+    "logoUrl": "https://picsum.photos/seed/nawy-dev-la-vista-logo/320/320",
+    "coverUrl": "/properties/property-19.jpg",
+    "description": {
+      "en": "La Vista Developments has delivered more than twenty coastal and residential projects, mostly fully finished, which is unusual in the Egyptian primary market. La Vista City in the New Capital and the El Patio series in El Shorouk and New Heliopolis are its best-known Cairo communities.",
+      "ar": "سلّمت لافيستا للتطوير العقاري أكثر من عشرين مشروعًا ساحليًا وسكنيًا، معظمها بتشطيب كامل وهو أمر غير معتاد في السوق الأولي المصري. ويُعد مشروع لافيستا سيتي في العاصمة الإدارية وسلسلة الباتيو في الشروق ومصر الجديدة الجديدة أشهر مجتمعاتها في القاهرة."
+    },
+    "foundedYear": 1991,
+    "projectsCount": 2,
+    "website": "https://www.lavistadevelopments.com",
+    "phone": "16116"
+  }
+]

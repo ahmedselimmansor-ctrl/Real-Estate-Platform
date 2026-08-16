@@ -1,0 +1,242 @@
+[
+  {
+    "file": "/properties/property-01.jpg",
+    "category": "exterior",
+    "label": "House exterior",
+    "unsplashId": "1512917774080-9991f1c4c750"
+  },
+  {
+    "file": "/properties/property-02.jpg",
+    "category": "exterior",
+    "label": "Modern house facade",
+    "unsplashId": "1568605114967-8130f3a36994"
+  },
+  {
+    "file": "/properties/property-03.jpg",
+    "category": "living",
+    "label": "Bright living room",
+    "unsplashId": "1600596542815-ffad4c1539a9"
+  },
+  {
+    "file": "/properties/property-04.jpg",
+    "category": "exterior",
+    "label": "Contemporary home",
+    "unsplashId": "1600585154340-be6161a56a0c"
+  },
+  {
+    "file": "/properties/property-05.jpg",
+    "category": "living",
+    "label": "Open-plan interior",
+    "unsplashId": "1600607687939-ce8a6c25118c"
+  },
+  {
+    "file": "/properties/property-06.jpg",
+    "category": "bedroom",
+    "label": "Bedroom with linen bedding",
+    "unsplashId": "1600566753086-00f18fb6b3ea"
+  },
+  {
+    "file": "/properties/property-07.jpg",
+    "category": "bathroom",
+    "label": "Modern bathroom",
+    "unsplashId": "1600210492486-724fe5c67fb0"
+  },
+  {
+    "file": "/properties/property-08.jpg",
+    "category": "kitchen",
+    "label": "Fitted kitchen",
+    "unsplashId": "1600607687920-4e2a09cf159d"
+  },
+  {
+    "file": "/properties/property-09.jpg",
+    "category": "bedroom",
+    "label": "Minimal bedroom",
+    "unsplashId": "1600566752355-35792bedcfea"
+  },
+  {
+    "file": "/properties/property-10.jpg",
+    "category": "bathroom",
+    "label": "Stone bathroom",
+    "unsplashId": "1600573472550-8090b5e0745e"
+  },
+  {
+    "file": "/properties/property-11.jpg",
+    "category": "kitchen",
+    "label": "Kitchen island",
+    "unsplashId": "1600121848594-d8644e57abab"
+  },
+  {
+    "file": "/properties/property-12.jpg",
+    "category": "living",
+    "label": "Living room with sofa",
+    "unsplashId": "1522708323590-d24dbb6b0267"
+  },
+  {
+    "file": "/properties/property-13.jpg",
+    "category": "living",
+    "label": "Lounge seating",
+    "unsplashId": "1493809842364-78817add7ffb"
+  },
+  {
+    "file": "/properties/property-14.jpg",
+    "category": "kitchen",
+    "label": "White kitchen",
+    "unsplashId": "1484154218962-a197022b5858"
+  },
+  {
+    "file": "/properties/property-15.jpg",
+    "category": "living",
+    "label": "Sunlit lounge",
+    "unsplashId": "1560448204-e02f11c3d0e2"
+  },
+  {
+    "file": "/properties/property-16.jpg",
+    "category": "living",
+    "label": "Styled interior",
+    "unsplashId": "1502672260266-1c1ef2d93688"
+  },
+  {
+    "file": "/properties/property-17.jpg",
+    "category": "bedroom",
+    "label": "Bedroom with window",
+    "unsplashId": "1523217582562-09d0def993a6"
+  },
+  {
+    "file": "/properties/property-18.jpg",
+    "category": "exterior",
+    "label": "Apartment block",
+    "unsplashId": "1616486338812-3dadae4b4ace"
+  },
+  {
+    "file": "/properties/property-19.jpg",
+    "category": "exterior",
+    "label": "Residential building",
+    "unsplashId": "1545324418-cc1a3fa10c00"
+  },
+  {
+    "file": "/properties/property-20.jpg",
+    "category": "exterior",
+    "label": "Apartment facade",
+    "unsplashId": "1460317442991-0ec209397118"
+  },
+  {
+    "file": "/properties/property-21.jpg",
+    "category": "villa",
+    "label": "Modern villa at dusk",
+    "unsplashId": "1613490493576-7fde63acd811"
+  },
+  {
+    "file": "/properties/property-22.jpg",
+    "category": "villa",
+    "label": "Villa with pool",
+    "unsplashId": "1613977257363-707ba9348227"
+  },
+  {
+    "file": "/properties/property-23.jpg",
+    "category": "villa",
+    "label": "Villa exterior",
+    "unsplashId": "1600047509807-ba8f99d2cdde"
+  },
+  {
+    "file": "/properties/property-24.jpg",
+    "category": "villa",
+    "label": "Family house",
+    "unsplashId": "1580587771525-78b9dba3b914"
+  },
+  {
+    "file": "/properties/property-25.jpg",
+    "category": "villa",
+    "label": "Suburban home",
+    "unsplashId": "1570129477492-45c003edd2be"
+  },
+  {
+    "file": "/properties/property-26.jpg",
+    "category": "villa",
+    "label": "House with driveway",
+    "unsplashId": "1600585154526-990dced4db0d"
+  },
+  {
+    "file": "/properties/property-27.jpg",
+    "category": "villa",
+    "label": "Detached house",
+    "unsplashId": "1512915922686-57c11dde9b6b"
+  },
+  {
+    "file": "/properties/property-28.jpg",
+    "category": "pool",
+    "label": "Swimming pool",
+    "unsplashId": "1583608205776-bfd35f0d9f83"
+  },
+  {
+    "file": "/properties/property-29.jpg",
+    "category": "pool",
+    "label": "Pool terrace",
+    "unsplashId": "1571003123894-1f0594d2b5d9"
+  },
+  {
+    "file": "/properties/property-30.jpg",
+    "category": "garden",
+    "label": "Landscaped garden",
+    "unsplashId": "1600607688969-a5bfcd646154"
+  },
+  {
+    "file": "/properties/property-31.jpg",
+    "category": "coastal",
+    "label": "Beach house",
+    "unsplashId": "1540541338287-41700207dee6"
+  },
+  {
+    "file": "/properties/property-32.jpg",
+    "category": "coastal",
+    "label": "Seaside terrace",
+    "unsplashId": "1499793983690-e29da59ef1c2"
+  },
+  {
+    "file": "/properties/property-33.jpg",
+    "category": "coastal",
+    "label": "Coastal view",
+    "unsplashId": "1519974719765-e6559eac2575"
+  },
+  {
+    "file": "/properties/property-34.jpg",
+    "category": "coastal",
+    "label": "Beachfront",
+    "unsplashId": "1505142468610-359e7d316be0"
+  },
+  {
+    "file": "/properties/property-35.jpg",
+    "category": "coastal",
+    "label": "Sea view",
+    "unsplashId": "1439066615861-d1af74d74000"
+  },
+  {
+    "file": "/properties/property-36.jpg",
+    "category": "office",
+    "label": "Open-plan office",
+    "unsplashId": "1497366216548-37526070297c"
+  },
+  {
+    "file": "/properties/property-37.jpg",
+    "category": "office",
+    "label": "Office workspace",
+    "unsplashId": "1497366811353-6870744d04b2"
+  },
+  {
+    "file": "/properties/property-38.jpg",
+    "category": "office",
+    "label": "Meeting area",
+    "unsplashId": "1524758631624-e2822e304c36"
+  },
+  {
+    "file": "/properties/property-39.jpg",
+    "category": "office",
+    "label": "Office lounge",
+    "unsplashId": "1541746972996-4e0b0f43e02a"
+  },
+  {
+    "file": "/properties/property-40.jpg",
+    "category": "office",
+    "label": "Desks and glass",
+    "unsplashId": "1497215728101-856f4ea42174"
+  }
+]

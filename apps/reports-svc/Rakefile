@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec)
+
+begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new(:lint)
+rescue LoadError
+  desc 'rubocop is not installed'
+  task :lint do
+    warn 'rubocop is not available in this bundle group'
+  end
+end
+
+desc 'Run the specs and the linter'
+task check: %i[spec lint]
+
+task default: :spec

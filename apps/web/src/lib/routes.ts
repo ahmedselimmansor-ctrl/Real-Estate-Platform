@@ -1,0 +1,76 @@
+import { filtersToHref } from './filters';
+import type { SearchFilters } from '@/types/search';
+
+/**
+ * Single source of truth for internal hrefs. Every link in the app goes
+ * through here so a route rename is one edit, not fifty.
+ */
+export const routes = {
+  home: '/',
+
+  search: (filters: SearchFilters = {}) => filtersToHref(filters, '/search'),
+  map: (filters: SearchFilters = {}) => filtersToHref(filters, '/map'),
+
+  buy: '/search?saleType=primary',
+  rent: '/search?saleType=rent',
+
+  property: (slug: string) => `/property/${slug}`,
+
+  compounds: '/compounds',
+  compound: (slug: string) => `/compounds/${slug}`,
+
+  developers: '/developers',
+  developer: (slug: string) => `/developers/${slug}`,
+
+  areas: '/areas',
+  area: (slug: string) => `/areas/${slug}`,
+
+  nawyNow: '/nawy-now',
+  sell: '/sell',
+  favorites: '/favorites',
+  compare: '/compare',
+  savedSearches: '/saved-searches',
+  mortgageCalculator: '/mortgage-calculator',
+  marketInsights: '/market-insights',
+
+  login: '/login',
+  register: '/register',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
+  authCallback: '/auth/callback',
+
+  account: '/account',
+  accountProfile: '/account/profile',
+  accountLeads: '/account/leads',
+
+  admin: '/admin',
+  adminProperties: '/admin/properties',
+  adminLeads: '/admin/leads',
+
+  about: '/about',
+  contact: '/contact',
+  terms: '/terms',
+  privacy: '/privacy',
+} as const;
+
+/** Route an autocomplete suggestion to its destination page. */
+export function suggestionHref(suggestion: {
+  type: string;
+  slug: string;
+  text: string;
+}): string {
+  switch (suggestion.type) {
+    case 'property':
+      return routes.property(suggestion.slug);
+    case 'compound':
+      return routes.compound(suggestion.slug);
+    case 'developer':
+      return routes.developer(suggestion.slug);
+    case 'area':
+      return routes.area(suggestion.slug);
+    default:
+      return routes.search({ q: suggestion.text });
+  }
+}
+
+export type Routes = typeof routes;
