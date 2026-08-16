@@ -168,7 +168,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore npm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.npm
           key: npm-api-core-${{ runner.os }}-${{ hashFiles('apps/api-core/package-lock.json') }}
@@ -220,7 +220,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore npm + next caches
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.npm
@@ -298,7 +298,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Restore pip cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pip
           key: pip-${{ matrix.service }}-${{ runner.os }}-${{ hashFiles(format('apps/{0}/requirements*.txt', matrix.service)) }}
@@ -402,7 +402,7 @@ jobs:
           bundler-cache: false
 
       - name: Restore bundler cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: apps/reports-svc/vendor/bundle
           key: bundle-${{ runner.os }}-${{ hashFiles('apps/reports-svc/Gemfile*') }}
