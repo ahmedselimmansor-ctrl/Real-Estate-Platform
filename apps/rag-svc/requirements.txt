@@ -23,7 +23,7 @@ asyncpg==0.30.0
 psycopg[binary]==3.2.3
 pgvector==0.3.6
 alembic==1.14.0
-motor==3.6.0
+motor==3.7.1
 pymongo==4.9.2
 redis==5.2.1
 
