@@ -5,7 +5,7 @@ GEM
     base64 (0.3.0)
     bigdecimal (3.3.1)
     bson (5.2.0)
-    connection_pool (2.5.5)
+    connection_pool (3.0.2)
     csv (3.3.6)
     diff-lcs (1.6.2)
     dotenv (3.2.0)
@@ -126,7 +126,7 @@ PLATFORMS
 DEPENDENCIES
   base64 (~> 0.2)
   bigdecimal (~> 3.1)
-  connection_pool (~> 2.4)
+  connection_pool (~> 3.0)
   csv (~> 3.3)
   dotenv (~> 3.1)
   json (~> 2.7)
