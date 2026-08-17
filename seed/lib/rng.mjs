@@ -2,7 +2,7 @@
  * Seeded, dependency-free pseudo random number generator.
  *
  * The generator is a mulberry32 PRNG seeded from a SHA-256 hash of a string key,
- * so `makeRng('property:NWY-1042')` always yields the exact same sequence on any
+ * so `makeRng('property:TC-1042')` always yields the exact same sequence on any
  * machine and any Node version. All "random" choices in the seed dataset go
  * through this so `node generate.mjs` is byte-reproducible.
  */

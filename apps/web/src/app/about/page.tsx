@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/layout/page-header';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'What Nawy does and how the marketplace works.',
+  description: 'What TopChoice does and how the marketplace works.',
   alternates: { canonical: '/about' },
 };
 
@@ -30,9 +30,9 @@ const SECTIONS = [
     headingEn: 'What we do not do',
     headingAr: 'ما لا نقوم به',
     bodyEn:
-      'We do not negotiate on your behalf, hold deposits, or give legal or tax advice. For contracts, registration and anything binding, you deal with the developer and your own lawyer, and a Nawy consultant can walk you through the steps.',
+      'We do not negotiate on your behalf, hold deposits, or give legal or tax advice. For contracts, registration and anything binding, you deal with the developer and your own lawyer, and a TopChoice consultant can walk you through the steps.',
     bodyAr:
-      'نحن لا نتفاوض نيابة عنك ولا نحتفظ بالمقدمات ولا نقدم استشارات قانونية أو ضريبية. أما العقود والتسجيل وأي أمر ملزم فتتعامل فيه مع المطور ومحاميك، ويمكن لمستشار ناوي أن يشرح لك الخطوات.',
+      'نحن لا نتفاوض نيابة عنك ولا نحتفظ بالمقدمات ولا نقدم استشارات قانونية أو ضريبية. أما العقود والتسجيل وأي أمر ملزم فتتعامل فيه مع المطور ومحاميك، ويمكن لمستشار توب تشويس أن يشرح لك الخطوات.',
   },
 ];
 
@@ -40,12 +40,12 @@ export default function AboutPage() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-10 lg:px-6">
       <PageHeader
-        eyebrow={<T en="About" ar="عن ناوي" />}
+        eyebrow={<T en="About" ar="عن توب تشويس" />}
         title={<T en="Buying a home in Egypt, without the guesswork" ar="اشترِ منزلك في مصر بلا تخمين" />}
         lede={
           <T
-            en="Nawy lists primary and resale property from the developers building across Egypt, and shows the payment plan next to every price."
-            ar="يعرض ناوي وحدات أولية وإعادة بيع من المطورين في كل مصر، ويضع خطة السداد بجوار كل سعر."
+            en="TopChoice lists primary and resale property from the developers building across Egypt, and shows the payment plan next to every price."
+            ar="يعرض توب تشويس وحدات أولية وإعادة بيع من المطورين في كل مصر، ويضع خطة السداد بجوار كل سعر."
           />
         }
       />

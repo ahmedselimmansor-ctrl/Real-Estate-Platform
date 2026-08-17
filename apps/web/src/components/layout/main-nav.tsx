@@ -7,7 +7,7 @@ import { MAIN_NAV } from '@/lib/constants';
 import { useI18n } from '@/hooks/use-i18n';
 import { cn } from '@/lib/utils';
 
-/** Desktop primary navigation: Buy · Rent · Compounds · Developers · Areas · Nawy Now. */
+/** Desktop primary navigation: Buy · Rent · Compounds · Developers · Areas · TopChoice Now. */
 export function MainNav({ className }: { className?: string }) {
   const pathname = usePathname();
   const { locale, pick } = useI18n();

@@ -1,5 +1,5 @@
 # =============================================================================
-# Nawy Clone — developer task runner
+# TopChoice — developer task runner
 #
 #   make            # this help
 #   make bootstrap  # first run: env + certs + build + up + seed + index + RAG
@@ -41,7 +41,7 @@ endif
 ##@ Getting started
 
 help: ## Show this help
-	@printf "\n$(C_BOLD)Nawy Clone$(C_RESET) — Egyptian real-estate marketplace, full stack.\n\n"
+	@printf "\n$(C_BOLD)TopChoice$(C_RESET) — Egyptian real-estate marketplace, full stack.\n\n"
 	@printf "Usage: $(C_BOLD)make$(C_RESET) $(C_CYAN)<target>$(C_RESET)\n"
 	@awk 'BEGIN {FS = ":.*##"} \
 		/^##@/ { printf "\n$(C_BOLD)%s$(C_RESET)\n", substr($$0, 5); next } \

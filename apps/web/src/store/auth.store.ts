@@ -11,7 +11,7 @@ import { persistedStorage, STORAGE_KEYS } from './storage';
 
 /**
  * Auth state (CONTRACT §8). The access token lives here (memory + localStorage);
- * the refresh token is an httpOnly `nawy_rt` cookie the browser never reads.
+ * the refresh token is an httpOnly `topchoice_rt` cookie the browser never reads.
  *
  * This module intentionally imports nothing from `@/lib/api` — `api.ts` reads
  * this store, so the dependency must stay one-directional.

@@ -77,15 +77,15 @@ import type {
 /* ========================================================================== */
 
 export const BRAND = {
-  name: 'Nawy',
-  nameAr: 'ناوي',
+  name: 'TopChoice',
+  nameAr: 'توب تشويس',
   tagline: {
     en: 'Egypt’s smartest way to buy a home',
     ar: 'أذكى طريقة لشراء منزلك في مصر',
   },
   phone: '+20 105 000 0000',
   whatsapp: '+20 105 000 0000',
-  email: 'hello@nawy.local',
+  email: 'hello@topchoice.local',
   address: {
     en: 'Cairo Festival City, New Cairo, Egypt',
     ar: 'كايرو فستيفال سيتي، القاهرة الجديدة، مصر',
@@ -350,8 +350,8 @@ export const MAIN_NAV: ReadonlyArray<NavItem> = [
     labelEn: 'Search',
     labelAr: 'ابحث',
     icon: Building2,
-    descriptionEn: 'Every home on Nawy, primary and resale',
-    descriptionAr: 'كل الوحدات على ناوي، أولية وإعادة بيع',
+    descriptionEn: 'Every home on TopChoice, primary and resale',
+    descriptionAr: 'كل الوحدات على توب تشويس، أولية وإعادة بيع',
   },
   {
     href: '/compounds',
@@ -378,9 +378,9 @@ export const MAIN_NAV: ReadonlyArray<NavItem> = [
     descriptionAr: 'القاهرة الجديدة، زايد، الساحل وغيرها',
   },
   {
-    href: '/nawy-now',
-    labelEn: 'Nawy Now',
-    labelAr: 'ناوي الآن',
+    href: '/topchoice-now',
+    labelEn: 'TopChoice Now',
+    labelAr: 'توب تشويس الآن',
     icon: Zap,
     descriptionEn: 'Move in today, pay over 8 years',
     descriptionAr: 'اسكن اليوم وقسّط على 8 سنوات',
@@ -445,7 +445,7 @@ export const FOOTER_SECTIONS: ReadonlyArray<FooterSection> = [
       { href: '/search?saleType=rent', labelEn: 'Rent a home', labelAr: 'استأجر منزلاً' },
       { href: '/compounds', labelEn: 'Compounds', labelAr: 'الكمبوندات' },
       { href: '/areas', labelEn: 'Browse by area', labelAr: 'تصفح حسب المنطقة' },
-      { href: '/nawy-now', labelEn: 'Nawy Now', labelAr: 'ناوي الآن' },
+      { href: '/topchoice-now', labelEn: 'TopChoice Now', labelAr: 'توب تشويس الآن' },
     ],
   },
   {
@@ -462,8 +462,8 @@ export const FOOTER_SECTIONS: ReadonlyArray<FooterSection> = [
     titleEn: 'Company',
     titleAr: 'الشركة',
     links: [
-      { href: '/about', labelEn: 'About Nawy', labelAr: 'عن ناوي' },
-      { href: '/nawy-now', labelEn: 'Nawy Now', labelAr: 'ناوي الآن' },
+      { href: '/about', labelEn: 'About TopChoice', labelAr: 'عن توب تشويس' },
+      { href: '/topchoice-now', labelEn: 'TopChoice Now', labelAr: 'توب تشويس الآن' },
       { href: '/developers', labelEn: 'Developers', labelAr: 'المطورون' },
       { href: '/contact', labelEn: 'Contact us', labelAr: 'تواصل معنا' },
     ],

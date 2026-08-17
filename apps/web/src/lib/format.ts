@@ -15,7 +15,7 @@ export type Numerals = 'latn' | 'arab';
 export interface NumberFormatOptions {
   locale?: Locale;
   /** Force a numbering system; defaults to latin for `en`, latin for `ar` too
-   *  (Nawy shows western digits by default) unless explicitly requested. */
+   *  (TopChoice shows western digits by default) unless explicitly requested. */
   numerals?: Numerals;
   minimumFractionDigits?: number;
   maximumFractionDigits?: number;

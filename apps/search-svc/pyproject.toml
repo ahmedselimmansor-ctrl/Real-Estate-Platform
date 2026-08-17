@@ -1,7 +1,7 @@
 [project]
-name = "nawy-search-svc"
+name = "topchoice-search-svc"
 version = "1.0.0"
-description = "Nawy clone — Elasticsearch search service (FastAPI, Python 3.12)"
+description = "TopChoice — Elasticsearch search service (FastAPI, Python 3.12)"
 requires-python = ">=3.12"
 
 [tool.pytest.ini_options]

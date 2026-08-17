@@ -4,7 +4,7 @@
  *
  * `key` is the stable slug the UUID is derived from. Categories are exactly:
  * buying_process, payment_plans, mortgage, legal_documents, delivery_handover,
- * nawy_services, resale, rental, fees_taxes, account_support — four entries each.
+ * topchoice_services, resale, rental, fees_taxes, account_support — four entries each.
  *
  * The answers describe general Egyptian market practice for a demo dataset.
  * They are not legal, tax or financial advice, and figures such as fee caps,
@@ -13,11 +13,11 @@
 export const FAQ = [
   // ------------------------------------------------------- buying_process ---
   {
-    key: 'how-to-buy-through-nawy',
+    key: 'how-to-buy-through-topchoice',
     category: 'buying_process',
     tags: ['buying', 'reservation', 'consultant', 'primary', 'process'],
-    questionEn: 'How do I buy a property through Nawy?',
-    questionAr: 'إزاي أشتري وحدة من خلال ناوي؟',
+    questionEn: 'How do I buy a property through TopChoice?',
+    questionAr: 'إزاي أشتري وحدة من خلال توب تشويس؟',
     answerEn:
       'Start by shortlisting units with the filters for area, compound, budget, delivery date and payment plan, then request a call from any listing. A property consultant checks live availability with the developer, sends you the current price list and the plans that fit your budget, and arranges a site visit or a video walkthrough. When you pick a unit you sign a reservation form and pay the reservation deposit directly to the developer, in the developer\'s name, never to an individual. The developer then issues the preliminary contract (عقد ابتدائي), usually within two to six weeks, and the consultant stays with you through signing. For primary units the developer pays the brokerage fee, so the price you pay is the developer\'s own price list.',
     answerAr:
@@ -241,50 +241,50 @@ export const FAQ = [
       'تفرض الكومباوندات وديعة صيانة تتراوح عادةً بين 8% و10% من سعر الوحدة، وتُسدَّد عند الاستلام أو قبله بقليل. وتموّل هذه الوديعة إدارة المرافق في المناطق المشتركة: اللاندسكيب وإنارة الشوارع والأمن والطرق وحمامات السباحة وصيانة النادي واحتياطي الأعمال الكبرى. وفي معظم المشروعات يحتفظ المطور أو شركة إدارة مرافق متخصصة بالوديعة ويستثمرها، ويُغطى رسم الصيانة السنوي من عائدها، بينما يفرض مطورون آخرون رسمًا سنويًا لكل متر مربع فوق الوديعة. اسأل عن النموذج المطبق، وهل الوديعة مستردة أم تنتقل مع الوحدة عند البيع، ومن يراجع حسابات الصيانة، فهذه تكلفة تتحملها طوال فترة امتلاك الوحدة.',
   },
 
-  // ---------------------------------------------------------- nawy_services ---
+  // ---------------------------------------------------------- topchoice_services ---
   {
-    key: 'nawy-fees-for-buyers',
-    category: 'nawy_services',
+    key: 'topchoice-fees-for-buyers',
+    category: 'topchoice_services',
     tags: ['commission', 'brokerage', 'primary', 'resale', 'pricing'],
-    questionEn: 'Does Nawy charge buyers a commission?',
-    questionAr: 'هل تتقاضى ناوي عمولة من المشتري؟',
+    questionEn: 'Does TopChoice charge buyers a commission?',
+    questionAr: 'هل تتقاضى توب تشويس عمولة من المشتري؟',
     answerEn:
-      'For primary market units, no. The developer pays the brokerage fee, so you pay exactly the price list you would get by walking into the developer\'s own sales office, with the advantage of comparing dozens of projects in one place and having a consultant who knows current availability and unpublished offers. On resale transactions a commission does apply; it is agreed and disclosed in writing before you sign anything, and Egyptian market practice is around 2% to 2.5% of the sale value, usually paid by the seller. Nawy never collects the unit price itself: your down payment and instalments are paid directly to the developer, in the developer\'s name.',
+      'For primary market units, no. The developer pays the brokerage fee, so you pay exactly the price list you would get by walking into the developer\'s own sales office, with the advantage of comparing dozens of projects in one place and having a consultant who knows current availability and unpublished offers. On resale transactions a commission does apply; it is agreed and disclosed in writing before you sign anything, and Egyptian market practice is around 2% to 2.5% of the sale value, usually paid by the seller. TopChoice never collects the unit price itself: your down payment and instalments are paid directly to the developer, in the developer\'s name.',
     answerAr:
-      'في السوق الأولي لا. المطور هو من يتحمل عمولة التسويق، وبالتالي تدفع نفس قائمة الأسعار التي كنت ستحصل عليها لو ذهبت إلى مكتب مبيعات المطور مباشرة، مع ميزة مقارنة عشرات المشروعات في مكان واحد ووجود مستشار يعرف المتاح فعليًا والعروض غير المعلنة. أما في صفقات إعادة البيع فتُطبَّق عمولة يُتفق عليها وتُوضَّح كتابةً قبل توقيع أي مستند، والعرف في السوق المصري نحو 2% إلى 2.5% من قيمة البيع ويتحملها البائع غالبًا. ولا تحصّل ناوي قيمة الوحدة نفسها إطلاقًا، فالمقدم والأقساط تُدفع مباشرة للمطور وباسم الشركة.',
+      'في السوق الأولي لا. المطور هو من يتحمل عمولة التسويق، وبالتالي تدفع نفس قائمة الأسعار التي كنت ستحصل عليها لو ذهبت إلى مكتب مبيعات المطور مباشرة، مع ميزة مقارنة عشرات المشروعات في مكان واحد ووجود مستشار يعرف المتاح فعليًا والعروض غير المعلنة. أما في صفقات إعادة البيع فتُطبَّق عمولة يُتفق عليها وتُوضَّح كتابةً قبل توقيع أي مستند، والعرف في السوق المصري نحو 2% إلى 2.5% من قيمة البيع ويتحملها البائع غالبًا. ولا تحصّل توب تشويس قيمة الوحدة نفسها إطلاقًا، فالمقدم والأقساط تُدفع مباشرة للمطور وباسم الشركة.',
   },
   {
-    key: 'nawy-now',
-    category: 'nawy_services',
-    tags: ['nawy-now', 'financing', 'cash-price', 'monthly-plan', 'eligibility'],
-    questionEn: 'What is Nawy Now?',
-    questionAr: 'ما هي خدمة ناوي ناو؟',
+    key: 'topchoice-now',
+    category: 'topchoice_services',
+    tags: ['topchoice-now', 'financing', 'cash-price', 'monthly-plan', 'eligibility'],
+    questionEn: 'What is TopChoice Now?',
+    questionAr: 'ما هي خدمة توب تشويس ناو؟',
     answerEn:
-      'Nawy Now is the instant-payment product: instead of paying the developer over years of instalments, Nawy settles the cash price with the developer on your behalf and you repay Nawy on a monthly plan. Because the developer receives cash, the buyer captures part of the cash discount, which frequently offsets much of the financing cost. Eligibility is assessed on documented income and credit history, and both the unit and the plan have to be approved. It suits buyers who want a finished or near-delivery unit quickly, or who want to lock a launch price without a large lump sum. The tenor, monthly amount and total cost are confirmed in writing before you commit.',
+      'TopChoice Now is the instant-payment product: instead of paying the developer over years of instalments, TopChoice settles the cash price with the developer on your behalf and you repay TopChoice on a monthly plan. Because the developer receives cash, the buyer captures part of the cash discount, which frequently offsets much of the financing cost. Eligibility is assessed on documented income and credit history, and both the unit and the plan have to be approved. It suits buyers who want a finished or near-delivery unit quickly, or who want to lock a launch price without a large lump sum. The tenor, monthly amount and total cost are confirmed in writing before you commit.',
     answerAr:
-      'ناوي ناو هي خدمة السداد الفوري: بدلًا من الدفع للمطور على مدى سنوات من الأقساط، تسدد ناوي سعر الكاش للمطور نيابةً عنك وتسدد أنت لناوي على أقساط شهرية. ولأن المطور يحصل على قيمة الوحدة كاش، يحصل المشتري على جزء من خصم الكاش، وهو ما يعوّض غالبًا جانبًا كبيرًا من تكلفة التمويل. وتُدرس الأحقية بناءً على الدخل الموثق والتاريخ الائتماني، ويجب اعتماد الوحدة ونظام السداد. وتناسب الخدمة من يريد وحدة جاهزة أو قريبة التسليم بسرعة، أو من يريد تثبيت سعر الإطلاق دون دفع مبلغ كبير دفعة واحدة. وتُحدَّد المدة والقسط الشهري والتكلفة الإجمالية كتابةً قبل الالتزام.',
+      'توب تشويس ناو هي خدمة السداد الفوري: بدلًا من الدفع للمطور على مدى سنوات من الأقساط، تسدد توب تشويس سعر الكاش للمطور نيابةً عنك وتسدد أنت لتوب تشويس على أقساط شهرية. ولأن المطور يحصل على قيمة الوحدة كاش، يحصل المشتري على جزء من خصم الكاش، وهو ما يعوّض غالبًا جانبًا كبيرًا من تكلفة التمويل. وتُدرس الأحقية بناءً على الدخل الموثق والتاريخ الائتماني، ويجب اعتماد الوحدة ونظام السداد. وتناسب الخدمة من يريد وحدة جاهزة أو قريبة التسليم بسرعة، أو من يريد تثبيت سعر الإطلاق دون دفع مبلغ كبير دفعة واحدة. وتُحدَّد المدة والقسط الشهري والتكلفة الإجمالية كتابةً قبل الالتزام.',
   },
   {
     key: 'site-visits',
-    category: 'nawy_services',
+    category: 'topchoice_services',
     tags: ['site-visit', 'viewing', 'video-tour', 'booking', 'consultant'],
-    questionEn: 'Can Nawy arrange a site visit?',
-    questionAr: 'هل يمكن لناوي ترتيب زيارة للمشروع؟',
+    questionEn: 'Can TopChoice arrange a site visit?',
+    questionAr: 'هل يمكن لتوب تشويس ترتيب زيارة للمشروع؟',
     answerEn:
       'Yes. Request a viewing from any listing or through the chat and a consultant will arrange the developer\'s site tour, including transport from a meeting point for coastal projects. Weekend slots at popular North Coast and New Capital projects fill up early, so book several days ahead. If you are abroad or short on time, ask for a live video walkthrough, most sales teams offer one, and consultants can record short clips of the actual unit, the view and the construction status. For delivered units you can normally view the exact apartment; for off-plan phases you see the show unit, the model and the site rather than your specific unit.',
     answerAr:
       'نعم. اطلب معاينة من صفحة أي وحدة أو عبر المحادثة، وسينظم لك المستشار جولة المشروع لدى المطور، بما في ذلك الانتقال من نقطة تجمع في حالة المشروعات الساحلية. وتُحجز مواعيد نهاية الأسبوع في مشروعات الساحل الشمالي والعاصمة الإدارية مبكرًا، لذا احجز قبل الموعد بعدة أيام. وإذا كنت خارج مصر أو وقتك ضيق فاطلب جولة مباشرة بالفيديو، فمعظم فرق المبيعات توفرها، ويمكن للمستشار تصوير مقاطع قصيرة للوحدة نفسها والإطلالة وحالة التنفيذ. وفي الوحدات المسلَّمة يمكنك معاينة الوحدة بعينها، أما المراحل تحت الإنشاء فتعاين الوحدة النموذجية والماكيت والموقع وليس وحدتك تحديدًا.',
   },
   {
-    key: 'nawy-mortgage-legal-help',
-    category: 'nawy_services',
+    key: 'topchoice-mortgage-legal-help',
+    category: 'topchoice_services',
     tags: ['mortgage-desk', 'legal-review', 'documents', 'advisory'],
-    questionEn: 'Does Nawy help with mortgage and legal paperwork?',
-    questionAr: 'هل تساعد ناوي في إجراءات التمويل العقاري والأوراق القانونية؟',
+    questionEn: 'Does TopChoice help with mortgage and legal paperwork?',
+    questionAr: 'هل تساعد توب تشويس في إجراءات التمويل العقاري والأوراق القانونية؟',
     answerEn:
-      'The mortgage desk collects your documents once and circulates them to partner banks, then returns comparable offers showing rate, tenor, monthly instalment and total cost, so you are not negotiating with each bank separately. On the legal side, consultants walk you through the clauses that matter most, delivery date and delay penalty, area tolerance, the finishing annex, maintenance deposit and resale conditions, and can refer you to an independent property lawyer for a full review before you sign. Nawy does not replace your lawyer and does not draft or notarise contracts: the contract is always between you and the developer or the seller.',
+      'The mortgage desk collects your documents once and circulates them to partner banks, then returns comparable offers showing rate, tenor, monthly instalment and total cost, so you are not negotiating with each bank separately. On the legal side, consultants walk you through the clauses that matter most, delivery date and delay penalty, area tolerance, the finishing annex, maintenance deposit and resale conditions, and can refer you to an independent property lawyer for a full review before you sign. TopChoice does not replace your lawyer and does not draft or notarise contracts: the contract is always between you and the developer or the seller.',
     answerAr:
-      'يجمع فريق التمويل العقاري مستنداتك مرة واحدة ويعرضها على البنوك الشريكة، ثم يعود إليك بعروض قابلة للمقارنة توضح سعر العائد والمدة والقسط الشهري والتكلفة الإجمالية، فلا تتفاوض مع كل بنك على حدة. وعلى الجانب القانوني يشرح لك المستشارون أهم البنود، مثل موعد التسليم وغرامة التأخير ونسبة التفاوت في المساحة وملحق التشطيب ووديعة الصيانة وشروط إعادة البيع، ويمكنهم ترشيح محامٍ عقاري مستقل لمراجعة العقد بالكامل قبل التوقيع. ولا تحل ناوي محل محاميك ولا تحرر العقود أو توثقها، فالعقد دائمًا بينك وبين المطور أو البائع.',
+      'يجمع فريق التمويل العقاري مستنداتك مرة واحدة ويعرضها على البنوك الشريكة، ثم يعود إليك بعروض قابلة للمقارنة توضح سعر العائد والمدة والقسط الشهري والتكلفة الإجمالية، فلا تتفاوض مع كل بنك على حدة. وعلى الجانب القانوني يشرح لك المستشارون أهم البنود، مثل موعد التسليم وغرامة التأخير ونسبة التفاوت في المساحة وملحق التشطيب ووديعة الصيانة وشروط إعادة البيع، ويمكنهم ترشيح محامٍ عقاري مستقل لمراجعة العقد بالكامل قبل التوقيع. ولا تحل توب تشويس محل محاميك ولا تحرر العقود أو توثقها، فالعقد دائمًا بينك وبين المطور أو البائع.',
   },
 
   // ---------------------------------------------------------------- resale ---

@@ -4,7 +4,7 @@ import { HydratedDocument, SchemaTypes } from 'mongoose';
 import { UserRoleValue } from '../../common/enums';
 
 /**
- * CONTRACT §2 — MongoDB `nawy.activity_events`.
+ * CONTRACT §2 — MongoDB `topchoice.activity_events`.
  *
  * Append-only stream backing `GET /api/v1/admin/activity`. Carries the
  * `X-Request-Id` correlation id so an event can be traced back to its request.

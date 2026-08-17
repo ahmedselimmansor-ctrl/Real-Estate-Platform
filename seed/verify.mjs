@@ -161,7 +161,7 @@ check(propertyRefs.size === 180, 'properties.json: duplicate referenceNo');
 check(mongoIds.size === 180, 'properties.json: duplicate mongoId');
 for (let i = 0; i < 180; i += 1) {
   check(
-    properties[i].referenceNo === `NWY-${1001 + i}`,
+    properties[i].referenceNo === `TC-${1001 + i}`,
     `properties[${i}]: referenceNo ${properties[i].referenceNo} out of sequence`,
   );
 }
@@ -351,7 +351,7 @@ const FAQ_CATEGORIES = [
   'mortgage',
   'legal_documents',
   'delivery_handover',
-  'nawy_services',
+  'topchoice_services',
   'resale',
   'rental',
   'fees_taxes',

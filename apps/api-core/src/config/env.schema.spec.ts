@@ -10,8 +10,8 @@ const validEnv = {
   INTERNAL_SERVICE_TOKEN: 'change-me-internal-token',
   JWT_ACCESS_SECRET: 'change-me-access-secret-min-32-chars-long-0000',
   JWT_REFRESH_SECRET: 'change-me-refresh-secret-min-32-chars-long-000',
-  DATABASE_URL: 'postgresql://nawy:nawy_password@postgres:5432/nawy?schema=public',
-  MONGO_URI: 'mongodb://mongo:27017/nawy',
+  DATABASE_URL: 'postgresql://topchoice:topchoice_password@postgres:5432/topchoice?schema=public',
+  MONGO_URI: 'mongodb://mongo:27017/topchoice',
   REDIS_URL: 'redis://redis:6379',
 };
 
@@ -24,8 +24,8 @@ describe('validateEnv', () => {
     expect(env.PORT).toBe(4000);
     expect(env.JWT_ACCESS_TTL).toBe('15m');
     expect(env.JWT_REFRESH_TTL).toBe('30d');
-    expect(env.JWT_ISSUER).toBe('nawy-api');
-    expect(env.JWT_AUDIENCE).toBe('nawy-clients');
+    expect(env.JWT_ISSUER).toBe('topchoice-api');
+    expect(env.JWT_AUDIENCE).toBe('topchoice-clients');
     expect(env.REDIS_TTL_DEFAULT).toBe(300);
     expect(env.SEARCH_SVC_URL).toBe('http://search-svc:8000');
   });
@@ -48,7 +48,7 @@ describe('validateEnv', () => {
     expect(() => validateEnv({ ...validEnv, JWT_ACCESS_SECRET: 'too-short' })).toThrow(
       EnvValidationError,
     );
-    expect(() => validateEnv({ ...validEnv, DATABASE_URL: 'mysql://nawy@db/nawy' })).toThrow(
+    expect(() => validateEnv({ ...validEnv, DATABASE_URL: 'mysql://topchoice@db/topchoice' })).toThrow(
       EnvValidationError,
     );
     expect(() => validateEnv({ ...validEnv, MONGO_URI: 'http://mongo:27017' })).toThrow(
@@ -62,10 +62,10 @@ describe('buildConfig', () => {
 
   it('splits FRONTEND_URL into a CORS allow-list', () => {
     const config = buildConfig(
-      validateEnv({ ...validEnv, FRONTEND_URL: 'https://localhost, https://nawy.local/' }),
+      validateEnv({ ...validEnv, FRONTEND_URL: 'https://localhost, https://topchoice.local/' }),
     );
 
-    expect(config.app.corsOrigins).toEqual(['https://localhost', 'https://nawy.local']);
+    expect(config.app.corsOrigins).toEqual(['https://localhost', 'https://topchoice.local']);
     expect(config.app.frontendUrl).toBe('https://localhost');
   });
 
@@ -74,7 +74,7 @@ describe('buildConfig', () => {
 
     expect(config.google.enabled).toBe(false);
     expect(config.storage.enabled).toBe(false);
-    expect(config.storage.bucket).toBe('nawy-clone-media');
+    expect(config.storage.bucket).toBe('topchoice-media');
   });
 
   it('enables Google OAuth once both credentials are present', () => {

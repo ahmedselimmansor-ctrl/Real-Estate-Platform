@@ -1,4 +1,4 @@
-# api-core — Nawy clone core API
+# api-core — TopChoice core API
 
 NestJS 11 + TypeScript service that owns authentication, the property catalogue
 write side, favorites, leads, uploads and admin endpoints.
@@ -10,7 +10,7 @@ write side, favorites, leads, uploads and admin endpoints.
 | Public prefix | `/api/v1` (through nginx) |
 | Docs | `GET /api/v1/docs` (Swagger UI) |
 | Probes | `GET /health`, `GET /health/ready` (**not** under the prefix) |
-| Databases | PostgreSQL `nawy` (Prisma) · MongoDB `nawy` (Mongoose) · Redis |
+| Databases | PostgreSQL `topchoice` (Prisma) · MongoDB `topchoice` (Mongoose) · Redis |
 
 Everything here follows [`docs/CONTRACT.md`](../../docs/CONTRACT.md). Ports, env
 var names, route paths, response envelopes and enums come from that file — never
@@ -94,9 +94,9 @@ The seeder is **idempotent** — every row is upserted on the stable seed id:
 - Mongo: the 180 canonical listing documents, inserted with
   `_id = ObjectId(properties[].mongoId)` and `propertyId = properties[].id`
   (the same UUID Postgres and Elasticsearch use);
-- three development accounts, all with the password `Nawy@Demo123`:
-  `admin@nawy.local` (admin), `agent@nawy.local` (agent),
-  `buyer@nawy.local` (user). Development convenience only — never ship them.
+- three development accounts, all with the password `TopChoice@Demo123`:
+  `admin@topchoice.local` (admin), `agent@topchoice.local` (agent),
+  `buyer@topchoice.local` (user). Development convenience only — never ship them.
 
 ---
 

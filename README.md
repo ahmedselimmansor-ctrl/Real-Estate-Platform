@@ -1,4 +1,6 @@
-# Nawy Clone — full-stack Egyptian real-estate marketplace
+# TopChoice
+
+**Egypt's property marketplace, end to end.**
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
 ![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white)
@@ -18,9 +20,8 @@
   ![Security](https://github.com/<owner>/<repo>/actions/workflows/security.yml/badge.svg)
 -->
 
-A production-shaped clone of [nawy.com](https://www.nawy.com) — Egypt's property
-marketplace — built as a polyglot monorepo you can run end to end with one
-command. Browse 180 seeded listings across New Cairo, Sheikh Zayed, the North
+A production-shaped property marketplace for the Egyptian primary and resale
+market, built as a polyglot monorepo you can run end to end with one command. Browse 180 seeded listings across New Cairo, Sheikh Zayed, the North
 Coast, the New Administrative Capital, 6th of October and Mostakbal City from
 developers like Palm Hills, SODIC, Emaar Misr, Talaat Moustafa Group, Mountain
 View, Ora Developers and Hassan Allam; filter them through a real Elasticsearch
@@ -30,7 +31,7 @@ augmented chatbot "what's a 3-bedroom in Sheikh Zayed under 12M EGP with an 8
 year plan?" — every request arriving over TLS through a single nginx edge.
 
 ```bash
-git clone <this-repo> && cd Nawy-clone-full-stack
+git clone <this-repo> && cd Real-Estate-Platform
 ./infra/scripts/bootstrap.sh        # ~5-10 min on a cold cache
 open https://localhost              # accept the self-signed certificate once
 ```
@@ -89,14 +90,14 @@ production; the published host ports exist only to make local debugging easy.
            └──▶│ PostgreSQL16 │  MongoDB 7   │  Redis 7  │ Elasticsearch │
                │ + pgvector   │              │           │     8.15      │
                │              │              │           │               │
-               │ nawy:        │ nawy:        │ cache     │ properties_v1 │
+               │ topchoice:        │ topchoice:        │ cache     │ properties_v1 │
                │  users       │  properties  │ ratelimit │  (alias       │
                │  developers  │  property_   │ denylist  │   properties) │
                │  compounds   │   views      │ queues    │  ar + en      │
                │  areas       │  activity_   │           │  analyzers    │
                │  leads       │   events     │           │  edge_ngram   │
                │  favorites   │              │           │  geo_point    │
-               │ nawy_rag:    │              │           │               │
+               │ topchoice_rag:    │              │           │               │
                │  rag_chunks  │              │           │               │
                │  (vector1024)│              │           │               │
                │  chat_*      │              │           │               │
@@ -222,9 +223,9 @@ purely so you can log in on a fresh install.
 
 | Role | Email | Password |
 |---|---|---|
-| `admin` — admin dashboard | `admin@nawy.local` | `Nawy@Demo123` |
-| `agent` — can publish listings | `agent@nawy.local` | `Nawy@Demo123` |
-| `user` — favorites, leads | `buyer@nawy.local` | `Nawy@Demo123` |
+| `admin` — admin dashboard | `admin@topchoice.local` | `TopChoice@Demo123` |
+| `agent` — can publish listings | `agent@topchoice.local` | `TopChoice@Demo123` |
+| `user` — favorites, leads | `buyer@topchoice.local` | `TopChoice@Demo123` |
 
 Admin dashboard: <https://localhost/admin>
 
@@ -238,19 +239,19 @@ there and re-run `make seed`.
 
 | Service | Public path (through nginx) | Direct URL | Container | Health |
 |---|---|---|---|---|
-| `web` | `/` | <http://localhost:3000> | `nawy-web` | `https://localhost/__health/web` |
-| `api-core` | `/api/v1/*` | <http://localhost:4000> | `nawy-api-core` | `/health`, `/health/ready` |
-| `search-svc` | `/api/search/*` | <http://localhost:8000> | `nawy-search-svc` | `/health` |
-| `rag-svc` | `/api/chat/*` | <http://localhost:8001> | `nawy-rag-svc` | `/health` |
-| `reports-svc` | `/api/reports/*` | <http://localhost:4567> | `nawy-reports-svc` | `/health` |
-| `postgres` | — | `localhost:5432` | `nawy-postgres` | `pg_isready` |
-| `mongo` | — | `localhost:27017` | `nawy-mongo` | `db.adminCommand('ping')` |
-| `redis` | — | `localhost:6379` | `nawy-redis` | `redis-cli ping` |
-| `elasticsearch` | — | <http://localhost:9200> | `nawy-elasticsearch` | `_cluster/health` |
-| `nginx` | `:80` → `:443` | <https://localhost> | `nawy-nginx` | `https://localhost/__health/nginx` |
+| `web` | `/` | <http://localhost:3000> | `topchoice-web` | `https://localhost/__health/web` |
+| `api-core` | `/api/v1/*` | <http://localhost:4000> | `topchoice-api-core` | `/health`, `/health/ready` |
+| `search-svc` | `/api/search/*` | <http://localhost:8000> | `topchoice-search-svc` | `/health` |
+| `rag-svc` | `/api/chat/*` | <http://localhost:8001> | `topchoice-rag-svc` | `/health` |
+| `reports-svc` | `/api/reports/*` | <http://localhost:4567> | `topchoice-reports-svc` | `/health` |
+| `postgres` | — | `localhost:5432` | `topchoice-postgres` | `pg_isready` |
+| `mongo` | — | `localhost:27017` | `topchoice-mongo` | `db.adminCommand('ping')` |
+| `redis` | — | `localhost:6379` | `topchoice-redis` | `redis-cli ping` |
+| `elasticsearch` | — | <http://localhost:9200> | `topchoice-elasticsearch` | `_cluster/health` |
+| `nginx` | `:80` → `:443` | <https://localhost> | `topchoice-nginx` | `https://localhost/__health/nginx` |
 
 The `/__health/<service>` routes are edge-only aliases added by
-`infra/nginx/conf.d/nawy.conf` so `make health` can probe each backend *through*
+`infra/nginx/conf.d/topchoice.conf` so `make health` can probe each backend *through*
 TLS without colliding with any application route.
 
 <details>
@@ -302,11 +303,11 @@ Every value lives in `.env`, created from [`.env.example`](.env.example) by
 | `FRONTEND_URL` | `https://localhost` | CORS origin, OAuth redirects |
 | `JWT_ACCESS_SECRET` | *generated* | HS256 access token signing (15 min TTL) |
 | `JWT_REFRESH_SECRET` | *generated* | HS256 refresh token signing (30 day TTL, rotated) |
-| `JWT_ISSUER` / `JWT_AUDIENCE` | `nawy-api` / `nawy-clients` | verified by all four backends |
+| `JWT_ISSUER` / `JWT_AUDIENCE` | `topchoice-api` / `topchoice-clients` | verified by all four backends |
 | `INTERNAL_SERVICE_TOKEN` | *generated* | `X-Service-Token` for reindex/ingest endpoints |
-| `DATABASE_URL` | `postgresql://nawy:…@postgres:5432/nawy` | api-core (Prisma) |
-| `RAG_DATABASE_URL` | `postgresql+asyncpg://…/nawy_rag` | rag-svc (SQLAlchemy async) |
-| `MONGO_URI` | `mongodb://mongo:27017/nawy` | canonical property documents |
+| `DATABASE_URL` | `postgresql://topchoice:…@postgres:5432/topchoice` | api-core (Prisma) |
+| `RAG_DATABASE_URL` | `postgresql+asyncpg://…/topchoice_rag` | rag-svc (SQLAlchemy async) |
+| `MONGO_URI` | `mongodb://mongo:27017/topchoice` | canonical property documents |
 | `REDIS_URL` | `redis://redis:6379` | cache, rate limits, refresh-token denylist |
 | `ELASTICSEARCH_URL` | `http://elasticsearch:9200` | search index |
 | `ES_INDEX` / `ES_INDEX_VERSION` | `properties` / `properties_v1` | alias and concrete index |
@@ -331,7 +332,7 @@ Every value lives in `.env`, created from [`.env.example`](.env.example) by
 ## Repository layout
 
 ```
-Nawy-clone-full-stack/
+Real-Estate-Platform/
 ├── apps/
 │   ├── web/                  Next.js 15 storefront + admin dashboard
 │   ├── api-core/             NestJS 11 — auth, catalogue, leads, uploads, admin
@@ -350,7 +351,7 @@ Nawy-clone-full-stack/
 ├── infra/
 │   ├── nginx/
 │   │   ├── nginx.conf        TLS, gzip, logging, rate-limit zones, maps
-│   │   ├── conf.d/nawy.conf  upstreams, :80 redirect, :443 routing
+│   │   ├── conf.d/topchoice.conf  upstreams, :80 redirect, :443 routing
 │   │   ├── conf.d/snippets/  proxy-common, proxy-sse, security-headers, errors
 │   │   └── certs/            generated by gen-certs.sh, git-ignored
 │   ├── scripts/
@@ -358,7 +359,7 @@ Nawy-clone-full-stack/
 │   │   ├── gen-certs.sh      self-signed localhost certificate
 │   │   ├── health-check.sh   pass/fail table, exit 1 on failure
 │   │   ├── reset.sh          destructive teardown with confirmation
-│   │   ├── init-postgres.sql creates nawy_rag + vector/trgm/uuid extensions
+│   │   ├── init-postgres.sql creates topchoice_rag + vector/trgm/uuid extensions
 │   │   └── lib/common.sh     shared shell helpers
 │   └── terraform/            cloud deployment (see Deployment)
 ├── docs/CONTRACT.md          THE cross-service contract — single source of truth
@@ -420,7 +421,7 @@ machine in `apps/rag-svc`, not a single prompt.
 `X-Service-Token`) chunks the 180 property documents and the 40-entry FAQ,
 embeds each chunk with Alibaba Cloud Model Studio's
 `tongyi-embedding-vision-flash` (1024 dimensions) and writes them to
-`rag_chunks.embedding vector(1024)` in the `nawy_rag` database, with an
+`rag_chunks.embedding vector(1024)` in the `topchoice_rag` database, with an
 `ingestion_runs` row you can poll at `GET /api/chat/ingest/status/:runId`.
 Retrieval is a pgvector nearest-neighbour query filtered by the metadata the
 rewrite step extracted.
@@ -529,7 +530,7 @@ curl -sk "https://localhost/api/search?q=villa&areaId=&minPrice=5000000&limit=3"
 # register + login
 curl -sk -X POST https://localhost/api/v1/auth/login \
   -H 'Content-Type: application/json' \
-  -d '{"email":"buyer@nawy.local","password":"Nawy@Demo123"}' | jq
+  -d '{"email":"buyer@topchoice.local","password":"TopChoice@Demo123"}' | jq
 
 # mortgage calculator (EGP)
 curl -sk -X POST https://localhost/api/reports/mortgage/calculate \
@@ -621,11 +622,11 @@ Expected — it is self-signed. Click through once, or trust it permanently:
 
 ```bash
 # Debian/Ubuntu
-sudo cp infra/nginx/certs/localhost.crt /usr/local/share/ca-certificates/nawy-localhost.crt
+sudo cp infra/nginx/certs/localhost.crt /usr/local/share/ca-certificates/topchoice-localhost.crt
 sudo update-ca-certificates
 
 # Fedora/RHEL
-sudo cp infra/nginx/certs/localhost.crt /etc/pki/ca-trust/source/anchors/nawy-localhost.crt
+sudo cp infra/nginx/certs/localhost.crt /etc/pki/ca-trust/source/anchors/topchoice-localhost.crt
 sudo update-ca-trust extract
 
 # macOS
@@ -796,6 +797,8 @@ No licence file has been added yet, so all rights are reserved by default — th
 service manifests declare `UNLICENSED`. Add a `LICENSE` at the root before
 publishing or reusing this code.
 
-This is an educational clone: **not affiliated with, endorsed by, or connected
-to Nawy**. Every developer name, compound, listing, price and image in `seed/` is
-synthetic sample data generated by `seed/generate.mjs`, not real market data.
+**The seeded data is synthetic.** Every developer name, compound, listing,
+price and image under `seed/` is generated by `seed/generate.mjs` for
+development and demonstration. It is not real market data, and the developer
+names that appear there belong to their respective owners. Replace the seed
+with real listings before running this against production traffic.

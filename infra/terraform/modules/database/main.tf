@@ -14,9 +14,9 @@ data "aws_partition" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  db_name         = "nawy"
-  rag_db_name     = "nawy_rag"
-  master_username = "nawy"
+  db_name         = "topchoice"
+  rag_db_name     = "topchoice_rag"
+  master_username = "topchoice"
 }
 
 # ------------------------------------------------------------------- rds ----

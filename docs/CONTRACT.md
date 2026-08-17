@@ -1,4 +1,4 @@
-# Nawy Clone — Cross-Service Contract (SINGLE SOURCE OF TRUTH)
+# TopChoice — Cross-Service Contract (SINGLE SOURCE OF TRUTH)
 
 > Every service builder MUST conform to this file. Do not invent alternative port
 > numbers, env var names, route prefixes, or field names. If something is missing,
@@ -32,7 +32,7 @@
 
 ## 2. Database ownership (do NOT cross these lines)
 
-### PostgreSQL — database `nawy`, owned by **api-core** (Prisma)
+### PostgreSQL — database `topchoice`, owned by **api-core** (Prisma)
 Relational, transactional, identity. Tables:
 `users`, `accounts` (oauth), `refresh_tokens`, `developers`, `compounds`, `areas`,
 `amenities`, `payment_plans`, `favorites`, `saved_searches`, `leads`, `reviews`,
@@ -40,11 +40,11 @@ Relational, transactional, identity. Tables:
 `developer_id`, `area_id`, `price_min`, `status`, `created_at` — used for FK integrity
 and joins only).
 
-### PostgreSQL — database `nawy_rag`, owned by **rag-svc** (SQLAlchemy + pgvector)
+### PostgreSQL — database `topchoice_rag`, owned by **rag-svc** (SQLAlchemy + pgvector)
 `rag_documents`, `rag_chunks` (with `embedding vector(1024)`), `chat_threads`,
 `chat_messages`, `chat_summaries`, `tool_calls`, `ingestion_runs`.
 
-### MongoDB — database `nawy`, owned by **api-core** (Mongoose)
+### MongoDB — database `topchoice`, owned by **api-core** (Mongoose)
 Rich, schema-flexible listing documents. Collections:
 `properties` (the canonical full listing document), `property_views`, `chat_transcripts_archive`, `activity_events`.
 
@@ -73,7 +73,7 @@ lock:{resource}                 TTL 30s
 {
   "_id": "ObjectId",
   "slug": "palm-hills-new-cairo-3br-apartment-a12",         // unique
-  "referenceNo": "NWY-1042",
+  "referenceNo": "TC-1042",
   "title": { "en": "3 Bedroom Apartment in Palm Hills", "ar": "شقة 3 غرف في بالم هيلز" },
   "description": { "en": "...", "ar": "..." },
   "propertyType": "apartment",       // apartment|villa|townhouse|twinhouse|duplex|penthouse|studio|chalet|office|retail|clinic
@@ -161,20 +161,20 @@ and `GET /health/ready`.
 - **Refresh token**: JWT, `HS256`, secret `JWT_REFRESH_SECRET`, TTL 30d, rotated on use,
   `jti` tracked in Redis (`auth:refresh:*`), old jti added to `auth:denylist:*`.
 - Access token sent as `Authorization: Bearer <token>`.
-- Refresh token stored in `httpOnly; Secure; SameSite=Lax` cookie named `nawy_rt`.
+- Refresh token stored in `httpOnly; Secure; SameSite=Lax` cookie named `topchoice_rt`.
 
 **Access token claims (exact):**
 ```json
 { "sub": "<userId uuid>", "email": "a@b.com", "role": "user", "name": "Ahmed",
-  "jti": "<uuid>", "iss": "nawy-api", "aud": "nawy-clients", "iat": 0, "exp": 0 }
+  "jti": "<uuid>", "iss": "topchoice-api", "aud": "topchoice-clients", "iat": 0, "exp": 0 }
 ```
 
 `search-svc`, `rag-svc`, `reports-svc` verify the SAME `JWT_ACCESS_SECRET` locally
-(no network call), checking `iss=nawy-api` and `aud=nawy-clients`. Shared helper
+(no network call), checking `iss=topchoice-api` and `aud=topchoice-clients`. Shared helper
 must be implemented in each language.
 
 **Google OAuth 2.0**: `GET /api/v1/auth/google` → redirect;
-`GET /api/v1/auth/google/callback` → sets `nawy_rt` cookie and 302s to
+`GET /api/v1/auth/google/callback` → sets `topchoice_rt` cookie and 302s to
 `${FRONTEND_URL}/auth/callback#accessToken=...`.
 
 **Service-to-service**: header `X-Service-Token: ${INTERNAL_SERVICE_TOKEN}` for
@@ -283,22 +283,22 @@ JWT_ACCESS_SECRET=change-me-access-secret-min-32-chars-long
 JWT_REFRESH_SECRET=change-me-refresh-secret-min-32-chars-long
 JWT_ACCESS_TTL=15m
 JWT_REFRESH_TTL=30d
-JWT_ISSUER=nawy-api
-JWT_AUDIENCE=nawy-clients
+JWT_ISSUER=topchoice-api
+JWT_AUDIENCE=topchoice-clients
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 GOOGLE_CALLBACK_URL=https://localhost/api/v1/auth/google/callback
 
 # --- postgres ---
-POSTGRES_USER=nawy
-POSTGRES_PASSWORD=nawy_password
-POSTGRES_DB=nawy
-DATABASE_URL=postgresql://nawy:nawy_password@postgres:5432/nawy?schema=public
-RAG_DATABASE_URL=postgresql+asyncpg://nawy:nawy_password@postgres:5432/nawy_rag
-RAG_DATABASE_URL_SYNC=postgresql://nawy:nawy_password@postgres:5432/nawy_rag
+POSTGRES_USER=topchoice
+POSTGRES_PASSWORD=topchoice_password
+POSTGRES_DB=topchoice
+DATABASE_URL=postgresql://topchoice:topchoice_password@postgres:5432/topchoice?schema=public
+RAG_DATABASE_URL=postgresql+asyncpg://topchoice:topchoice_password@postgres:5432/topchoice_rag
+RAG_DATABASE_URL_SYNC=postgresql://topchoice:topchoice_password@postgres:5432/topchoice_rag
 
 # --- mongo ---
-MONGO_URI=mongodb://mongo:27017/nawy
+MONGO_URI=mongodb://mongo:27017/topchoice
 
 # --- redis ---
 REDIS_URL=redis://redis:6379
@@ -313,8 +313,8 @@ ES_INDEX_VERSION=properties_v1
 AWS_REGION=eu-central-1
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
-S3_BUCKET=nawy-clone-media
-S3_PUBLIC_BASE_URL=https://nawy-clone-media.s3.eu-central-1.amazonaws.com
+S3_BUCKET=topchoice-media
+S3_PUBLIC_BASE_URL=https://topchoice-media.s3.eu-central-1.amazonaws.com
 CLOUDFRONT_DOMAIN=
 
 # --- RAG: Alibaba Cloud Model Studio (DashScope, OpenAI-compatible) ---

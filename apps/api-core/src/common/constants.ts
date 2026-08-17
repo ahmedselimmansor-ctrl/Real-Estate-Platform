@@ -14,7 +14,7 @@ export const REQUEST_ID_HEADER = 'x-request-id';
 export const SERVICE_TOKEN_HEADER = 'x-service-token';
 
 /** CONTRACT §5 — refresh token cookie. */
-export const REFRESH_TOKEN_COOKIE = 'nawy_rt';
+export const REFRESH_TOKEN_COOKIE = 'topchoice_rt';
 
 /** CONTRACT §4 — pagination defaults. */
 export const DEFAULT_PAGE = 1;

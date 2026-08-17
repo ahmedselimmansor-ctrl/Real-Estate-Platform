@@ -376,7 +376,7 @@ export class AuthService {
   private dummyHashValue: string | null = null;
   private async dummyHash(): Promise<string> {
     if (this.dummyHashValue === null) {
-      this.dummyHashValue = await argon2.hash('nawy-timing-equalizer', ARGON2_OPTIONS);
+      this.dummyHashValue = await argon2.hash('topchoice-timing-equalizer', ARGON2_OPTIONS);
     }
     return this.dummyHashValue;
   }

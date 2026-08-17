@@ -140,7 +140,7 @@ async def fetch_page(url: str, settings: Settings | None = None) -> tuple[str, s
         follow_redirects=True,
         max_redirects=3,
         headers={
-            "User-Agent": "nawy-rag-svc/1.0 (+knowledge-base ingestion)",
+            "User-Agent": "topchoice-rag-svc/1.0 (+knowledge-base ingestion)",
             "Accept": "text/html,application/xhtml+xml,text/plain;q=0.9",
         },
     ) as client:

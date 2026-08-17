@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     'Search apartments, villas, townhouses and chalets across New Cairo, Sheikh Zayed, the North Coast, the New Capital and more. Filter by price, bedrooms, payment plan and delivery date.',
   alternates: { canonical: '/search' },
   openGraph: {
-    title: 'Properties for sale in Egypt | Nawy',
+    title: 'Properties for sale in Egypt | TopChoice',
     description: 'Search Egypt\u2019s primary and resale market with real payment plans.',
     type: 'website',
   },

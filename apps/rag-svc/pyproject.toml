@@ -1,7 +1,7 @@
 [project]
-name = "nawy-rag-svc"
+name = "topchoice-rag-svc"
 version = "1.0.0"
-description = "Nawy clone — RAG chat service (FastAPI + LangGraph + Postgres/pgvector)"
+description = "TopChoice — RAG chat service (FastAPI + LangGraph + Postgres/pgvector)"
 requires-python = ">=3.12"
 
 [tool.ruff]

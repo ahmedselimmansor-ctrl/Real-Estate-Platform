@@ -96,7 +96,7 @@ export function LoginForm({ next }: { next: string }) {
               type="email"
               autoComplete="username"
               autoFocus
-              placeholder="admin@nawy.local"
+              placeholder="admin@topchoice.local"
               aria-invalid={Boolean(errors.email)}
               {...form.register('email')}
             />

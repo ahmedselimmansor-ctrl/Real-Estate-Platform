@@ -74,7 +74,7 @@ module Reports
       http.max_retries = 0
 
       request = Net::HTTP::Get.new(uri.request_uri)
-      request['User-Agent'] = 'nawy-reports-svc/1.0 (+brochure-renderer)'
+      request['User-Agent'] = 'topchoice-reports-svc/1.0 (+brochure-renderer)'
       request['Accept'] = 'image/jpeg,image/png;q=0.9,*/*;q=0.1'
 
       http.start { |session| session.request(request) }

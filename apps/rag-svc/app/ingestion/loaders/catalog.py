@@ -165,7 +165,7 @@ def render_developer(record: dict[str, Any], lang: str = "en") -> str:
     if lang == "ar":
         lines = [
             f"{name} مطور عقاري مصري تأسس عام {record.get('foundedYear')} "
-            f"ولديه {record.get('projectsCount')} مشروعات على منصة ناوي.",
+            f"ولديه {record.get('projectsCount')} مشروعات على منصة توب تشويس.",
         ]
         description = _text(record.get("description"), "ar")
         if description:
@@ -179,7 +179,7 @@ def render_developer(record: dict[str, Any], lang: str = "en") -> str:
         lines = [
             f"{name} is an Egyptian real-estate developer founded in "
             f"{record.get('foundedYear')} with {record.get('projectsCount')} projects "
-            "listed on Nawy.",
+            "listed on TopChoice.",
         ]
         description = _text(record.get("description"), "en")
         if description:
@@ -213,7 +213,7 @@ def render_area(record: dict[str, Any], lang: str = "en") -> str:
     if lang == "ar":
         lines = [
             f"{name} منطقة في {record.get('city')} - محافظة {record.get('governorate')}، "
-            f"وبها {format_number(record.get('propertyCount'))} وحدة معروضة على ناوي "
+            f"وبها {format_number(record.get('propertyCount'))} وحدة معروضة على توب تشويس "
             f"بمتوسط سعر متر {format_egp(record.get('avgPricePerMeter'), lang)}.",
         ]
         description = _text(record.get("description"), "ar")
@@ -224,7 +224,7 @@ def render_area(record: dict[str, Any], lang: str = "en") -> str:
         lines = [
             f"{name} is an area in {record.get('city')}, {record.get('governorate')} "
             f"governorate, with {format_number(record.get('propertyCount'))} units listed on "
-            f"Nawy at an average of {format_egp(record.get('avgPricePerMeter'), lang)} per "
+            f"TopChoice at an average of {format_egp(record.get('avgPricePerMeter'), lang)} per "
             "square metre.",
         ]
         description = _text(record.get("description"), "en")

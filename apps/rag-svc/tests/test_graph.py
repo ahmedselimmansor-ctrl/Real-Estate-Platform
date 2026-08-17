@@ -155,7 +155,7 @@ class TestGuard:
         update = await node_module.guard(state, build_deps())
 
         assert update["guarded"] is True
-        assert "Nawy" in update["answer"]
+        assert "TopChoice" in update["answer"]
 
     @pytest.mark.asyncio
     async def test_lets_a_normal_question_through(self) -> None:

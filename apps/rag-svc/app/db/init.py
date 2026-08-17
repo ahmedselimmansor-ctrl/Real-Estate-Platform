@@ -7,7 +7,7 @@ is the self-bootstrapping fallback that runs at startup so ``docker compose up``
 works with zero manual steps (CONTRACT §10.9). Everything here is safe to run
 repeatedly and concurrently:
 
-1. create the ``nawy_rag`` database if the server does not have it yet,
+1. create the ``topchoice_rag`` database if the server does not have it yet,
 2. ``CREATE EXTENSION IF NOT EXISTS vector``,
 3. ``Base.metadata.create_all`` (tables + b-tree indexes),
 4. the raw DDL from :mod:`app.db.ddl` (HNSW / tsvector / JSONB GIN indexes),

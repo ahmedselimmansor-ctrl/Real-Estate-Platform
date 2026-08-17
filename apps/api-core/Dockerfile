@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # =============================================================================
-# Nawy clone — api-core (NestJS 11)
+# TopChoice — api-core (NestJS 11)
 #   development : hot-reloading dev server (target used by docker-compose)
 #   production  : compiled dist, non-root user
 # =============================================================================

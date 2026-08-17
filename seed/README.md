@@ -42,7 +42,7 @@ Output is **byte-identical on every run and every machine**:
 * Ids are RFC 4122 **v5 UUIDs** (SHA-1 over a fixed namespace + a stable key such
   as `compound:mivida`) — never `crypto.randomUUID()`.
 * All variation comes from a seeded mulberry32 PRNG keyed by a stable string
-  (e.g. `nawy-seed:property:NWY-1042`).
+  (e.g. `topchoice-seed:property:TC-1042`).
 * "Now" is pinned to the anchor constant `2026-08-14T00:00:00.000Z`
   (`ANCHOR_ISO` in `build/properties.mjs`), so timestamps never drift.
 * Number formatting is hand-rolled rather than `Intl`, so it does not depend on
@@ -144,7 +144,7 @@ Everything else matches the contract field for field:
 
 ```jsonc
 {
-  "id": "uuid", "mongoId": "24-hex", "slug": "…", "referenceNo": "NWY-1042",
+  "id": "uuid", "mongoId": "24-hex", "slug": "…", "referenceNo": "TC-1042",
   "title": { "en": "…", "ar": "…" },
   "description": { "en": "…", "ar": "…" },
   "propertyType": "apartment",        // apartment|villa|townhouse|twinhouse|duplex|penthouse|studio|chalet|office|retail|clinic
@@ -172,7 +172,7 @@ Everything else matches the contract field for field:
 
 **Guaranteed invariants** (all asserted by `verify.mjs`):
 
-* `slug` and `referenceNo` are unique; references run `NWY-1001` … `NWY-1180` in
+* `slug` and `referenceNo` are unique; references run `TC-1001` … `TC-1180` in
   array order.
 * `price.pricePerMeter === round(price.amount / specs.areaSqm)`.
 * `paymentPlan.monthlyInstallment === round(price.amount * (1 - downPaymentPercent/100) / (installmentYears * 12))`.
@@ -215,7 +215,7 @@ production — swap the builders in `lib/media.mjs` to move to real assets.
 | `tags` | string[] | 3–5 retrieval tags |
 
 Categories: `buying_process`, `payment_plans`, `mortgage`, `legal_documents`,
-`delivery_handover`, `nawy_services`, `resale`, `rental`, `fees_taxes`,
+`delivery_handover`, `topchoice_services`, `resale`, `rental`, `fees_taxes`,
 `account_support`.
 
 Content covers Egyptian market specifics — the preliminary contract

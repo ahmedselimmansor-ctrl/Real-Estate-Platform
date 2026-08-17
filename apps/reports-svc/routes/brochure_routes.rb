@@ -5,7 +5,7 @@ module Reports
     # CONTRACT §6: GET /api/reports/property/:id/brochure.pdf
     #
     # `:id` accepts the property UUID, its Mongo ObjectId, its slug or its
-    # reference number (NWY-1042) — whatever the caller has to hand.
+    # reference number (TC-1042) — whatever the caller has to hand.
     module BrochureRoutes
       RATE_LIMIT = 30
       RATE_WINDOW = 60

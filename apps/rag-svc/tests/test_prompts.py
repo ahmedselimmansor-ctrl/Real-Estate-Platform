@@ -49,7 +49,7 @@ class TestInjectionGuard:
         assert looks_like_injection(message) is False
 
     def test_guard_reply_follows_locale(self) -> None:
-        assert "Nawy" in guard_reply("en")
+        assert "TopChoice" in guard_reply("en")
         assert guard_reply("ar") != guard_reply("en")
 
 
@@ -168,7 +168,7 @@ class TestOutOfScope:
         "message",
         [
             "Show me 3 bedroom apartments in New Cairo",
-            "What is Nawy Now?",
+            "What is TopChoice Now?",
             "How does the down payment work?",
             "Write a summary of this compound's payment plan",
             "Can I get a mortgage on a resale unit?",

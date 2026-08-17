@@ -1,8 +1,8 @@
 {
-  "name": "nawy-api-core",
+  "name": "topchoice-api-core",
   "version": "1.0.0",
   "private": true,
-  "description": "Nawy clone — core API (auth/JWT/OAuth, users, developers, compounds, areas, properties, favorites, leads, uploads, admin)",
+  "description": "TopChoice — core API (auth/JWT/OAuth, users, developers, compounds, areas, properties, favorites, leads, uploads, admin)",
   "license": "UNLICENSED",
   "engines": {
     "node": ">=20.11.0"

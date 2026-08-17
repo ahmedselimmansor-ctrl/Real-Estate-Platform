@@ -14,7 +14,7 @@ const mongoModels = MongooseModule.forFeature([
 ]);
 
 /**
- * MongoDB access for the `nawy` database (CONTRACT §2 — owned by api-core).
+ * MongoDB access for the `topchoice` database (CONTRACT §2 — owned by api-core).
  * Registered globally so feature modules only need `@InjectModel(...)`.
  */
 @Global()

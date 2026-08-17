@@ -25,7 +25,7 @@ export const routes = {
   areas: '/areas',
   area: (slug: string) => `/areas/${slug}`,
 
-  nawyNow: '/nawy-now',
+  topchoiceNow: '/topchoice-now',
   sell: '/sell',
   favorites: '/favorites',
   compare: '/compare',

@@ -1,4 +1,4 @@
-"""Tools that call the other Nawy services (CONTRACT §1 internal URLs).
+"""Tools that call the other TopChoice services (CONTRACT §1 internal URLs).
 
 `search_listings` → search-svc, `get_property_details` → api-core,
 `calculate_mortgage` → reports-svc, `create_lead` / `escalate_to_human` →
@@ -78,7 +78,7 @@ class SearchListingsArgs(BaseModel):
 class SearchListingsTool(Tool):
     name = "search_listings"
     description = (
-        "Search live Nawy property listings by budget, bedrooms, area, compound or "
+        "Search live TopChoice property listings by budget, bedrooms, area, compound or "
         "property type. Use whenever the user wants to see actual units for sale or rent."
     )
     args_model = SearchListingsArgs
@@ -145,7 +145,7 @@ class SearchListingsTool(Tool):
                 ok=True,
                 summary=(
                     "No listings matched those criteria, and widening the search did not "
-                    "surface anything either. A Nawy consultant can check upcoming releases."
+                    "surface anything either. A TopChoice consultant can check upcoming releases."
                 ),
                 output={"results": [], "count": 0},
             )
@@ -197,7 +197,7 @@ class SearchListingsTool(Tool):
 
 
 class PropertyDetailsArgs(BaseModel):
-    idOrSlug: str = Field(description="Listing UUID or slug, e.g. 'mivida-3br-apartment-nwy-1042'")
+    idOrSlug: str = Field(description="Listing UUID or slug, e.g. 'mivida-3br-apartment-tc-1042'")
 
 
 class GetPropertyDetailsTool(Tool):
@@ -342,7 +342,7 @@ class CreateLeadArgs(BaseModel):
 class CreateLeadTool(Tool):
     name = "create_lead"
     description = (
-        "Book a viewing or request a callback from a Nawy consultant. Only call this "
+        "Book a viewing or request a callback from a TopChoice consultant. Only call this "
         "after the user has explicitly confirmed and given their own name and phone "
         "number — never invent contact details."
     )
@@ -375,7 +375,7 @@ class CreateLeadTool(Tool):
                 "phone": args.phone,
                 "email": args.email,
                 "propertyId": args.propertyId,
-                "message": args.message or "Requested via the Nawy assistant.",
+                "message": args.message or "Requested via the TopChoice assistant.",
                 "source": "chatbot",
             },
             headers=headers,
@@ -388,7 +388,7 @@ class CreateLeadTool(Tool):
             ok=True,
             summary=(
                 f"Callback request recorded for {args.name} on {args.phone}. "
-                "A Nawy consultant will be in touch."
+                "A TopChoice consultant will be in touch."
             ),
             output=data,
         )
@@ -431,7 +431,7 @@ class EscalateToHumanTool(Tool):
 
         contact_url = f"{self._settings.frontend_url}/contact"
         summary = (
-            f"Handoff recorded ({args.reason}). Tell the user a Nawy consultant will "
+            f"Handoff recorded ({args.reason}). Tell the user a TopChoice consultant will "
             f"follow up, and that they can also reach the team at {contact_url}. "
             "Offer to take their name and phone number for a callback."
         )

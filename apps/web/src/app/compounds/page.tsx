@@ -36,8 +36,8 @@ export default async function CompoundsPage({ searchParams }: CompoundsPageProps
         title={<T en="Compounds" ar="الكمبوندات" />}
         lede={
           <T
-            en="Every gated community on Nawy, with what units start at and when the developer hands over."
-            ar="كل الكمبوندات المغلقة على ناوي، مع سعر بداية الوحدات وموعد التسليم."
+            en="Every gated community on TopChoice, with what units start at and when the developer hands over."
+            ar="كل الكمبوندات المغلقة على توب تشويس، مع سعر بداية الوحدات وموعد التسليم."
           />
         }
         count={compounds.length}

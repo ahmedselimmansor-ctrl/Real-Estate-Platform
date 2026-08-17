@@ -87,11 +87,11 @@ RSpec.describe Reports::Helpers::Responses do
   end
 
   it 'builds an attachment disposition with an ASCII and a UTF-8 filename' do
-    harness.attachment!('nawy-leads-2026.csv', 'text/csv; charset=utf-8')
+    harness.attachment!('topchoice-leads-2026.csv', 'text/csv; charset=utf-8')
 
     expect(harness.current_content_type).to eq('text/csv; charset=utf-8')
     expect(harness.response.headers['content-disposition'])
-      .to eq(%(attachment; filename="nawy-leads-2026.csv"; filename*=UTF-8''nawy-leads-2026.csv))
+      .to eq(%(attachment; filename="topchoice-leads-2026.csv"; filename*=UTF-8''topchoice-leads-2026.csv))
     expect(harness.response.headers['x-content-type-options']).to eq('nosniff')
   end
 

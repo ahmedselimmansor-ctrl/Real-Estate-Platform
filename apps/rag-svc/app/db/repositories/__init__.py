@@ -1,4 +1,4 @@
-"""Data-access objects for the ``nawy_rag`` tables."""
+"""Data-access objects for the ``topchoice_rag`` tables."""
 
 from app.db.repositories.documents import DocumentRepository, StoredDocument
 from app.db.repositories.ingestion_runs import IngestionRunRepository

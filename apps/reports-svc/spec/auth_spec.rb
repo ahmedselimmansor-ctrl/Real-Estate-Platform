@@ -24,13 +24,13 @@ RSpec.describe Reports::Auth do
   describe '.verify!' do
     it 'accepts a well-formed access token and exposes the CONTRACT §5 claims' do
       token = access_token(role: 'agent', sub: '11111111-1111-1111-1111-111111111111',
-                           email: 'agent@nawy.test', name: 'Agent Nawy')
+                           email: 'agent@topchoice.test', name: 'Agent TopChoice')
       user = described_class.verify!(token)
 
       expect(user.id).to eq('11111111-1111-1111-1111-111111111111')
-      expect(user.email).to eq('agent@nawy.test')
+      expect(user.email).to eq('agent@topchoice.test')
       expect(user.role).to eq('agent')
-      expect(user.name).to eq('Agent Nawy')
+      expect(user.name).to eq('Agent TopChoice')
       expect(user.jti).to be_a(String)
       expect(user.agent?).to be(true)
       expect(user.admin?).to be(false)
@@ -79,7 +79,7 @@ RSpec.describe Reports::Auth do
     end
 
     it 'rejects an unsigned (alg=none) token' do
-      payload = { 'sub' => 'x', 'iss' => 'nawy-api', 'aud' => 'nawy-clients',
+      payload = { 'sub' => 'x', 'iss' => 'topchoice-api', 'aud' => 'topchoice-clients',
                   'exp' => Time.now.to_i + 60 }
       token = JWT.encode(payload, nil, 'none')
       expect { described_class.verify!(token) }.to raise_error(Reports::Errors::UnauthorizedError)
@@ -91,7 +91,7 @@ RSpec.describe Reports::Auth do
     end
 
     it 'rejects a token without a subject' do
-      payload = { 'iss' => 'nawy-api', 'aud' => 'nawy-clients', 'exp' => Time.now.to_i + 60,
+      payload = { 'iss' => 'topchoice-api', 'aud' => 'topchoice-clients', 'exp' => Time.now.to_i + 60,
                   'sub' => '' }
       token = JWT.encode(payload, secret, 'HS256')
       expect { described_class.verify!(token) }.to raise_error(Reports::Errors::UnauthorizedError)

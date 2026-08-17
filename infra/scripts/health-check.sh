@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# health-check.sh — probe every Nawy Clone service, directly and through nginx.
+# health-check.sh — probe every TopChoice service, directly and through nginx.
 #
 #   ./infra/scripts/health-check.sh            # everything
 #   ./infra/scripts/health-check.sh --edge     # only through https://localhost

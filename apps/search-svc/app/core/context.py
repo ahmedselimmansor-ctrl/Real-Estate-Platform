@@ -10,7 +10,7 @@ import structlog
 REQUEST_ID_HEADER = "X-Request-Id"
 SERVICE_TOKEN_HEADER = "X-Service-Token"
 
-_request_id: ContextVar[str | None] = ContextVar("nawy_request_id", default=None)
+_request_id: ContextVar[str | None] = ContextVar("topchoice_request_id", default=None)
 
 
 def new_request_id() -> str:

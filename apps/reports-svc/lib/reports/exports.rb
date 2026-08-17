@@ -41,11 +41,11 @@ module Reports
     module_function
 
     def leads_filename(filters)
-      "nawy-leads-#{filename_suffix(filters)}.csv"
+      "topchoice-leads-#{filename_suffix(filters)}.csv"
     end
 
     def properties_filename(filters)
-      "nawy-properties-#{filename_suffix(filters)}.csv"
+      "topchoice-properties-#{filename_suffix(filters)}.csv"
     end
 
     def filename_suffix(filters)

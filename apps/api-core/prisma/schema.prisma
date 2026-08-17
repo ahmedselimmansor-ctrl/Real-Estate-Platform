@@ -1,7 +1,7 @@
 // ============================================================================
-// Nawy clone — api-core relational model (CONTRACT §2).
+// TopChoice — api-core relational model (CONTRACT §2).
 //
-// PostgreSQL database `nawy` is owned exclusively by this service. The canonical
+// PostgreSQL database `topchoice` is owned exclusively by this service. The canonical
 // property *document* lives in MongoDB; `property_index` is the thin mirror kept
 // here for referential integrity and joins.
 // ============================================================================
@@ -360,7 +360,7 @@ model Lead {
   message      String?
   source       String     @default("website") @db.VarChar(60)
 
-  // A seller enquiry describes a unit that is not on Nawy yet, so it names an
+  // A seller enquiry describes a unit that is not on TopChoice yet, so it names an
   // area, a compound and a type rather than pointing at a listing. Buyer
   // enquiries leave these null and set `propertyId` instead.
   areaId       String?    @map("area_id") @db.Uuid

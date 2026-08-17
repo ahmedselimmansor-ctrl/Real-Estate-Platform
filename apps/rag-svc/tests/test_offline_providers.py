@@ -147,7 +147,7 @@ def test_bm25_scores_are_normalised() -> None:
 # --- extractive generation -------------------------------------------------
 def _messages(question: str) -> list[ChatMessage]:
     return [
-        ChatMessage(role="system", content="You are the Nawy assistant."),
+        ChatMessage(role="system", content="You are the TopChoice assistant."),
         ChatMessage(role="user", content=question),
     ]
 
@@ -174,7 +174,7 @@ async def test_template_generation_answers_in_arabic_for_arabic_questions() -> N
         _messages("هل يوجد حمام سباحة في بالم هيلز؟"),
         sources=[{"title": "بالم هيلز", "content": ARABIC_DOC}],
     )
-    assert "ناوي" in result.text
+    assert "توب تشويس" in result.text
 
 
 async def test_template_generation_without_sources_explains_the_gap() -> None:

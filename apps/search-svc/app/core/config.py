@@ -51,8 +51,8 @@ class Settings(BaseSettings):
 
     # --- auth (CONTRACT §5 — verified locally, never over the network) ------
     JWT_ACCESS_SECRET: str = "change-me-access-secret-min-32-chars-long-0000"
-    JWT_ISSUER: str = "nawy-api"
-    JWT_AUDIENCE: str = "nawy-clients"
+    JWT_ISSUER: str = "topchoice-api"
+    JWT_AUDIENCE: str = "topchoice-clients"
     JWT_ALGORITHM: str = "HS256"
     JWT_LEEWAY_SECONDS: int = 10
 
@@ -71,7 +71,7 @@ class Settings(BaseSettings):
     ES_STARTUP_MAX_WAIT_SECONDS: int = 120
 
     # --- mongodb (read-only mirror source; owned by api-core) ---------------
-    MONGO_URI: str = "mongodb://mongo:27017/nawy"
+    MONGO_URI: str = "mongodb://mongo:27017/topchoice"
     MONGO_PROPERTIES_COLLECTION: str = "properties"
     MONGO_TIMEOUT_MS: int = 5000
 
@@ -89,7 +89,7 @@ class Settings(BaseSettings):
     RATE_LIMIT_ADMIN_WINDOW: int = 60
 
     # --- media --------------------------------------------------------------
-    S3_PUBLIC_BASE_URL: str = "https://nawy-clone-media.s3.eu-central-1.amazonaws.com"
+    S3_PUBLIC_BASE_URL: str = "https://topchoice-media.s3.eu-central-1.amazonaws.com"
     CLOUDFRONT_DOMAIN: str = ""
 
     # --- internal service urls ---------------------------------------------
@@ -128,10 +128,10 @@ class Settings(BaseSettings):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def mongo_db_name(self) -> str:
-        """Database name embedded in `MONGO_URI` (defaults to `nawy`)."""
+        """Database name embedded in `MONGO_URI` (defaults to `topchoice`)."""
         path = urlparse(self.MONGO_URI).path.lstrip("/")
         name = path.split("?", 1)[0].strip()
-        return name or "nawy"
+        return name or "topchoice"
 
     @computed_field  # type: ignore[prop-decorator]
     @property

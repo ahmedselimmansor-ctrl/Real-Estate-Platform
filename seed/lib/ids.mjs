@@ -10,8 +10,8 @@
  */
 import { createHash } from 'node:crypto';
 
-/** Fixed private namespace for the Nawy clone seed dataset. Do not change. */
-export const NAWY_SEED_NAMESPACE = '6f2a1c8e-3b47-5d19-9a0e-7c5d4b3a2f10';
+/** Fixed private namespace for the TopChoice seed dataset. Do not change. */
+export const TOPCHOICE_SEED_NAMESPACE = '6f2a1c8e-3b47-5d19-9a0e-7c5d4b3a2f10';
 
 const HEX32 = /^[0-9a-f]{32}$/;
 
@@ -27,7 +27,7 @@ function namespaceBytes(namespace) {
  * @param {string} [namespace]
  * @returns {string} canonical lowercase UUID
  */
-export function uuidV5(name, namespace = NAWY_SEED_NAMESPACE) {
+export function uuidV5(name, namespace = TOPCHOICE_SEED_NAMESPACE) {
   const digest = createHash('sha1')
     .update(Buffer.concat([namespaceBytes(namespace), Buffer.from(String(name), 'utf8')]))
     .digest();

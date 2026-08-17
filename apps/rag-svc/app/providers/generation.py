@@ -242,27 +242,27 @@ class TemplateGenerationProvider:
 
         if not passages:
             return (
-                "لم أعثر على معلومات كافية في قاعدة معرفة ناوي للإجابة على هذا السؤال. "
+                "لم أعثر على معلومات كافية في قاعدة معرفة توب تشويس للإجابة على هذا السؤال. "
                 "جرّب صياغة السؤال بذكر المنطقة أو الكومباوند أو الميزانية، "
                 "أو اطلب التحدث مع مستشار عقاري."
                 if arabic
-                else "I could not find anything in the Nawy knowledge base that answers "
+                else "I could not find anything in the TopChoice knowledge base that answers "
                 "that. Try naming an area, a compound or a budget, or ask to speak "
                 "with a property consultant."
             )
 
         selected = _best_sentences(question, passages, limit=4)
         header = (
-            "إليك ما وجدته في بيانات ناوي:"
+            "إليك ما وجدته في بيانات توب تشويس:"
             if arabic
-            else "Here is what the Nawy knowledge base says:"
+            else "Here is what the TopChoice knowledge base says:"
         )
         footer = (
             "هذه إجابة مستخرجة من المصادر أعلاه (وضع بدون مفتاح توليد). "
-            "للحصول على تفاصيل محدثة تواصل مع مستشار ناوي."
+            "للحصول على تفاصيل محدثة تواصل مع مستشار توب تشويس."
             if arabic
             else "This answer was extracted directly from the sources above "
-            "(no generation key configured). A Nawy consultant can confirm live "
+            "(no generation key configured). A TopChoice consultant can confirm live "
             "availability and pricing."
         )
         body = "\n".join(f"- {sentence}" for sentence in selected)

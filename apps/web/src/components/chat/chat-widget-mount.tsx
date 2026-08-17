@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { useChatStore } from '@/store/chat.store';
 
 const NUDGE_DELAY_MS = 12_000;
-const NUDGE_DISMISSED_KEY = 'nawy_chat_nudge_dismissed';
+const NUDGE_DISMISSED_KEY = 'topchoice_chat_nudge_dismissed';
 
 /**
  * The customer-support agent, mounted globally from the root layout.
@@ -86,7 +86,7 @@ export function ChatWidgetMount() {
           )}
           role="dialog"
           aria-modal={!isDesktop}
-          aria-label="Nawy Assistant"
+          aria-label="TopChoice Assistant"
         >
           <ChatPanel onClose={close} />
         </div>
@@ -112,7 +112,7 @@ export function ChatWidgetMount() {
               dismissNudge();
               open();
             }}
-            aria-label="Open the Nawy Assistant"
+            aria-label="Open the TopChoice Assistant"
             className={cn(
               'pointer-events-auto relative grid size-14 place-items-center rounded-full',
               'bg-gradient-to-br from-primary to-primary/80 text-primary-foreground',

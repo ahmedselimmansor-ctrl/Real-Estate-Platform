@@ -57,8 +57,8 @@ export const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(32, { message: 'must be at least 32 characters' }),
   JWT_ACCESS_TTL: duration('15m'),
   JWT_REFRESH_TTL: duration('30d'),
-  JWT_ISSUER: z.string().min(1).default('nawy-api'),
-  JWT_AUDIENCE: z.string().min(1).default('nawy-clients'),
+  JWT_ISSUER: z.string().min(1).default('topchoice-api'),
+  JWT_AUDIENCE: z.string().min(1).default('topchoice-clients'),
   GOOGLE_CLIENT_ID: z.string().default(''),
   GOOGLE_CLIENT_SECRET: z.string().default(''),
   GOOGLE_CALLBACK_URL: z
@@ -97,7 +97,7 @@ export const envSchema = z.object({
   AWS_REGION: z.string().min(1).default('eu-central-1'),
   AWS_ACCESS_KEY_ID: z.string().default(''),
   AWS_SECRET_ACCESS_KEY: z.string().default(''),
-  S3_BUCKET: z.string().min(1).default('nawy-clone-media'),
+  S3_BUCKET: z.string().min(1).default('topchoice-media'),
   S3_PUBLIC_BASE_URL: z.string().default(''),
   CLOUDFRONT_DOMAIN: z.string().default(''),
 

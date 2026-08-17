@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Nawy clone — shared seed dataset generator.
+ * TopChoice — shared seed dataset generator.
  *
  *   node seed/generate.mjs
  *

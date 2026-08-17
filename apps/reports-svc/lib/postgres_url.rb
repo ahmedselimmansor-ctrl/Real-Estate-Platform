@@ -31,7 +31,7 @@ module Reports
         user: uri.user && CGI.unescape(uri.user),
         password: uri.password && CGI.unescape(uri.password),
         connect_timeout: 5,
-        application_name: 'nawy-reports-svc'
+        application_name: 'topchoice-reports-svc'
       }
 
       PASSTHROUGH_PARAMS.each do |key|
@@ -44,7 +44,7 @@ module Reports
       rescue ArgumentError
         5
       end
-      conn[:dbname] = 'nawy' if conn[:dbname].to_s.empty?
+      conn[:dbname] = 'topchoice' if conn[:dbname].to_s.empty?
 
       { conn_opts: conn.compact, search_path: params['schema'] || params['search_path'] }
     end

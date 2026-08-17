@@ -1,4 +1,4 @@
-"""Alembic environment for the ``nawy_rag`` database.
+"""Alembic environment for the ``topchoice_rag`` database.
 
 The connection URL always comes from configuration (``RAG_DATABASE_URL_SYNC``,
 forced onto psycopg v3) — never from ``alembic.ini`` — so migrations use the same

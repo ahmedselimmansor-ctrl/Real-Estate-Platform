@@ -544,14 +544,14 @@ export class PropertiesService {
 
   private async nextReferenceNo(): Promise<string> {
     const latest = await this.propertyModel
-      .findOne({ referenceNo: /^NWY-\d+$/ })
+      .findOne({ referenceNo: /^TC-\d+$/ })
       .sort({ referenceNo: -1 })
       .select({ referenceNo: 1 })
       .lean<{ referenceNo: string }>()
       .exec();
 
-    const current = latest ? Number.parseInt(latest.referenceNo.replace('NWY-', ''), 10) : 1000;
-    return `NWY-${Number.isFinite(current) ? current + 1 : 1001}`;
+    const current = latest ? Number.parseInt(latest.referenceNo.replace('TC-', ''), 10) : 1000;
+    return `TC-${Number.isFinite(current) ? current + 1 : 1001}`;
   }
 
   /** Cache invalidation + downstream index refresh after any write. */

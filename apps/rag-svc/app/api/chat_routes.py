@@ -68,7 +68,7 @@ def _repository(request: Request) -> ChatRepository:
 
 def _guest_token(thread_id: str, settings: Settings) -> str:
     """HMAC binding a guest to the thread they created."""
-    secret = (settings.jwt_access_secret or settings.internal_service_token or "nawy").encode()
+    secret = (settings.jwt_access_secret or settings.internal_service_token or "topchoice").encode()
     return hmac.new(secret, f"thread:{thread_id}".encode(), hashlib.sha256).hexdigest()[:32]
 
 

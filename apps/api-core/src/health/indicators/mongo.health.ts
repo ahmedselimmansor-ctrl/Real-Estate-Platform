@@ -5,7 +5,7 @@ import type { Connection } from 'mongoose';
 
 import { withTimeout } from '../../common/utils/with-timeout';
 
-/** `admin.ping()` against the `nawy` MongoDB database. */
+/** `admin.ping()` against the `topchoice` MongoDB database. */
 @Injectable()
 export class MongoHealthIndicator {
   constructor(@InjectConnection() private readonly connection: Connection) {}

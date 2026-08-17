@@ -8,10 +8,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { routes } from '@/lib/routes';
 
 export const metadata: Metadata = {
-  title: 'Nawy Now',
+  title: 'TopChoice Now',
   description:
-    'Buy a resale unit outright, then settle with the seller through Nawy instead of chasing a cash buyer.',
-  alternates: { canonical: '/nawy-now' },
+    'Buy a resale unit outright, then settle with the seller through TopChoice instead of chasing a cash buyer.',
+  alternates: { canonical: '/topchoice-now' },
 };
 
 const STEPS = [
@@ -19,15 +19,15 @@ const STEPS = [
     titleEn: 'Pick the unit',
     titleAr: 'اختر الوحدة',
     bodyEn:
-      'Any resale listing on Nawy is eligible. The price you see is the price the seller has agreed.',
-    bodyAr: 'أي وحدة إعادة بيع على ناوي مؤهلة. السعر الذي تراه هو السعر الذي وافق عليه البائع.',
+      'Any resale listing on TopChoice is eligible. The price you see is the price the seller has agreed.',
+    bodyAr: 'أي وحدة إعادة بيع على توب تشويس مؤهلة. السعر الذي تراه هو السعر الذي وافق عليه البائع.',
   },
   {
     titleEn: 'We settle in cash',
     titleAr: 'ندفع للبائع نقدًا',
     bodyEn:
-      'Nawy pays the seller outright, so they are not waiting on a chain and the unit comes off the market.',
-    bodyAr: 'يدفع ناوي للبائع نقدًا بالكامل، فلا ينتظر سلسلة مشترين وتخرج الوحدة من السوق.',
+      'TopChoice pays the seller outright, so they are not waiting on a chain and the unit comes off the market.',
+    bodyAr: 'يدفع توب تشويس للبائع نقدًا بالكامل، فلا ينتظر سلسلة مشترين وتخرج الوحدة من السوق.',
   },
   {
     titleEn: 'You pay us back',
@@ -38,16 +38,16 @@ const STEPS = [
   },
 ];
 
-export default function NawyNowPage() {
+export default function TopChoiceNowPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10 lg:px-6">
       <PageHeader
         eyebrow={<T en="Resale, without the chain" ar="إعادة بيع بلا انتظار" />}
-        title={<T en="Nawy Now" ar="ناوي الآن" />}
+        title={<T en="TopChoice Now" ar="توب تشويس الآن" />}
         lede={
           <T
-            en="Resale sellers want cash and buyers want a plan. Nawy Now bridges the two: we settle with the seller, and you repay on a schedule."
-            ar="بائع إعادة البيع يريد نقدًا والمشتري يريد تقسيطًا. ناوي الآن يجمع بينهما: نسدد للبائع، وتسدد أنت على أقساط."
+            en="Resale sellers want cash and buyers want a plan. TopChoice Now bridges the two: we settle with the seller, and you repay on a schedule."
+            ar="بائع إعادة البيع يريد نقدًا والمشتري يريد تقسيطًا. توب تشويس الآن يجمع بينهما: نسدد للبائع، وتسدد أنت على أقساط."
           />
         }
       />

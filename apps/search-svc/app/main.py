@@ -34,7 +34,7 @@ from app.services.indexer import get_indexer, reset_indexer
 log = get_logger("search-svc")
 
 DESCRIPTION = """
-Elasticsearch-backed search for the Nawy clone: index management, full-text and
+Elasticsearch-backed search for the TopChoice: index management, full-text and
 filtered property search, autocomplete, facets, geo/map queries and
 recommendations.
 
@@ -130,7 +130,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
 
     application = FastAPI(
-        title="Nawy Search Service",
+        title="TopChoice Search Service",
         description=DESCRIPTION,
         version=cfg.SERVICE_VERSION,
         default_response_class=ORJSONResponse,
@@ -138,7 +138,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         docs_url=f"{API_PREFIX}/docs",
         redoc_url=f"{API_PREFIX}/redoc",
         openapi_url=f"{API_PREFIX}/openapi.json",
-        contact={"name": "Nawy Clone", "url": cfg.FRONTEND_URL},
+        contact={"name": "TopChoice", "url": cfg.FRONTEND_URL},
     )
 
     # Middleware — added last runs first, so the correlation id wraps everything.

@@ -12,7 +12,7 @@
 variable "project_name" {
   description = "Project slug used to name and tag every resource. Also the Secrets Manager path prefix (`<project>/<env>/<key>`)."
   type        = string
-  default     = "nawy-clone"
+  default     = "topchoice"
 
   validation {
     condition     = can(regex("^[a-z][a-z0-9-]{2,24}$", var.project_name))
@@ -127,7 +127,7 @@ variable "kms_deletion_window_days" {
 # --------------------------------------------------------------------- dns ---
 
 variable "domain_name" {
-  description = "Apex/public hostname for the app, e.g. nawy.example.com. Empty string = use the raw ALB DNS name and the default CloudFront certificate."
+  description = "Apex/public hostname for the app, e.g. topchoice.example.com. Empty string = use the raw ALB DNS name and the default CloudFront certificate."
   type        = string
   default     = ""
 }
@@ -145,7 +145,7 @@ variable "acm_certificate_arn" {
 }
 
 variable "media_domain_name" {
-  description = "Optional custom hostname for the CloudFront media distribution, e.g. cdn.nawy.example.com. Empty = use the *.cloudfront.net domain."
+  description = "Optional custom hostname for the CloudFront media distribution, e.g. cdn.topchoice.example.com. Empty = use the *.cloudfront.net domain."
   type        = string
   default     = ""
 }

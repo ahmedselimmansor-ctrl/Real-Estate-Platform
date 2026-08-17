@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # =============================================================================
-# nawy-clone / reports-svc — Ruby 3.3 + Sinatra + Puma
+# topchoice / reports-svc — Ruby 3.3 + Sinatra + Puma
 # Multi-stage: native gems (pg, prawn/ttfunk, bson) compile in the builder,
 # the runtime image ships only the built bundle and runs as a non-root user.
 # =============================================================================
@@ -57,8 +57,8 @@ RUN apt-get update \
       tzdata \
       ca-certificates \
  && rm -rf /var/lib/apt/lists/* \
- && groupadd --gid 10001 nawy \
- && useradd --uid 10001 --gid 10001 --create-home --shell /usr/sbin/nologin nawy
+ && groupadd --gid 10001 topchoice \
+ && useradd --uid 10001 --gid 10001 --create-home --shell /usr/sbin/nologin topchoice
 
 WORKDIR /app
 
@@ -71,9 +71,9 @@ COPY config         /app/config
 COPY lib            /app/lib
 COPY routes         /app/routes
 
-RUN mkdir -p /app/tmp && chown -R nawy:nawy /app
+RUN mkdir -p /app/tmp && chown -R topchoice:topchoice /app
 
-USER nawy
+USER topchoice
 
 EXPOSE 4567
 

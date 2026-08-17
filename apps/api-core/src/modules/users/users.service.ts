@@ -177,7 +177,7 @@ export class UsersService {
       where: { id },
       data: {
         isActive: false,
-        email: `deleted+${id}@nawy.invalid`,
+        email: `deleted+${id}@topchoice.invalid`,
         name: 'Deleted user',
         phone: null,
         avatarUrl: null,

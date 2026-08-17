@@ -1,4 +1,4 @@
-# `apps/web` — Nawy clone storefront
+# `apps/web` — TopChoice storefront
 
 Next.js 15 (App Router) + TypeScript + Tailwind CSS v4 + shadcn/ui (new-york, base
 color slate). This is the UI, the SSR layer and the BFF proxy for the four backing
@@ -119,9 +119,9 @@ Directional glyphs mirror with the `flip-rtl` utility.
 * Throws a typed `ApiError { code, message, status, details, requestId }` for
   `{ success:false, error:{ code, message, details } }`.
 * Attaches `Authorization: Bearer <accessToken>` from `auth.store`.
-* On `401`, performs a **single-flight** `POST /auth/refresh` (httpOnly `nawy_rt`
+* On `401`, performs a **single-flight** `POST /auth/refresh` (httpOnly `topchoice_rt`
   cookie) and replays the original request exactly once; if that fails it clears
-  the session and emits a `nawy:auth-expired` event.
+  the session and emits a `topchoice:auth-expired` event.
 * Generates and propagates `X-Request-Id` on every call.
 * Runs unchanged on the server (where it skips the browser-only auth path).
 

@@ -16,7 +16,7 @@ add_header Referrer-Policy           "strict-origin-when-cross-origin" always;
 add_header X-XSS-Protection          "0"                              always;
 add_header Permissions-Policy        "accelerometer=(), camera=(), geolocation=(self), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" always;
 add_header Cross-Origin-Opener-Policy "same-origin"                   always;
-add_header Content-Security-Policy   $nawy_csp                        always;
+add_header Content-Security-Policy   $topchoice_csp                        always;
 
 # Echo the correlation id back so the browser/network tab can be matched to logs.
 add_header X-Request-Id              $req_id                          always;

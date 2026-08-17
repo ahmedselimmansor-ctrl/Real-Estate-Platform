@@ -72,7 +72,7 @@ module Reports
     def filename(property)
       slug = Formatting.slugify(property['slug'] || dig(property, 'title', 'en'), fallback: 'property')
       reference = Formatting.slugify(property['referenceNo'], fallback: 'listing')
-      "nawy-#{slug}-#{reference}.pdf"
+      "topchoice-#{slug}-#{reference}.pdf"
     end
 
     def listing_url(property)
@@ -117,7 +117,7 @@ module Reports
         generated_at_label: now.strftime('%d %b %Y %H:%M UTC'),
         footer_disclaimer: 'Figures are indicative and generated from the current listing data. ' \
                            'They are not a contractual offer; confirm prices, availability and ' \
-                           'payment terms with a Nawy consultant before signing.'
+                           'payment terms with a TopChoice consultant before signing.'
       }
     end
 
@@ -273,7 +273,7 @@ module Reports
       if developer['name'] || developer_text
         blocks << {
           title: "The developer — #{developer['name']}",
-          body: developer_text || "#{developer['name']} is one of the developers listed on Nawy.",
+          body: developer_text || "#{developer['name']} is one of the developers listed on TopChoice.",
           meta: developer_meta(developer_row)
         }
       end
@@ -306,7 +306,7 @@ module Reports
 
       parts = []
       parts << "Founded #{row[:founded_year]}" if row[:founded_year]
-      parts << "#{row[:projects_count]} projects on Nawy" if row[:projects_count]
+      parts << "#{row[:projects_count]} projects on TopChoice" if row[:projects_count]
       parts << row[:website] if row[:website]
       parts.empty? ? nil : parts.join('  ·  ')
     end

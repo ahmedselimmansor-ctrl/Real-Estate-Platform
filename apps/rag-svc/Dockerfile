@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # ---------------------------------------------------------------------------
-# apps/rag-svc — Nawy clone RAG chat service
+# apps/rag-svc — TopChoice RAG chat service
 # Multi-stage, non-root, uvicorn on 0.0.0.0:8001 (docs/CONTRACT.md §1, §10.2)
 # ---------------------------------------------------------------------------
 
@@ -42,24 +42,24 @@ ENV PYTHONUNBUFFERED=1 \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl libpq5 \
     && rm -rf /var/lib/apt/lists/* \
-    && groupadd --gid 10001 nawy \
-    && useradd --uid 10001 --gid nawy --create-home --shell /usr/sbin/nologin nawy
+    && groupadd --gid 10001 topchoice \
+    && useradd --uid 10001 --gid topchoice --create-home --shell /usr/sbin/nologin topchoice
 
 COPY --from=builder /opt/venv /opt/venv
-COPY --from=builder --chown=nawy:nawy /opt/tiktoken /opt/tiktoken
+COPY --from=builder --chown=topchoice:topchoice /opt/tiktoken /opt/tiktoken
 
 WORKDIR /app
 
-COPY --chown=nawy:nawy alembic.ini ./alembic.ini
-COPY --chown=nawy:nawy alembic ./alembic
-COPY --chown=nawy:nawy docker/entrypoint.sh /usr/local/bin/rag-entrypoint
-COPY --chown=nawy:nawy app ./app
+COPY --chown=topchoice:topchoice alembic.ini ./alembic.ini
+COPY --chown=topchoice:topchoice alembic ./alembic
+COPY --chown=topchoice:topchoice docker/entrypoint.sh /usr/local/bin/rag-entrypoint
+COPY --chown=topchoice:topchoice app ./app
 
 RUN chmod +x /usr/local/bin/rag-entrypoint \
     && mkdir -p /app/seed \
-    && chown -R nawy:nawy /app
+    && chown -R topchoice:topchoice /app
 
-USER nawy
+USER topchoice
 
 EXPOSE 8001
 

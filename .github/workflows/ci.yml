@@ -126,12 +126,12 @@ jobs:
       postgres:
         image: pgvector/pgvector:pg16
         env:
-          POSTGRES_USER: nawy
-          POSTGRES_PASSWORD: nawy_password
-          POSTGRES_DB: nawy
+          POSTGRES_USER: topchoice
+          POSTGRES_PASSWORD: topchoice_password
+          POSTGRES_DB: topchoice
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U nawy -d nawy"
+          --health-cmd "pg_isready -U topchoice -d topchoice"
           --health-interval 10s --health-timeout 5s --health-retries 10
       mongo:
         image: mongo:7
@@ -148,15 +148,15 @@ jobs:
 
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://nawy:nawy_password@localhost:5432/nawy?schema=public
-      MONGO_URI: mongodb://localhost:27017/nawy_test
+      DATABASE_URL: postgresql://topchoice:topchoice_password@localhost:5432/topchoice?schema=public
+      MONGO_URI: mongodb://localhost:27017/topchoice_test
       REDIS_URL: redis://localhost:6379
       JWT_ACCESS_SECRET: ci-access-secret-min-32-chars-long-000000
       JWT_REFRESH_SECRET: ci-refresh-secret-min-32-chars-long-00000
       JWT_ACCESS_TTL: 15m
       JWT_REFRESH_TTL: 30d
-      JWT_ISSUER: nawy-api
-      JWT_AUDIENCE: nawy-clients
+      JWT_ISSUER: topchoice-api
+      JWT_AUDIENCE: topchoice-clients
       INTERNAL_SERVICE_TOKEN: ci-internal-token
       FRONTEND_URL: http://localhost:3000
 
@@ -260,12 +260,12 @@ jobs:
       postgres:
         image: pgvector/pgvector:pg16
         env:
-          POSTGRES_USER: nawy
-          POSTGRES_PASSWORD: nawy_password
-          POSTGRES_DB: nawy_rag
+          POSTGRES_USER: topchoice
+          POSTGRES_PASSWORD: topchoice_password
+          POSTGRES_DB: topchoice_rag
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U nawy -d nawy_rag"
+          --health-cmd "pg_isready -U topchoice -d topchoice_rag"
           --health-interval 10s --health-timeout 5s --health-retries 10
       redis:
         image: redis:7-alpine
@@ -279,13 +279,13 @@ jobs:
       ELASTICSEARCH_URL: http://localhost:9200
       ES_INDEX: properties
       ES_INDEX_VERSION: properties_v1
-      MONGO_URI: mongodb://localhost:27017/nawy
+      MONGO_URI: mongodb://localhost:27017/topchoice
       REDIS_URL: redis://localhost:6379
-      RAG_DATABASE_URL: postgresql+asyncpg://nawy:nawy_password@localhost:5432/nawy_rag
-      RAG_DATABASE_URL_SYNC: postgresql://nawy:nawy_password@localhost:5432/nawy_rag
+      RAG_DATABASE_URL: postgresql+asyncpg://topchoice:topchoice_password@localhost:5432/topchoice_rag
+      RAG_DATABASE_URL_SYNC: postgresql://topchoice:topchoice_password@localhost:5432/topchoice_rag
       JWT_ACCESS_SECRET: ci-access-secret-min-32-chars-long-000000
-      JWT_ISSUER: nawy-api
-      JWT_AUDIENCE: nawy-clients
+      JWT_ISSUER: topchoice-api
+      JWT_AUDIENCE: topchoice-clients
       INTERNAL_SERVICE_TOKEN: ci-internal-token
       DASHSCOPE_API_KEY: ""
       OPENAI_API_KEY: ""
@@ -362,12 +362,12 @@ jobs:
       postgres:
         image: pgvector/pgvector:pg16
         env:
-          POSTGRES_USER: nawy
-          POSTGRES_PASSWORD: nawy_password
-          POSTGRES_DB: nawy
+          POSTGRES_USER: topchoice
+          POSTGRES_PASSWORD: topchoice_password
+          POSTGRES_DB: topchoice
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U nawy -d nawy"
+          --health-cmd "pg_isready -U topchoice -d topchoice"
           --health-interval 10s --health-timeout 5s --health-retries 10
       mongo:
         image: mongo:7
@@ -385,12 +385,12 @@ jobs:
     env:
       APP_ENV: test
       RACK_ENV: test
-      DATABASE_URL: postgresql://nawy:nawy_password@localhost:5432/nawy
-      MONGO_URI: mongodb://localhost:27017/nawy
+      DATABASE_URL: postgresql://topchoice:topchoice_password@localhost:5432/topchoice
+      MONGO_URI: mongodb://localhost:27017/topchoice
       REDIS_URL: redis://localhost:6379
       JWT_ACCESS_SECRET: ci-access-secret-min-32-chars-long-000000
-      JWT_ISSUER: nawy-api
-      JWT_AUDIENCE: nawy-clients
+      JWT_ISSUER: topchoice-api
+      JWT_AUDIENCE: topchoice-clients
 
     steps:
       - uses: actions/checkout@v4
@@ -482,7 +482,7 @@ jobs:
           file: apps/${{ matrix.service }}/Dockerfile
           push: false
           load: false
-          tags: nawy/${{ matrix.service }}:ci
+          tags: topchoice/${{ matrix.service }}:ci
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 

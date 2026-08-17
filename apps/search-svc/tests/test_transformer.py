@@ -73,7 +73,7 @@ def test_transform_contract_example(contract_property):
     assert doc["id"] == contract_property["id"]
     assert doc["mongoId"] == contract_property["mongoId"]
     assert doc["slug"] == "palm-hills-new-cairo-3br-apartment-a12"
-    assert doc["referenceNo"] == "NWY-1042"
+    assert doc["referenceNo"] == "TC-1042"
 
     assert doc["title_en"] == "3 Bedroom Apartment in Palm Hills"
     assert doc["title_ar"] == "شقة 3 غرف في بالم هيلز"
@@ -249,7 +249,7 @@ def test_every_seeded_listing_transforms(seed_properties, area_slugs):
     docs = transform_many(
         seed_properties,
         area_slugs=area_slugs,
-        media_base_url="https://nawy-clone-media.s3.eu-central-1.amazonaws.com",
+        media_base_url="https://topchoice-media.s3.eu-central-1.amazonaws.com",
     )
     assert len(docs) == len(seed_properties) == 180
 

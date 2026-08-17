@@ -11,7 +11,7 @@ import { v5 as uuidv5 } from 'uuid';
 
 const SEED_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 const deterministicId = (key: string): string =>
-  uuidv5(`nawy-api-core:${key}`, SEED_NAMESPACE);
+  uuidv5(`topchoice-api-core:${key}`, SEED_NAMESPACE);
 
 /** Deterministic 32-bit PRNG — same sequence on every run. */
 function mulberry32(seed: number): () => number {
@@ -79,7 +79,7 @@ export async function seedEngagement(
   const buyer = users.find((user) => user.role === 'user') ?? users[0];
 
   // ------------------------------------------------------------------ leads
-  const random = mulberry32(0x4e415759); // "NAWY"
+  const random = mulberry32(0x4e415759); // "TOPCHOICE"
 
   for (let index = 0; index < leadCount; index += 1) {
     const id = deterministicId(`lead:${index}`);

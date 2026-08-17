@@ -15,12 +15,12 @@ module Reports
       'APP_ENV' => 'development',
       'PORT' => '4567',
       'FRONTEND_URL' => 'https://localhost',
-      'DATABASE_URL' => 'postgresql://nawy:nawy_password@postgres:5432/nawy?schema=public',
-      'MONGO_URI' => 'mongodb://mongo:27017/nawy',
+      'DATABASE_URL' => 'postgresql://topchoice:topchoice_password@postgres:5432/topchoice?schema=public',
+      'MONGO_URI' => 'mongodb://mongo:27017/topchoice',
       'REDIS_URL' => 'redis://redis:6379',
       'REDIS_TTL_DEFAULT' => '300',
-      'JWT_ISSUER' => 'nawy-api',
-      'JWT_AUDIENCE' => 'nawy-clients',
+      'JWT_ISSUER' => 'topchoice-api',
+      'JWT_AUDIENCE' => 'topchoice-clients',
       'LOG_LEVEL' => 'info',
       # --- service-local tuning (optional, documented in README) ---
       'REPORTS_MARKET_CACHE_TTL' => '300',
@@ -125,9 +125,9 @@ module Reports
 
       def mongo_database
         path = URI.parse(mongo_uri).path.to_s.delete_prefix('/')
-        path.empty? ? 'nawy' : path.split('?').first
+        path.empty? ? 'topchoice' : path.split('?').first
       rescue URI::InvalidURIError
-        'nawy'
+        'topchoice'
       end
 
       # --- auth -------------------------------------------------------------

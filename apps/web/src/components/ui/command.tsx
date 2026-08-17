@@ -39,7 +39,7 @@ export interface CommandDialogProps
 function CommandDialog({
   open,
   onOpenChange,
-  title = 'Search Nawy',
+  title = 'Search TopChoice',
   description = 'Search properties, compounds, developers and areas',
   children,
   ...props

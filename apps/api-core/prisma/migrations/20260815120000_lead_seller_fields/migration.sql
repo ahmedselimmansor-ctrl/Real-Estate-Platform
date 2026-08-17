@@ -1,4 +1,4 @@
--- Seller enquiries describe a unit that is not on Nawy yet, so they name an
+-- Seller enquiries describe a unit that is not on TopChoice yet, so they name an
 -- area, a compound and a type instead of pointing at an existing listing.
 ALTER TABLE "leads" ADD COLUMN "area_id" UUID;
 ALTER TABLE "leads" ADD COLUMN "compound_id" UUID;

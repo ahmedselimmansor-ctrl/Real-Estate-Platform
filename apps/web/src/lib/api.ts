@@ -17,7 +17,7 @@ import { uuid } from './utils';
  *    `{ success:false, error:{ code, message, details } }`.
  *  • Attaches `Authorization: Bearer <accessToken>` from the auth store.
  *  • On 401 performs a *single-flight* refresh against `/auth/refresh`
- *    (httpOnly `nawy_rt` cookie) and replays the original request once.
+ *    (httpOnly `topchoice_rt` cookie) and replays the original request once.
  *  • Generates and propagates `X-Request-Id` on every call.
  *  • Runs unchanged in server components — there it targets the internal
  *    docker URLs and simply skips the browser-only auth/refresh path.
@@ -25,7 +25,7 @@ import { uuid } from './utils';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export const AUTH_EXPIRED_EVENT = 'nawy:auth-expired';
+export const AUTH_EXPIRED_EVENT = 'topchoice:auth-expired';
 
 export class ApiError extends Error {
   readonly code: string;

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# infra/scripts/lib/common.sh — shared helpers for the Nawy Clone shell tooling.
+# infra/scripts/lib/common.sh — shared helpers for the TopChoice shell tooling.
 #
 # Sourced (never executed) by bootstrap.sh, health-check.sh, reset.sh and
 # gen-certs.sh. Provides: colours, logging, repo-root discovery, docker/compose
@@ -8,10 +8,10 @@
 # =============================================================================
 
 # Guard against double-sourcing.
-if [[ -n "${NAWY_COMMON_SH_LOADED:-}" ]]; then
+if [[ -n "${TOPCHOICE_COMMON_SH_LOADED:-}" ]]; then
   return 0 2>/dev/null || exit 0
 fi
-NAWY_COMMON_SH_LOADED=1
+TOPCHOICE_COMMON_SH_LOADED=1
 
 # ----------------------------------------------------------------- colours --
 if [[ -t 1 && -z "${NO_COLOR:-}" && "${TERM:-dumb}" != "dumb" ]]; then
@@ -45,12 +45,12 @@ step() {
 banner() {
   printf '%s\n' "${C_CYAN}${C_BOLD}"
   cat <<'ASCII'
-  _   _
- | \ | | __ _ __      __ _   _
- |  \| |/ _` |\ \ /\ / /| | | |
- | |\  | (_| | \ V  V / | |_| |
- |_| \_|\__,_|  \_/\_/   \__, |   clone - full stack
-                         |___/
+  _____           ____ _           _
+ |_   _|__  _ __ / ___| |__   ___ (_) ___ ___
+   | |/ _ \| '_ \ |   | '_ \ / _ \| |/ __/ _ \
+   | | (_) | |_) | |___| | | | (_) | | (_|  __/
+   |_|\___/| .__/ \____|_| |_|\___/|_|\___\___|   full stack
+           |_|
 ASCII
   printf '%s' "${C_RESET}"
 }
@@ -59,9 +59,9 @@ rule() { printf '%s\n' "${C_DIM}$(printf '%.0s-' $(seq 1 72))${C_RESET}"; }
 
 # ------------------------------------------------------------- repo layout --
 # Absolute path of infra/scripts, regardless of how the script was invoked.
-NAWY_SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-REPO_ROOT="$(cd -- "${NAWY_SCRIPT_DIR}/../.." && pwd)"
-export NAWY_SCRIPT_DIR REPO_ROOT
+TOPCHOICE_SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd -- "${TOPCHOICE_SCRIPT_DIR}/../.." && pwd)"
+export TOPCHOICE_SCRIPT_DIR REPO_ROOT
 
 ENV_FILE="${REPO_ROOT}/.env"
 ENV_EXAMPLE="${REPO_ROOT}/.env.example"

@@ -21,7 +21,7 @@ PROPERTIES_COLLECTION = "properties"
 
 
 class MongoReader:
-    """Thin, failure-tolerant reader over the ``nawy`` Mongo database."""
+    """Thin, failure-tolerant reader over the ``topchoice`` Mongo database."""
 
     def __init__(self, settings: Settings | None = None) -> None:
         self._settings = settings or get_settings()
@@ -45,7 +45,7 @@ class MongoReader:
             default_db = client.get_default_database()
         except ConfigurationError:
             default_db = None
-        return default_db if default_db is not None else client["nawy"]
+        return default_db if default_db is not None else client["topchoice"]
 
     async def close(self) -> None:
         if self._client is not None:

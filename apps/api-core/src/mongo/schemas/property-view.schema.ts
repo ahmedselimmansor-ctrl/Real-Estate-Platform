@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 /**
- * CONTRACT §2 — MongoDB `nawy.property_views`.
+ * CONTRACT §2 — MongoDB `topchoice.property_views`.
  *
  * Written fire-and-forget by `POST /properties/:id/view`; `reports-svc` rolls
  * these up into the analytics endpoints.

@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export const metadata: Metadata = {
   title: 'Contact us',
   description:
-    'Talk to a Nawy property consultant about buying, reselling or renting in Egypt. Request a callback and we will get back to you.',
+    'Talk to a TopChoice property consultant about buying, reselling or renting in Egypt. Request a callback and we will get back to you.',
   alternates: { canonical: '/contact' },
 };
 
@@ -18,8 +18,8 @@ const CHANNELS = [
     icon: Mail,
     labelEn: 'Email',
     labelAr: 'البريد',
-    value: 'hello@nawy.local',
-    href: 'mailto:hello@nawy.local',
+    value: 'hello@topchoice.local',
+    href: 'mailto:hello@topchoice.local',
   },
   {
     icon: MapPin,
@@ -39,8 +39,8 @@ export default function ContactPage() {
         </h1>
         <p className="text-muted-foreground">
           <T
-            en="Tell us what you are looking for: budget, area, number of bedrooms, and a Nawy consultant will call you back with matching options."
-            ar="أخبرنا بما تبحث عنه: الميزانية والمنطقة وعدد الغرف، وسيتصل بك مستشار ناوي بخيارات مناسبة."
+            en="Tell us what you are looking for: budget, area, number of bedrooms, and a TopChoice consultant will call you back with matching options."
+            ar="أخبرنا بما تبحث عنه: الميزانية والمنطقة وعدد الغرف، وسيتصل بك مستشار توب تشويس بخيارات مناسبة."
           />
         </p>
       </header>

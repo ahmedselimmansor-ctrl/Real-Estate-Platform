@@ -39,10 +39,10 @@ class WebSearchArgs(BaseModel):
 class WebSearchTool(Tool):
     name = "web_search"
     description = (
-        "Search the public web for current information that the Nawy property "
+        "Search the public web for current information that the TopChoice property "
         "catalogue does not contain — mortgage interest rates, market news, "
         "developer announcements, economic figures. Do not use it for questions "
-        "about specific Nawy listings."
+        "about specific TopChoice listings."
     )
     args_model = WebSearchArgs
     timeout = 25.0

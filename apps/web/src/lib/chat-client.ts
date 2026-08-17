@@ -10,7 +10,7 @@ import type { ChatMessage, ChatSource, ChatStreamEvent } from '@/types/chat';
  * partial frame is carried over to the next chunk.
  */
 
-const GUEST_TOKEN_KEY = 'nawy_chat_guest_token';
+const GUEST_TOKEN_KEY = 'topchoice_chat_guest_token';
 
 export interface StreamHandlers {
   onToken?: (text: string) => void;

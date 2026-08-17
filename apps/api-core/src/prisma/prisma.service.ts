@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { AppConfigService } from '../config/app-config.service';
 
 /**
- * PostgreSQL access for the `nawy` database (CONTRACT §2 — owned by api-core).
+ * PostgreSQL access for the `topchoice` database (CONTRACT §2 — owned by api-core).
  *
  * Connects eagerly on boot so a misconfigured `DATABASE_URL` fails fast, and
  * disconnects on shutdown so `docker compose down` drains cleanly.

@@ -40,22 +40,22 @@ FROM base AS runtime
 RUN apt-get update \
  && apt-get install -y --no-install-recommends curl tini \
  && rm -rf /var/lib/apt/lists/* \
- && groupadd --gid 1001 nawy \
- && useradd --uid 1001 --gid 1001 --create-home --shell /bin/bash nawy
+ && groupadd --gid 1001 topchoice \
+ && useradd --uid 1001 --gid 1001 --create-home --shell /bin/bash topchoice
 
-COPY --from=builder --chown=nawy:nawy /opt/venv /opt/venv
+COPY --from=builder --chown=topchoice:topchoice /opt/venv /opt/venv
 
-COPY --chown=nawy:nawy pyproject.toml ./
-COPY --chown=nawy:nawy docker-entrypoint.sh ./docker-entrypoint.sh
-COPY --chown=nawy:nawy app ./app
-COPY --chown=nawy:nawy tests ./tests
+COPY --chown=topchoice:topchoice pyproject.toml ./
+COPY --chown=topchoice:topchoice docker-entrypoint.sh ./docker-entrypoint.sh
+COPY --chown=topchoice:topchoice app ./app
+COPY --chown=topchoice:topchoice tests ./tests
 
 # /app/seed is bind-mounted read-only by docker compose (./seed:/app/seed:ro).
 RUN mkdir -p /app/seed \
  && chmod +x /app/docker-entrypoint.sh \
- && chown -R nawy:nawy /app
+ && chown -R topchoice:topchoice /app
 
-USER nawy
+USER topchoice
 
 ENV PORT=8000 \
     APP_ENV=development \

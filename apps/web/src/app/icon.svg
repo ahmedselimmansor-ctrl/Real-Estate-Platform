@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
   <defs>
-    <linearGradient id="nawyIcon" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="topchoiceIcon" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0075B0" />
       <stop offset="100%" stop-color="#00A3E0" />
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="8" fill="url(#nawyIcon)" />
+  <rect width="32" height="32" rx="8" fill="url(#topchoiceIcon)" />
   <path d="M7.5 15.6 16 9l8.5 6.6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
   <path d="M9.8 17.2V23a1 1 0 0 0 1 1h10.4a1 1 0 0 0 1-1v-5.8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
   <rect x="14.2" y="18.8" width="3.6" height="5.2" rx="0.8" fill="#fff" fill-opacity="0.92" />

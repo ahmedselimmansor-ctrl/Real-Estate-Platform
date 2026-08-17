@@ -13,8 +13,8 @@ module SpecSupport
       {
         'id' => PROPERTY_ID,
         'mongoId' => 'bfeaaa033d129db4724c32bf',
-        'slug' => 'palm-hills-new-cairo-3br-apartment-nwy-1042',
-        'referenceNo' => 'NWY-1042',
+        'slug' => 'palm-hills-new-cairo-3br-apartment-tc-1042',
+        'referenceNo' => 'TC-1042',
         'title' => { 'en' => '3 Bedroom Apartment 180 m² in Palm Hills New Cairo',
                      'ar' => 'شقة 3 غرف 180 متر في بالم هيلز نيو كايرو' },
         'description' => { 'en' => 'A 180 m² apartment inside Palm Hills New Cairo with 3 bedrooms, ' \
@@ -39,8 +39,8 @@ module SpecSupport
         'amenities' => %w[pool gym security clubhouse],
         'media' => {
           'images' => [
-            { 'url' => 'https://picsum.photos/seed/nawy-prop-1/1600/900',
-              'key' => 'properties/palm-hills-new-cairo-3br-apartment-nwy-1042/1.jpg',
+            { 'url' => 'https://picsum.photos/seed/topchoice-prop-1/1600/900',
+              'key' => 'properties/palm-hills-new-cairo-3br-apartment-tc-1042/1.jpg',
               'width' => 1600, 'height' => 900, 'isPrimary' => true, 'order' => 0 }
           ],
           'floorPlans' => [], 'videoUrl' => nil, 'tourUrl' => nil
@@ -108,7 +108,7 @@ module SpecSupport
         'source' => 'website',
         'message' => "I would like a viewing\nnext week",
         'property_id' => PROPERTY_ID,
-        'property_slug' => 'palm-hills-new-cairo-3br-apartment-nwy-1042',
+        'property_slug' => 'palm-hills-new-cairo-3br-apartment-tc-1042',
         'property_area_id' => AREA_ID,
         'property_price_min' => 8_500_000,
         'property_status' => 'available',

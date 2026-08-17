@@ -74,7 +74,7 @@ module Reports
             connect_timeout: 5,
             socket_timeout: 30,
             max_pool_size: Config.pg_pool_size,
-            app_name: 'nawy-reports-svc',
+            app_name: 'topchoice-reports-svc',
             read: { mode: :primary_preferred }
           )
         end
@@ -96,7 +96,7 @@ module Reports
             timeout: 2.0,
             connect_timeout: 2.0,
             reconnect_attempts: 2,
-            id: 'nawy-reports-svc'
+            id: 'topchoice-reports-svc'
           )
           client.ping
           client

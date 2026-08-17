@@ -42,7 +42,7 @@ RSpec.describe Reports::Formatting do
   describe '.slugify' do
     it 'produces a filename-safe slug' do
       expect(described_class.slugify('Palm Hills New Cairo — 3BR')).to eq('palm-hills-new-cairo-3br')
-      expect(described_class.slugify('')).to eq('nawy')
+      expect(described_class.slugify('')).to eq('topchoice')
       expect(described_class.slugify(nil, fallback: 'listing')).to eq('listing')
     end
   end

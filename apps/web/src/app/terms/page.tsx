@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/layout/page-header';
 
 export const metadata: Metadata = {
   title: 'Terms of use',
-  description: 'The terms and privacy notes that apply to using the Nawy marketplace.',
+  description: 'The terms and privacy notes that apply to using the TopChoice marketplace.',
   alternates: { canonical: '/terms' },
   robots: { index: false, follow: true },
 };
@@ -20,20 +20,20 @@ const SECTIONS = [
       'الأسعار وخطط السداد والإتاحة وتواريخ التسليم يوفرها المطورون والوسطاء وقد تتغير دون إشعار. لا شيء على هذا الموقع يُعد عرضًا ملزمًا، ولا تُحجز أي وحدة حتى يؤكدها المطور كتابيًا.',
   },
   {
-    headingEn: 'What Nawy does',
-    headingAr: 'ما يقوم به ناوي',
+    headingEn: 'What TopChoice does',
+    headingAr: 'ما يقوم به توب تشويس',
     bodyEn:
-      'Nawy lists property and introduces buyers to developers and their agents. Nawy is not a party to your purchase contract, does not hold deposits, and does not provide legal, tax or financial advice.',
+      'TopChoice lists property and introduces buyers to developers and their agents. TopChoice is not a party to your purchase contract, does not hold deposits, and does not provide legal, tax or financial advice.',
     bodyAr:
-      'يعرض ناوي العقارات ويقدّم المشترين إلى المطورين ووكلائهم. ناوي ليس طرفًا في عقد الشراء، ولا يحتفظ بالمقدمات، ولا يقدم استشارات قانونية أو ضريبية أو مالية.',
+      'يعرض توب تشويس العقارات ويقدّم المشترين إلى المطورين ووكلائهم. توب تشويس ليس طرفًا في عقد الشراء، ولا يحتفظ بالمقدمات، ولا يقدم استشارات قانونية أو ضريبية أو مالية.',
   },
   {
     headingEn: 'Your enquiries',
     headingAr: 'استفساراتك',
     bodyEn:
-      'When you submit an enquiry, the details you give are shared with a Nawy consultant and, where relevant, the developer of the unit you asked about, so that they can contact you.',
+      'When you submit an enquiry, the details you give are shared with a TopChoice consultant and, where relevant, the developer of the unit you asked about, so that they can contact you.',
     bodyAr:
-      'عند إرسال استفسار، تُشارَك البيانات التي تقدمها مع مستشار ناوي، وعند الاقتضاء مع مطور الوحدة التي سألت عنها، حتى يتمكنوا من التواصل معك.',
+      'عند إرسال استفسار، تُشارَك البيانات التي تقدمها مع مستشار توب تشويس، وعند الاقتضاء مع مطور الوحدة التي سألت عنها، حتى يتمكنوا من التواصل معك.',
   },
   {
     headingEn: 'Using the site',

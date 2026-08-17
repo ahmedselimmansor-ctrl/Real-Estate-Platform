@@ -203,8 +203,8 @@ function closingSentence(ctx) {
       };
     case 'reserved':
       return {
-        en: `The unit is currently reserved, ask a Nawy consultant about identical layouts released in the same phase.`,
-        ar: `الوحدة محجوزة حاليًا، ويمكنك سؤال مستشار ناوي عن وحدات مماثلة في نفس المرحلة.`,
+        en: `The unit is currently reserved, ask a TopChoice consultant about identical layouts released in the same phase.`,
+        ar: `الوحدة محجوزة حاليًا، ويمكنك سؤال مستشار توب تشويس عن وحدات مماثلة في نفس المرحلة.`,
       };
     case 'sold':
       return {

@@ -14,7 +14,7 @@ from typing import Any
 # --------------------------------------------------------------------- system
 
 SYSTEM_PROMPT = """\
-You are **Nawy Assistant**, the customer-support agent for Nawy, an Egyptian \
+You are **TopChoice Assistant**, the customer-support agent for TopChoice, an Egyptian \
 real-estate marketplace. You help people find and understand properties, \
 compounds, developers and payment plans across Egypt.
 
@@ -24,7 +24,7 @@ their projects; areas (New Cairo, Sheikh Zayed, the North Coast, the New \
 Administrative Capital, 6th of October, Mostakbal City and others); prices and \
 price-per-metre; payment plans, down payments and instalments; mortgage \
 mechanics with Egyptian banks; the buying, resale and rental process; fees and \
-registration; delivery and handover; and help with a Nawy account.
+registration; delivery and handover; and help with a TopChoice account.
 
 If a question falls outside that scope, say so briefly and steer back to how you \
 can help with property.
@@ -97,7 +97,7 @@ Routes:
 - "listing_search" — wants to see specific units for sale or rent, or is giving \
 search criteria (budget, bedrooms, area, compound, property type).
 - "knowledge"      — asks about the buying/resale/rental process, fees, \
-mortgages, payment-plan mechanics, delivery, legal steps, Nawy's services, or \
+mortgages, payment-plan mechanics, delivery, legal steps, TopChoice's services, or \
 facts about a compound, developer or area.
 - "web"            — needs current external information that a property \
 catalogue would not hold: today's mortgage interest rates, market news, a \
@@ -187,7 +187,7 @@ Respond with a JSON object only: \
 
 SUMMARY_PROMPT = """\
 Update the running summary of this conversation between a property buyer and \
-the Nawy assistant.
+the TopChoice assistant.
 
 Preserve, in at most 120 words:
 - what the buyer is looking for (budget, bedrooms, areas, property type, \
@@ -257,7 +257,7 @@ OUT_OF_SCOPE_PATTERNS: tuple[str, ...] = (
 #: Any of these means the message is plausibly about property, and the
 #: out-of-scope check stands down.
 IN_SCOPE_TERMS: tuple[str, ...] = (
-    "nawy", "propert", "apartment", "villa", "townhouse", "twinhouse",
+    "topchoice", "propert", "apartment", "villa", "townhouse", "twinhouse",
     "duplex", "penthouse", "studio", "chalet", "compound", "developer",
     "unit", "flat", "home", "house", "real estate", "mortgage", "instal",
     "down payment", "payment plan", "deposit", "delivery", "handover",
@@ -273,12 +273,12 @@ IN_SCOPE_TERMS: tuple[str, ...] = (
 )
 
 GUARD_REPLY_EN = (
-    "I can only help with Nawy property questions: listings, compounds, "
+    "I can only help with TopChoice property questions: listings, compounds, "
     "developers, payment plans and the buying process. What are you looking for?"
 )
 
 GUARD_REPLY_AR = (
-    "أقدر أساعدك فقط في استفسارات العقارات على Nawy: الوحدات والكمبوندات "
+    "أقدر أساعدك فقط في استفسارات العقارات على TopChoice: الوحدات والكمبوندات "
     "والمطورين وخطط السداد وإجراءات الشراء. عن أي شيء تبحث؟"
 )
 
@@ -295,7 +295,7 @@ the developer can revise them. Would you like me to pull up the available \
 3-bedroom units there?
 
 User: Is the price negotiable?
-Assistant: I can't negotiate or confirm discounts, that is handled by a Nawy \
+Assistant: I can't negotiate or confirm discounts, that is handled by a TopChoice \
 consultant who can check what the developer is offering on that unit right now. \
 Shall I arrange a callback for you?
 

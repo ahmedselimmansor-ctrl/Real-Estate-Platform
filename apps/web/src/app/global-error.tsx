@@ -15,7 +15,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('[nawy:web] global error', { message: error.message, digest: error.digest });
+    console.error('[topchoice:web] global error', { message: error.message, digest: error.digest });
   }, [error]);
 
   return (
@@ -34,7 +34,7 @@ export default function GlobalError({
       >
         <div style={{ maxWidth: '32rem', padding: '2rem', textAlign: 'center' }}>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '0 0 0.75rem' }}>
-            Nawy is temporarily unavailable
+            TopChoice is temporarily unavailable
           </h1>
           <p style={{ margin: '0 0 1.5rem', color: '#475569', lineHeight: 1.6 }}>
             The application failed to start. Please reload the page in a moment.

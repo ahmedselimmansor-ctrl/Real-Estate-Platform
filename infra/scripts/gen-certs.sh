@@ -95,7 +95,7 @@ x509_extensions     = v3_server
 C  = EG
 ST = Cairo
 L  = Cairo
-O  = Nawy Clone (development)
+O  = TopChoice (development)
 OU = Platform
 CN = localhost
 
@@ -110,7 +110,7 @@ subjectAltName         = @alt_names
 DNS.1 = localhost
 DNS.2 = *.localhost
 DNS.3 = nginx
-DNS.4 = nawy.localhost
+DNS.4 = topchoice.localhost
 IP.1  = 127.0.0.1
 IP.2  = ::1
 EOF
@@ -144,7 +144,7 @@ if [[ "$QUIET" -eq 0 ]]; then
   log ""
   log "  SHA-256 fingerprint : ${C_DIM}${fingerprint}${C_RESET}"
   log "  Valid until         : ${C_DIM}${expiry}${C_RESET}"
-  log "  SANs                : localhost, *.localhost, nginx, nawy.localhost, 127.0.0.1, ::1"
+  log "  SANs                : localhost, *.localhost, nginx, topchoice.localhost, 127.0.0.1, ::1"
   log ""
   cat <<EOF
 ${C_BOLD}Browsers will warn until you trust this certificate.${C_RESET} Pick one:
@@ -154,11 +154,11 @@ ${C_BOLD}Browsers will warn until you trust this certificate.${C_RESET} Pick one
   Firefox     : "Advanced" -> "Accept the Risk and Continue"
 
   ${C_DIM}# Linux (Debian/Ubuntu) - trust it system-wide${C_RESET}
-  sudo cp "${CERT_CRT}" /usr/local/share/ca-certificates/nawy-localhost.crt
+  sudo cp "${CERT_CRT}" /usr/local/share/ca-certificates/topchoice-localhost.crt
   sudo update-ca-certificates
 
   ${C_DIM}# Linux (Fedora/RHEL)${C_RESET}
-  sudo cp "${CERT_CRT}" /etc/pki/ca-trust/source/anchors/nawy-localhost.crt
+  sudo cp "${CERT_CRT}" /etc/pki/ca-trust/source/anchors/topchoice-localhost.crt
   sudo update-ca-trust extract
 
   ${C_DIM}# macOS - add to the login keychain and mark as trusted${C_RESET}

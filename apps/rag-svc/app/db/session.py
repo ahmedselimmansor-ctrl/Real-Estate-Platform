@@ -1,4 +1,4 @@
-"""Async SQLAlchemy engine/session management for the ``nawy_rag`` database."""
+"""Async SQLAlchemy engine/session management for the ``topchoice_rag`` database."""
 
 from __future__ import annotations
 

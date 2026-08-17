@@ -27,7 +27,7 @@ CATEGORY_LABELS: dict[str, tuple[str, str]] = {
     "mortgage": ("Mortgage", "التمويل العقاري"),
     "legal_documents": ("Legal documents", "الأوراق القانونية"),
     "delivery_handover": ("Delivery and handover", "التسليم والاستلام"),
-    "nawy_services": ("Nawy services", "خدمات ناوي"),
+    "topchoice_services": ("TopChoice services", "خدمات توب تشويس"),
     "resale": ("Resale", "إعادة البيع"),
     "rental": ("Rental", "الإيجار"),
     "fees_taxes": ("Fees and taxes", "الرسوم والضرائب"),

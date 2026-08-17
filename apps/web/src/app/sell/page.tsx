@@ -32,7 +32,7 @@ async function fetchAll<T>(path: string, sort: string): Promise<T[]> {
 export const metadata: Metadata = {
   title: 'Sell your property',
   description:
-    'List your property with Nawy. Tell us about your unit, one of our agents calls you, and we bring you serious buyers.',
+    'List your property with TopChoice. Tell us about your unit, one of our agents calls you, and we bring you serious buyers.',
   alternates: { canonical: '/sell' },
 };
 
@@ -70,7 +70,7 @@ export default async function SellPage() {
       <header className="flex flex-col items-center text-center">
         <SellMark className="h-20 w-auto" />
         <h1 className="display mt-6 text-3xl text-foreground sm:text-4xl">
-          <T en="Sell Your Property With Nawy" ar="بيع عقارك مع ناوي" />
+          <T en="Sell Your Property With TopChoice" ar="بيع عقارك مع توب تشويس" />
         </h1>
       </header>
 

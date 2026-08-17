@@ -361,7 +361,7 @@ export class CreatePropertyDto {
   @MaxLength(200)
   slug?: string;
 
-  @ApiPropertyOptional({ description: 'Auto-assigned (NWY-####) when omitted' })
+  @ApiPropertyOptional({ description: 'Auto-assigned (TC-####) when omitted' })
   @IsOptional()
   @Transform(trim)
   @IsString()

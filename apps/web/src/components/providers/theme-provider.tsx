@@ -18,7 +18,7 @@ export function ThemeProvider({
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
-      storageKey="nawy.theme"
+      storageKey="topchoice.theme"
       {...props}
     >
       {children}

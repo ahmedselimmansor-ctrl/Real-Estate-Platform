@@ -34,7 +34,7 @@ RSpec.describe 'GET /api/reports/property/:id/brochure.pdf', type: :request do
     expect(last_response.status).to eq(200)
     expect(last_response.headers['content-type']).to eq('application/pdf')
     expect(last_response.headers['content-disposition'])
-      .to include('attachment; filename="nawy-palm-hills-new-cairo-3br-apartment-nwy-1042-nwy-1042.pdf"')
+      .to include('attachment; filename="topchoice-palm-hills-new-cairo-3br-apartment-tc-1042-tc-1042.pdf"')
     expect(last_response.body[0, 5]).to eq('%PDF-')
     expect(last_response.body.bytesize).to be > 2_000
   end
@@ -71,10 +71,10 @@ RSpec.describe 'GET /api/reports/property/:id/brochure.pdf', type: :request do
   end
 
   it 'looks the property up by slug or reference number too' do
-    expect(Reports::Repositories::PropertyRepository).to receive(:find).with('NWY-1042')
+    expect(Reports::Repositories::PropertyRepository).to receive(:find).with('TC-1042')
                                                                       .and_return(document)
 
-    get '/api/reports/property/NWY-1042/brochure.pdf'
+    get '/api/reports/property/TC-1042/brochure.pdf'
     expect(last_response.status).to eq(200)
   end
 
@@ -165,7 +165,7 @@ RSpec.describe Reports::Brochure do
 
     it 'points at the public listing URL' do
       expect(view[:listing_url])
-        .to eq('https://localhost/properties/palm-hills-new-cairo-3br-apartment-nwy-1042')
+        .to eq('https://localhost/properties/palm-hills-new-cairo-3br-apartment-tc-1042')
     end
 
     it 'renders the location line and coordinates' do
@@ -177,7 +177,7 @@ RSpec.describe Reports::Brochure do
   describe '.filename' do
     it 'slugs the listing and its reference' do
       expect(described_class.filename(property_document))
-        .to eq('nawy-palm-hills-new-cairo-3br-apartment-nwy-1042-nwy-1042.pdf')
+        .to eq('topchoice-palm-hills-new-cairo-3br-apartment-tc-1042-tc-1042.pdf')
     end
   end
 

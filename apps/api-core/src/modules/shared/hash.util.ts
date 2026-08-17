@@ -11,7 +11,7 @@ export const randomToken = (bytes = 32): string => randomBytes(bytes).toString('
  * Pseudonymised client address. Raw IPs are never persisted (GDPR-ish hygiene);
  * the hash is stable per address so views can still be de-duplicated.
  */
-export const hashIp = (ip: string | undefined | null, salt = 'nawy'): string | null => {
+export const hashIp = (ip: string | undefined | null, salt = 'topchoice'): string | null => {
   if (!ip) {
     return null;
   }

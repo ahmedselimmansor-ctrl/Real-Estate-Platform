@@ -97,8 +97,8 @@ export function LeadForm({
           <p className="text-sm text-muted-foreground">
             {description ??
               t(
-                'A Nawy consultant will get back to you, usually within the hour.',
-                'سيعاود مستشار ناوي الاتصال بك، عادةً خلال ساعة.',
+                'A TopChoice consultant will get back to you, usually within the hour.',
+                'سيعاود مستشار توب تشويس الاتصال بك، عادةً خلال ساعة.',
               )}
           </p>
         </div>

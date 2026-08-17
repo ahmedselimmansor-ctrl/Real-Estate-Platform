@@ -110,7 +110,7 @@ async function proxy(request: Request, path: string[]): Promise<Response> {
       headers: responseHeaders,
     });
   } catch (error) {
-    console.error(`[nawy:web] proxy to ${target} failed`, error);
+    console.error(`[topchoice:web] proxy to ${target} failed`, error);
     return NextResponse.json(
       {
         success: false,

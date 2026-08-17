@@ -4,8 +4,8 @@ Index: ``properties_v1``  •  Alias: ``properties``
 
 Analysis
 --------
-``nawy_english``      standard tokenizer + possessive/english stemming + english stopwords
-``nawy_arabic``       standard tokenizer + arabic_normalization + arabic_stem + arabic stopwords
+``topchoice_english``      standard tokenizer + possessive/english stemming + english stopwords
+``topchoice_arabic``       standard tokenizer + arabic_normalization + arabic_stem + arabic stopwords
 ``autocomplete``      edge-ngram (2..20) index-time analyzer, latin + arabic normalised
 ``autocomplete_search`` the same chain *without* the edge-ngram filter (search-time)
 ``slug``              keyword normalizer (lowercase + asciifolding)
@@ -29,8 +29,8 @@ from typing import Any
 INDEX_ALIAS = "properties"
 INDEX_VERSION = "properties_v1"
 
-ANALYZER_ENGLISH = "nawy_english"
-ANALYZER_ARABIC = "nawy_arabic"
+ANALYZER_ENGLISH = "topchoice_english"
+ANALYZER_ARABIC = "topchoice_arabic"
 ANALYZER_AUTOCOMPLETE = "autocomplete"
 ANALYZER_AUTOCOMPLETE_SEARCH = "autocomplete_search"
 NORMALIZER_SLUG = "slug"
@@ -286,7 +286,7 @@ PROPERTIES: dict[str, Any] = {
     # --- type-ahead ---------------------------------------------------------
     SUGGEST_FIELD: {
         # `standard` (not the completion default `simple`) so digits survive —
-        # "3 Bedroom" and "NWY-1042" stay type-ahead friendly.
+        # "3 Bedroom" and "TC-1042" stay type-ahead friendly.
         "type": "completion",
         "analyzer": "standard",
         "search_analyzer": "standard",

@@ -61,4 +61,4 @@ export function serviceBaseUrl(service: ServiceName): string {
 }
 
 /** Refresh-token cookie name (CONTRACT §5). */
-export const REFRESH_COOKIE = 'nawy_rt';
+export const REFRESH_COOKIE = 'topchoice_rt';

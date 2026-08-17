@@ -21,7 +21,7 @@ import { seedEngagement } from './seed-engagement';
 
 /** Fixed namespace so generated ids (payment plans, demo users) stay stable. */
 const SEED_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-const deterministicId = (key: string): string => uuidv5(`nawy-api-core:${key}`, SEED_NAMESPACE);
+const deterministicId = (key: string): string => uuidv5(`topchoice-api-core:${key}`, SEED_NAMESPACE);
 
 const prisma = new PrismaClient();
 
@@ -46,27 +46,27 @@ interface DemoUser {
 const DEMO_USERS: DemoUser[] = [
   {
     key: 'user:admin',
-    email: 'admin@nawy.local',
-    name: 'Nawy Admin',
+    email: 'admin@topchoice.local',
+    name: 'TopChoice Admin',
     phone: '+201000000001',
     role: 'admin',
-    password: 'Nawy@Demo123',
+    password: 'TopChoice@Demo123',
   },
   {
     key: 'user:agent',
-    email: 'agent@nawy.local',
+    email: 'agent@topchoice.local',
     name: 'Mona Farid',
     phone: '+201000000002',
     role: 'agent',
-    password: 'Nawy@Demo123',
+    password: 'TopChoice@Demo123',
   },
   {
     key: 'user:buyer',
-    email: 'buyer@nawy.local',
+    email: 'buyer@topchoice.local',
     name: 'Ahmed Salah',
     phone: '+201000000003',
     role: 'user',
-    password: 'Nawy@Demo123',
+    password: 'TopChoice@Demo123',
   },
 ];
 
@@ -94,7 +94,7 @@ async function seedUsers(): Promise<void> {
     });
   }
 
-  log(`users:          ${DEMO_USERS.length} demo accounts (password "Nawy@Demo123")`);
+  log(`users:          ${DEMO_USERS.length} demo accounts (password "TopChoice@Demo123")`);
 }
 
 // ---------------------------------------------------------------- postgresql
@@ -278,7 +278,7 @@ function toMongoDocument(property: SeedProperty): Record<string, unknown> {
 
 async function seedMongo(): Promise<void> {
   const dataset = loadSeedDataset();
-  const uri = process.env.MONGO_URI ?? 'mongodb://mongo:27017/nawy';
+  const uri = process.env.MONGO_URI ?? 'mongodb://mongo:27017/topchoice';
 
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 10_000 });
 

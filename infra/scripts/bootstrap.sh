@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# bootstrap.sh — one command, from a fresh clone to a running Nawy Clone.
+# bootstrap.sh — one command, from a fresh clone to a running TopChoice.
 #
 #   ./infra/scripts/bootstrap.sh
 #
@@ -32,7 +32,7 @@ WAIT_TIMEOUT=600
 
 usage() {
   cat <<EOF
-${C_BOLD}bootstrap.sh${C_RESET} — boot the whole Nawy Clone stack.
+${C_BOLD}bootstrap.sh${C_RESET} — boot the whole TopChoice stack.
 
 Usage: ./infra/scripts/bootstrap.sh [options]
 
@@ -67,10 +67,10 @@ done
 
 # Demo accounts created by the api-core seeder — keep in sync with the
 # DEMO_USERS array in apps/api-core/prisma/seed.ts.
-DEMO_PASSWORD="Nawy@Demo123"
-DEMO_ADMIN_EMAIL="admin@nawy.local"
-DEMO_AGENT_EMAIL="agent@nawy.local"
-DEMO_USER_EMAIL="buyer@nawy.local"
+DEMO_PASSWORD="TopChoice@Demo123"
+DEMO_ADMIN_EMAIL="admin@topchoice.local"
+DEMO_AGENT_EMAIL="agent@topchoice.local"
+DEMO_USER_EMAIL="buyer@topchoice.local"
 
 # Compose services that must become healthy, in start order.
 DATA_SERVICES=(postgres mongo redis elasticsearch)
@@ -177,8 +177,8 @@ step "Generating the TLS certificate"
 
 cert_args=()
 [[ "$FORCE_CERTS" -eq 1 ]] && cert_args+=(--force)
-"${NAWY_SCRIPT_DIR}/gen-certs.sh" --quiet "${cert_args[@]}" ||
-  die "Certificate generation failed. Run ${NAWY_SCRIPT_DIR}/gen-certs.sh directly for details."
+"${TOPCHOICE_SCRIPT_DIR}/gen-certs.sh" --quiet "${cert_args[@]}" ||
+  die "Certificate generation failed. Run ${TOPCHOICE_SCRIPT_DIR}/gen-certs.sh directly for details."
 ok "certificate ready at infra/nginx/certs/localhost.crt"
 
 # ================================================================= 4. build ===
@@ -459,7 +459,7 @@ step "Ready"
 rule
 printf '%s\n' "${C_BOLD}  URL${C_RESET}"
 rule
-printf '  %-38s %s\n' "https://localhost"                       "Nawy Clone web app (Next.js)"
+printf '  %-38s %s\n' "https://localhost"                       "TopChoice web app (Next.js)"
 printf '  %-38s %s\n' "https://localhost/admin"                 "Admin dashboard (sign in as admin)"
 printf '  %-38s %s\n' "https://localhost/api/v1/docs"           "api-core Swagger / OpenAPI UI (/docs redirects here)"
 printf '  %-38s %s\n' "https://localhost/api/search/docs"       "search-svc OpenAPI UI"

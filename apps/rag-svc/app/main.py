@@ -38,7 +38,7 @@ from app.tools.registry import build_tool_registry
 logger = get_logger("rag-svc.main")
 
 DESCRIPTION = """
-Retrieval-augmented chat for the Nawy clone.
+Retrieval-augmented chat for the TopChoice.
 
 * `POST /api/chat/ingest` — build the knowledge base from Mongo listings, the
   shared `seed/` dataset or arbitrary URLs (service token required).
@@ -124,7 +124,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     configure_logging(cfg.log_level, json_logs=cfg.app_env != "development")
 
     app = FastAPI(
-        title="Nawy Clone — RAG Chat Service",
+        title="TopChoice — RAG Chat Service",
         description=DESCRIPTION,
         version=SERVICE_VERSION,
         default_response_class=ORJSONResponse,

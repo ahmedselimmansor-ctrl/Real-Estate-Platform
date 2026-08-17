@@ -6,10 +6,10 @@ import { REFRESH_TOKEN_COOKIE, SERVICE_VERSION, SERVICE_TOKEN_HEADER, SWAGGER_PA
 /** OpenAPI docs served at `/api/v1/docs` (CONTRACT §1 prefix). */
 export function setupSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('Nawy Clone — api-core')
+    .setTitle('TopChoice — api-core')
     .setDescription(
       [
-        'Core API for the Nawy clone: authentication, users, developers, compounds,',
+        'Core API for the TopChoice: authentication, users, developers, compounds,',
         'areas, properties (write side), favorites, leads, uploads and admin.',
         '',
         'Every response follows the shared envelope:',
@@ -58,7 +58,7 @@ export function setupSwagger(app: INestApplication): void {
   const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup(SWAGGER_PATH, app, document, {
-    customSiteTitle: 'Nawy Clone — api-core',
+    customSiteTitle: 'TopChoice — api-core',
     swaggerOptions: {
       persistAuthorization: true,
       displayRequestDuration: true,

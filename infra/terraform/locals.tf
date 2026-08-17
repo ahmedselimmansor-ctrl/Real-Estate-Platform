@@ -2,7 +2,7 @@
 # Locals — the contract-fixed facts.
 #
 # Ports, health paths, ALB route prefixes, env var names and secret names come
-# straight out of docs/CONTRACT.md and infra/nginx/conf.d/nawy.conf. They are
+# straight out of docs/CONTRACT.md and infra/nginx/conf.d/topchoice.conf. They are
 # deliberately NOT variables: if they were, an operator could silently break
 # the routing contract from a tfvars file.
 # =============================================================================
@@ -23,11 +23,11 @@ locals {
 
   common_tags = merge(
     {
-      Project     = "nawy-clone"
+      Project     = "topchoice"
       Environment = var.environment
       ManagedBy   = "terraform"
       Owner       = var.owner
-      Repository  = "Nawy-clone-full-stack"
+      Repository  = "Real-Estate-Platform"
     },
     var.extra_tags,
   )
@@ -211,8 +211,8 @@ locals {
       PUBLIC_API_URL  = "${local.public_base_url}/api/v1"
       JWT_ACCESS_TTL  = "15m"
       JWT_REFRESH_TTL = "30d"
-      JWT_ISSUER      = "nawy-api"
-      JWT_AUDIENCE    = "nawy-clients"
+      JWT_ISSUER      = "topchoice-api"
+      JWT_AUDIENCE    = "topchoice-clients"
     },
     local.internal_urls,
   )

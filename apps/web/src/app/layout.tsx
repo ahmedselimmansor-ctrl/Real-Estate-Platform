@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     template: `%s | ${BRAND.name}`,
   },
   description:
-    'Browse apartments, villas and chalets across New Cairo, Sheikh Zayed, the North Coast and the New Capital. Compare compounds, payment plans and developers on Nawy.',
+    'Browse apartments, villas and chalets across New Cairo, Sheikh Zayed, the North Coast and the New Capital. Compare compounds, payment plans and developers on TopChoice.',
   applicationName: BRAND.name,
   keywords: [
     'Egypt real estate',

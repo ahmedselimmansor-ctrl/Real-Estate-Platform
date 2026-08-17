@@ -15,7 +15,7 @@ import {
 } from '../../common/enums';
 
 /**
- * CONTRACT §3 — the canonical listing document (MongoDB `nawy.properties`).
+ * CONTRACT §3 — the canonical listing document (MongoDB `topchoice.properties`).
  * Elasticsearch holds a denormalised copy; Postgres holds the thin
  * `property_index` mirror. This document is the source of truth.
  */

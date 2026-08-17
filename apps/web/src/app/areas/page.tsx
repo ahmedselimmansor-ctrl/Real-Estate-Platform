@@ -12,7 +12,7 @@ import type { Area } from '@/types/catalog';
 export const metadata: Metadata = {
   title: 'Areas in Egypt',
   description:
-    'New Cairo, Sheikh Zayed, the North Coast, the New Administrative Capital and every other area on Nawy, with listing counts and price per metre.',
+    'New Cairo, Sheikh Zayed, the North Coast, the New Administrative Capital and every other area on TopChoice, with listing counts and price per metre.',
   alternates: { canonical: '/areas' },
 };
 

@@ -6,9 +6,9 @@ require 'securerandom'
 module SpecSupport
   # Mints access tokens exactly as api-core does (CONTRACT §5).
   module Tokens
-    def access_token(role: 'user', sub: SecureRandom.uuid, email: 'buyer@nawy.test',
-                     name: 'Test Buyer', exp: Time.now.to_i + 900, iss: 'nawy-api',
-                     aud: 'nawy-clients', secret: ENV.fetch('JWT_ACCESS_SECRET'))
+    def access_token(role: 'user', sub: SecureRandom.uuid, email: 'buyer@topchoice.test',
+                     name: 'Test Buyer', exp: Time.now.to_i + 900, iss: 'topchoice-api',
+                     aud: 'topchoice-clients', secret: ENV.fetch('JWT_ACCESS_SECRET'))
       payload = {
         'sub' => sub,
         'email' => email,
@@ -28,7 +28,7 @@ module SpecSupport
     end
 
     def admin_headers
-      bearer(role: 'admin', email: 'admin@nawy.test', name: 'Nawy Admin')
+      bearer(role: 'admin', email: 'admin@topchoice.test', name: 'TopChoice Admin')
     end
   end
 end

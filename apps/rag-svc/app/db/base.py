@@ -20,7 +20,7 @@ NAMING_CONVENTION = {
 
 
 class Base(DeclarativeBase):
-    """Declarative base for every table in the ``nawy_rag`` database."""
+    """Declarative base for every table in the ``topchoice_rag`` database."""
 
     metadata = MetaData(naming_convention=NAMING_CONVENTION)
 

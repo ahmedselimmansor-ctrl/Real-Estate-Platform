@@ -27,7 +27,7 @@ import { useAuthStore } from '@/store/auth.store';
 import type { Area, Compound } from '@/types/catalog';
 
 /**
- * Egypt is the only market Nawy sells in, so the dial code is fixed rather than
+ * Egypt is the only market TopChoice sells in, so the dial code is fixed rather than
  * a country picker: one less decision on a form a seller fills once.
  */
 const DIAL_CODE = '+20';
@@ -86,7 +86,7 @@ export function SellForm({ areas, compounds }: { areas: Area[]; compounds: Compo
   const areaId = form.watch('areaId');
 
   // Picking an area narrows the compound list, because a seller knows their
-  // compound but not which of the 30 on Nawy shares a name.
+  // compound but not which of the 30 on TopChoice shares a name.
   const compoundsInArea = React.useMemo(
     () => (areaId ? compounds.filter((compound) => compound.areaId === areaId) : compounds),
     [areaId, compounds],

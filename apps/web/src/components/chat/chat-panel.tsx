@@ -206,7 +206,7 @@ export function ChatPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold">Nawy Assistant</p>
+          <p className="truncate text-sm font-semibold">TopChoice Assistant</p>
           <p className="text-xs text-muted-foreground">
             {isStreaming ? 'Typing…' : 'Online, usually replies instantly'}
           </p>
@@ -369,7 +369,7 @@ export function ChatPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         <p className="mt-1.5 text-center text-[11px] text-muted-foreground">
-          Answers are indicative, confirm details with a Nawy consultant.
+          Answers are indicative, confirm details with a TopChoice consultant.
         </p>
       </form>
     </div>

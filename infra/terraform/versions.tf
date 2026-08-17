@@ -1,5 +1,5 @@
 # =============================================================================
-# Terraform + provider version pins for the Nawy Clone production stack.
+# Terraform + provider version pins for the TopChoice production stack.
 #
 # Pinned deliberately conservatively: `~> 5.70` allows 5.71, 5.99 ... but never
 # 6.x, which renamed several attributes we rely on (data.aws_region.name, the

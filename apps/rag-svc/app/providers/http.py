@@ -69,7 +69,7 @@ class ProviderHttpClient:
                 "Authorization": f"Bearer {self._api_key}",
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "User-Agent": "nawy-rag-svc/1.0",
+                "User-Agent": "topchoice-rag-svc/1.0",
                 **self._extra_headers,
             }
             self._client = httpx.AsyncClient(

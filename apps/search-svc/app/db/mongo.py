@@ -42,7 +42,7 @@ def get_mongo_client() -> AsyncIOMotorClient:
             serverSelectionTimeoutMS=settings.MONGO_TIMEOUT_MS,
             connectTimeoutMS=settings.MONGO_TIMEOUT_MS,
             uuidRepresentation="standard",
-            appname="nawy-search-svc",
+            appname="topchoice-search-svc",
             tz_aware=True,
         )
         log.info("mongo_client_created", uri=_redact_uri(settings.MONGO_URI))
@@ -50,7 +50,7 @@ def get_mongo_client() -> AsyncIOMotorClient:
 
 
 def get_database() -> AsyncIOMotorDatabase:
-    """The `nawy` database (name taken from `MONGO_URI`)."""
+    """The `topchoice` database (name taken from `MONGO_URI`)."""
     return get_mongo_client()[get_settings().mongo_db_name]
 
 

@@ -80,15 +80,15 @@ function pick(poolName, slug, offset) {
 
 export const photo = (key, width, height) => fallback(key, width, height);
 
-export const developerLogo = (slug) => fallback(`nawy-dev-${slug}-logo`, 320, 320);
+export const developerLogo = (slug) => fallback(`topchoice-dev-${slug}-logo`, 320, 320);
 export const developerCover = (slug) =>
-  pick('exterior', `dev-${slug}`, 0)?.file ?? fallback(`nawy-dev-${slug}-cover`, 1600, 600);
+  pick('exterior', `dev-${slug}`, 0)?.file ?? fallback(`topchoice-dev-${slug}-cover`, 1600, 600);
 export const areaHero = (slug) =>
-  pick('exterior', `area-${slug}`, 1)?.file ?? fallback(`nawy-area-${slug}`, 1600, 900);
+  pick('exterior', `area-${slug}`, 1)?.file ?? fallback(`topchoice-area-${slug}`, 1600, 900);
 export const compoundImage = (slug, index) =>
   pick(index === 1 ? 'exterior' : 'living', `compound-${slug}`, index)?.file ??
-  fallback(`nawy-compound-${slug}-${index}`, 1600, 900);
-export const compoundMasterPlan = (slug) => fallback(`nawy-masterplan-${slug}`, 1600, 1200);
+  fallback(`topchoice-compound-${slug}-${index}`, 1600, 900);
+export const compoundMasterPlan = (slug) => fallback(`topchoice-masterplan-${slug}`, 1600, 1200);
 
 /**
  * The gallery for one listing: `count` distinct photos, hero first, chosen from
@@ -109,15 +109,15 @@ export function propertyGallery(slug, propertyType, count) {
 
   // Pools exhausted (or no manifest): top up with deterministic placeholders.
   while (chosen.length < count) {
-    chosen.push(fallback(`nawy-prop-${slug}-${chosen.length + 1}`, 1600, 900));
+    chosen.push(fallback(`topchoice-prop-${slug}-${chosen.length + 1}`, 1600, 900));
   }
 
   return chosen;
 }
 
-export const propertyImage = (slug, index) => fallback(`nawy-prop-${slug}-${index}`, 1600, 900);
+export const propertyImage = (slug, index) => fallback(`topchoice-prop-${slug}-${index}`, 1600, 900);
 export const propertyFloorPlan = (slug, index) =>
-  fallback(`nawy-plan-${slug}-${index}`, 1200, 1200);
+  fallback(`topchoice-plan-${slug}-${index}`, 1200, 1200);
 
 /** S3-style object key mirrored in `media.images[].key` (see CONTRACT §3). */
 export const propertyImageKey = (slug, index) => `properties/${slug}/${index}.jpg`;

@@ -17,7 +17,7 @@ export default function AppError({
 }) {
   useEffect(() => {
     // Surfaced in the browser console and the container logs.
-    console.error('[nawy:web] route error', { message: error.message, digest: error.digest });
+    console.error('[topchoice:web] route error', { message: error.message, digest: error.digest });
   }, [error]);
 
   return (

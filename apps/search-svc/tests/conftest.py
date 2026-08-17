@@ -35,7 +35,7 @@ os.environ.setdefault("LOG_LEVEL", "WARNING")
 os.environ.setdefault("LOG_JSON", "false")
 os.environ.setdefault("SEED_DIR", str(SEED_DIR))
 os.environ.setdefault("ELASTICSEARCH_URL", "http://localhost:9200")
-os.environ.setdefault("MONGO_URI", "mongodb://localhost:27017/nawy")
+os.environ.setdefault("MONGO_URI", "mongodb://localhost:27017/topchoice")
 os.environ.setdefault("REDIS_URL", "redis://localhost:6379")
 os.environ.setdefault("JWT_ACCESS_SECRET", "test-access-secret-min-32-chars-long-000000")
 os.environ.setdefault("INTERNAL_SERVICE_TOKEN", "test-internal-token")
@@ -47,7 +47,7 @@ CONTRACT_PROPERTY: dict[str, Any] = {
     "id": "cccb864c-9dc1-5e61-bd8d-cbcf60be81b8",
     "mongoId": "6512c0ffee1234567890abcd",
     "slug": "palm-hills-new-cairo-3br-apartment-a12",
-    "referenceNo": "NWY-1042",
+    "referenceNo": "TC-1042",
     "title": {
         "en": "3 Bedroom Apartment in Palm Hills",
         "ar": "شقة 3 غرف في بالم هيلز",

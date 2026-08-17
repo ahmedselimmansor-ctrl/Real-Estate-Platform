@@ -2,7 +2,7 @@
 # Remote-state bootstrap. Run this ONCE per AWS account, before the main root.
 #
 #   cd infra/terraform/bootstrap
-#   terraform init && terraform apply -var 'project_name=nawy'
+#   terraform init && terraform apply -var 'project_name=topchoice'
 #
 # It keeps its own state locally (and in the repo's .gitignore) because it is
 # the thing that creates the remote backend everything else uses. That is the
@@ -25,7 +25,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project   = "nawy-clone"
+      Project   = "topchoice"
       ManagedBy = "terraform"
       Component = "tf-backend"
     }
@@ -34,7 +34,7 @@ provider "aws" {
 
 variable "project_name" {
   type    = string
-  default = "nawy"
+  default = "topchoice"
 }
 
 variable "aws_region" {

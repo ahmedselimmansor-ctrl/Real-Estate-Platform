@@ -1,8 +1,8 @@
-# rag-svc — Nawy customer-support agent
+# rag-svc — TopChoice customer-support agent
 
 LangGraph RAG agent behind `/api/chat`. Retrieval is hybrid (pgvector + Postgres
 full-text, fused with RRF, then reranked); generation streams over SSE; the agent
-can call tools against the other Nawy services and the public web.
+can call tools against the other TopChoice services and the public web.
 
 ```
 POST /api/chat/threads                 → {threadId, guestToken?}

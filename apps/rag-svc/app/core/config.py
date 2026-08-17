@@ -77,12 +77,12 @@ class Settings(BaseSettings):
 
     # --- auth (CONTRACT §5) ----------------------------------------------
     jwt_access_secret: str = ""
-    jwt_issuer: str = "nawy-api"
-    jwt_audience: str = "nawy-clients"
+    jwt_issuer: str = "topchoice-api"
+    jwt_audience: str = "topchoice-clients"
 
-    # --- postgres (CONTRACT §2 — database nawy_rag) -----------------------
-    rag_database_url: str = "postgresql+asyncpg://nawy:nawy_password@postgres:5432/nawy_rag"
-    rag_database_url_sync: str = "postgresql://nawy:nawy_password@postgres:5432/nawy_rag"
+    # --- postgres (CONTRACT §2 — database topchoice_rag) -----------------------
+    rag_database_url: str = "postgresql+asyncpg://topchoice:topchoice_password@postgres:5432/topchoice_rag"
+    rag_database_url_sync: str = "postgresql://topchoice:topchoice_password@postgres:5432/topchoice_rag"
     rag_db_pool_size: int = 5
     rag_db_max_overflow: int = 10
     rag_db_pool_timeout: int = 30
@@ -91,7 +91,7 @@ class Settings(BaseSettings):
     rag_auto_migrate: bool = True
 
     # --- mongo (read-only mirror of the canonical listings) ---------------
-    mongo_uri: str = "mongodb://mongo:27017/nawy"
+    mongo_uri: str = "mongodb://mongo:27017/topchoice"
     mongo_timeout_ms: int = 3000
 
     # --- redis ------------------------------------------------------------

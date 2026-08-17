@@ -1,4 +1,4 @@
--- Nawy clone — api-core initial schema (CONTRACT §2).
+-- TopChoice — api-core initial schema (CONTRACT §2).
 -- Applied offline by `prisma migrate deploy` on container start.
 
 -- CreateEnum

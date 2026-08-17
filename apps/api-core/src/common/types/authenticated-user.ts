@@ -4,7 +4,7 @@ import { UserRoleValue } from '../enums';
  * CONTRACT §5 — access token claims (exact shape, verified by every service).
  * ```json
  * { "sub": "<userId uuid>", "email": "a@b.com", "role": "user", "name": "Ahmed",
- *   "jti": "<uuid>", "iss": "nawy-api", "aud": "nawy-clients", "iat": 0, "exp": 0 }
+ *   "jti": "<uuid>", "iss": "topchoice-api", "aud": "topchoice-clients", "iat": 0, "exp": 0 }
  * ```
  */
 export interface AccessTokenPayload {

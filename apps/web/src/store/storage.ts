@@ -9,11 +9,11 @@ import { createJSONStorage, type StateStorage } from 'zustand/middleware';
  */
 
 export const STORAGE_KEYS = {
-  auth: 'nawy.auth',
-  favorites: 'nawy.favorites',
-  compare: 'nawy.compare',
-  ui: 'nawy.ui',
-  chat: 'nawy.chat',
+  auth: 'topchoice.auth',
+  favorites: 'topchoice.favorites',
+  compare: 'topchoice.compare',
+  ui: 'topchoice.ui',
+  chat: 'topchoice.chat',
 } as const;
 
 /** In-memory stand-in used during SSR, where `localStorage` does not exist. */
@@ -35,7 +35,7 @@ const memoryStorage = createMemoryStorage();
 function resolveStorage(): StateStorage {
   if (typeof window === 'undefined') return memoryStorage;
   try {
-    const probe = '__nawy_probe__';
+    const probe = '__topchoice_probe__';
     window.localStorage.setItem(probe, '1');
     window.localStorage.removeItem(probe);
     return window.localStorage;

@@ -125,7 +125,7 @@ module Reports
     end
 
     # "Palm Hills New Cairo — 3BR" -> "palm-hills-new-cairo-3br"
-    def slugify(value, fallback: 'nawy')
+    def slugify(value, fallback: 'topchoice')
       slug = value.to_s.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/\A-+|-+\z/, '')
       slug.empty? ? fallback : slug[0, 80]
     end

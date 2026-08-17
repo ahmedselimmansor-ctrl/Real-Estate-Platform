@@ -1,7 +1,7 @@
 """JWT verification and service-to-service auth (CONTRACT §5).
 
 Access tokens are issued by api-core: HS256 over ``JWT_ACCESS_SECRET`` with
-``iss=nawy-api`` and ``aud=nawy-clients``. rag-svc verifies them **locally** —
+``iss=topchoice-api`` and ``aud=topchoice-clients``. rag-svc verifies them **locally** —
 never over the network — exactly like search-svc and reports-svc.
 
 Guests are first-class in the chatbot, so :func:`optional_user` returns ``None``

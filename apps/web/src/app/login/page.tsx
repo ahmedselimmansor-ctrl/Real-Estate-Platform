@@ -19,7 +19,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Dashboard sign in',
-  description: 'Staff sign in for the Nawy admin dashboard.',
+  description: 'Staff sign in for the TopChoice admin dashboard.',
   // Not a storefront page, so keep it out of search results.
   robots: { index: false, follow: false },
 };

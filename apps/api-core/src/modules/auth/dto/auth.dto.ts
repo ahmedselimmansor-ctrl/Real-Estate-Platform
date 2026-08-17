@@ -57,7 +57,7 @@ export class RegisterDto {
 }
 
 export class LoginDto {
-  @ApiProperty({ example: 'user@nawy.local' })
+  @ApiProperty({ example: 'user@topchoice.local' })
   @Transform(normalizeEmail)
   @IsEmail({}, { message: 'A valid email address is required' })
   email!: string;
@@ -70,7 +70,7 @@ export class LoginDto {
 }
 
 export class ForgotPasswordDto {
-  @ApiProperty({ example: 'user@nawy.local' })
+  @ApiProperty({ example: 'user@topchoice.local' })
   @Transform(normalizeEmail)
   @IsEmail({}, { message: 'A valid email address is required' })
   email!: string;

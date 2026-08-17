@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/layout/page-header';
 
 export const metadata: Metadata = {
   title: 'Privacy',
-  description: 'The terms and privacy notes that apply to using the Nawy marketplace.',
+  description: 'The terms and privacy notes that apply to using the TopChoice marketplace.',
   alternates: { canonical: '/privacy' },
   robots: { index: false, follow: true },
 };

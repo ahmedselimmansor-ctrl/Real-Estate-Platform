@@ -38,7 +38,7 @@ RSpec.describe 'Admin CSV exports', type: :request do
 
       expect(last_response.status).to eq(200)
       expect(last_response.headers['content-type']).to eq('text/csv; charset=utf-8')
-      expect(last_response.headers['content-disposition']).to include('attachment; filename="nawy-leads-')
+      expect(last_response.headers['content-disposition']).to include('attachment; filename="topchoice-leads-')
       expect(last_response.headers['x-total-rows']).to eq('1')
       expect(last_response.headers['cache-control']).to eq('no-store')
 
@@ -51,7 +51,7 @@ RSpec.describe 'Admin CSV exports', type: :request do
       expect(rows[1][1]).to eq('Mona Adel')
       expect(rows[1][4]).to eq('new')
       expect(rows[1][6]).to eq('I would like a viewing next week') # newlines flattened
-      expect(rows[1][8]).to eq('palm-hills-new-cairo-3br-apartment-nwy-1042')
+      expect(rows[1][8]).to eq('palm-hills-new-cairo-3br-apartment-tc-1042')
     end
 
     it 'passes the date, status and area filters to the repository' do
@@ -119,7 +119,7 @@ RSpec.describe 'Admin CSV exports', type: :request do
 
       expect(last_response.status).to eq(200)
       expect(last_response.headers['content-type']).to eq('text/csv; charset=utf-8')
-      expect(last_response.headers['content-disposition']).to include('nawy-properties-')
+      expect(last_response.headers['content-disposition']).to include('topchoice-properties-')
 
       body = last_response.body
       expect(body.byteslice(0, 3).bytes).to eq([0xEF, 0xBB, 0xBF])
@@ -129,12 +129,12 @@ RSpec.describe 'Admin CSV exports', type: :request do
 
       row = rows[1]
       expect(row[0]).to eq(SpecSupport::Fixtures::PROPERTY_ID)
-      expect(row[2]).to eq('NWY-1042')
+      expect(row[2]).to eq('TC-1042')
       expect(row[6]).to eq('apartment')
       expect(row[10]).to eq('8500000')
       expect(row[11]).to eq('EGP')
       expect(row[34]).to eq('pool|gym|security|clubhouse')
-      expect(row.last).to eq('https://localhost/properties/palm-hills-new-cairo-3br-apartment-nwy-1042')
+      expect(row.last).to eq('https://localhost/properties/palm-hills-new-cairo-3br-apartment-tc-1042')
     end
 
     it 'keeps the Arabic title intact' do

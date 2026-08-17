@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # =============================================================================
-# nawy-clone / reports-svc
+# topchoice / reports-svc
 #
 # Ruby 3.3 + Sinatra. Mounted behind nginx at /api/reports (CONTRACT §1).
 # JSON in, JSON (or PDF / CSV) out; envelopes per CONTRACT §4; JWT verification

@@ -52,7 +52,7 @@ detect_compose
 # ------------------------------------------------------------- what dies -----
 log ""
 log "${C_RED}${C_BOLD}This will permanently delete:${C_RESET}"
-log "  - every nawy-clone container and its network"
+log "  - every topchoice container and its network"
 log "  - the ${C_BOLD}postgres${C_RESET} volume  (users, developers, compounds, leads, RAG vectors)"
 log "  - the ${C_BOLD}mongo${C_RESET} volume     (property documents, views, activity)"
 log "  - the ${C_BOLD}redis${C_RESET} volume     (cache, sessions, refresh tokens)"

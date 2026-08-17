@@ -15,7 +15,7 @@ module Reports
     #
     # Layout (page 1):
     #   ┌──────────────────────────────────────────┐
-    #   │ NAWY  ·  brand band  ·  reference + type │
+    #   │ TOPCHOICE  ·  brand band  ·  reference + type │
     #   ├──────────────────────────────────────────┤
     #   │ hero image (graceful placeholder)        │
     #   │ title / location                          │
@@ -70,9 +70,9 @@ module Reports
       def metadata
         {
           Title: safe("#{view[:title]} — #{view[:reference_no]}"),
-          Author: 'Nawy',
+          Author: 'TopChoice',
           Subject: safe("Property brochure for #{view[:reference_no]}"),
-          Creator: 'nawy-clone reports-svc',
+          Creator: 'topchoice reports-svc',
           Producer: 'Prawn',
           CreationDate: Time.now
         }
@@ -99,7 +99,7 @@ module Reports
 
             doc.fill_color WHITE
             doc.font_size(22) do
-              doc.text_box 'NAWY', at: [36, doc.bounds.top - 26], width: 200, height: 30, style: :bold
+              doc.text_box 'TOPCHOICE', at: [36, doc.bounds.top - 26], width: 200, height: 30, style: :bold
             end
             doc.font_size(8.5) do
               doc.text_box safe('EGYPT REAL ESTATE  ·  PROPERTY BROCHURE'),
@@ -149,7 +149,7 @@ module Reports
       def draw_image_placeholder(doc, top)
         doc.fill_color MUTED
         doc.font_size(10) do
-          doc.text_box safe('Photography available on nawy.com'),
+          doc.text_box safe('Photography available on topchoice.com'),
                        at: [0, top - (HERO_HEIGHT / 2) + 6], width: doc.bounds.width,
                        height: 20, align: :center
         end

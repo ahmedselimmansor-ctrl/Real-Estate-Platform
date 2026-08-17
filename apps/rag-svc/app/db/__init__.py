@@ -1,4 +1,4 @@
-"""Persistence layer for the ``nawy_rag`` database (CONTRACT §2)."""
+"""Persistence layer for the ``topchoice_rag`` database (CONTRACT §2)."""
 
 from app.db.session import Database, get_database, get_session
 

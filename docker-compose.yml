@@ -1,4 +1,4 @@
-name: nawy-clone
+name: topchoice
 
 x-logging: &default-logging
   driver: json-file
@@ -10,27 +10,27 @@ services:
   # ------------------------------------------------------------------ data ---
   postgres:
     image: pgvector/pgvector:pg16
-    container_name: nawy-postgres
+    container_name: topchoice-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-nawy}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nawy_password}
-      POSTGRES_DB: ${POSTGRES_DB:-nawy}
+      POSTGRES_USER: ${POSTGRES_USER:-topchoice}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-topchoice_password}
+      POSTGRES_DB: ${POSTGRES_DB:-topchoice}
     ports: ["5432:5432"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./infra/scripts/init-postgres.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nawy} -d ${POSTGRES_DB:-nawy}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-topchoice} -d ${POSTGRES_DB:-topchoice}"]
       interval: 10s
       timeout: 5s
       retries: 10
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   mongo:
     image: mongo:7
-    container_name: nawy-mongo
+    container_name: topchoice-mongo
     restart: unless-stopped
     ports: ["27017:27017"]
     volumes:
@@ -40,12 +40,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   redis:
     image: redis:7-alpine
-    container_name: nawy-redis
+    container_name: topchoice-redis
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
     ports: ["6379:6379"]
@@ -56,12 +56,12 @@ services:
       interval: 10s
       timeout: 3s
       retries: 10
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
-    container_name: nawy-elasticsearch
+    container_name: topchoice-elasticsearch
     restart: unless-stopped
     environment:
       - discovery.type=single-node
@@ -81,7 +81,7 @@ services:
       timeout: 10s
       retries: 20
       start_period: 40s
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   # -------------------------------------------------------------- services ---
@@ -90,7 +90,7 @@ services:
       context: ./apps/api-core
       dockerfile: Dockerfile
       target: development
-    container_name: nawy-api-core
+    container_name: topchoice-api-core
     restart: unless-stopped
     env_file: [.env]
     environment:
@@ -110,14 +110,14 @@ services:
       timeout: 5s
       retries: 10
       start_period: 40s
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   search-svc:
     build:
       context: ./apps/search-svc
       dockerfile: Dockerfile
-    container_name: nawy-search-svc
+    container_name: topchoice-search-svc
     restart: unless-stopped
     env_file: [.env]
     environment:
@@ -136,14 +136,14 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   rag-svc:
     build:
       context: ./apps/rag-svc
       dockerfile: Dockerfile
-    container_name: nawy-rag-svc
+    container_name: topchoice-rag-svc
     restart: unless-stopped
     env_file: [.env]
     environment:
@@ -161,14 +161,14 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   reports-svc:
     build:
       context: ./apps/reports-svc
       dockerfile: Dockerfile
-    container_name: nawy-reports-svc
+    container_name: topchoice-reports-svc
     restart: unless-stopped
     env_file: [.env]
     environment:
@@ -187,7 +187,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   web:
@@ -195,7 +195,7 @@ services:
       context: ./apps/web
       dockerfile: Dockerfile
       target: development
-    container_name: nawy-web
+    container_name: topchoice-web
     restart: unless-stopped
     env_file: [.env]
     environment:
@@ -206,12 +206,12 @@ services:
     volumes:
       - ./apps/web/src:/app/src
       - ./apps/web/public:/app/public
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
   nginx:
     image: nginx:1.27-alpine
-    container_name: nawy-nginx
+    container_name: topchoice-nginx
     restart: unless-stopped
     ports: ["80:80", "443:443"]
     volumes:
@@ -219,7 +219,7 @@ services:
       - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./infra/nginx/certs:/etc/nginx/certs:ro
     depends_on: [web, api-core, search-svc, rag-svc, reports-svc]
-    networks: [nawy]
+    networks: [topchoice]
     logging: *default-logging
 
 volumes:
@@ -229,5 +229,5 @@ volumes:
   es_data:
 
 networks:
-  nawy:
+  topchoice:
     driver: bridge

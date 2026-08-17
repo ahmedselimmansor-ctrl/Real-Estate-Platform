@@ -5,7 +5,7 @@ import { withTimeout } from '../../common/utils/with-timeout';
 import { PrismaService } from '../../prisma/prisma.service';
 
 /**
- * `SELECT 1` against the `nawy` PostgreSQL database.
+ * `SELECT 1` against the `topchoice` PostgreSQL database.
  *
  * Resolves with a `down` result instead of throwing so the health controller
  * can always render the full CONTRACT §4 `deps` map.

@@ -1,4 +1,4 @@
-"""SQLAlchemy models for the ``nawy_rag`` database (CONTRACT §2)."""
+"""SQLAlchemy models for the ``topchoice_rag`` database (CONTRACT §2)."""
 
 from app.db.base import Base
 from app.db.models.chat import (

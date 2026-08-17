@@ -25,8 +25,8 @@ export interface AccessTokenClaims {
   role: UserRole;
   name: string;
   jti: string;
-  iss: 'nawy-api';
-  aud: 'nawy-clients';
+  iss: 'topchoice-api';
+  aud: 'topchoice-clients';
   iat: number;
   exp: number;
 }

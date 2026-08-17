@@ -12,7 +12,7 @@ import type { Developer } from '@/types/catalog';
 export const metadata: Metadata = {
   title: 'Property developers in Egypt',
   description:
-    'Palm Hills, SODIC, Emaar Misr, Talaat Moustafa Group, Mountain View, Ora and every other developer selling on Nawy.',
+    'Palm Hills, SODIC, Emaar Misr, Talaat Moustafa Group, Mountain View, Ora and every other developer selling on TopChoice.',
   alternates: { canonical: '/developers' },
 };
 
