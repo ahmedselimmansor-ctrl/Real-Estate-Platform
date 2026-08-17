@@ -5,7 +5,7 @@
 #   production  : compiled dist, non-root user
 # =============================================================================
 
-FROM node:22-bookworm-slim AS base
+FROM node:26-bookworm-slim AS base
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false \
     NPM_CONFIG_FUND=false
 # openssl: Prisma query engine · python3/make/g++: argon2 native fallback build
@@ -41,7 +41,7 @@ RUN npx prisma generate \
     && npx prisma generate
 
 # ----------------------------------------------------------------- production
-FROM node:22-bookworm-slim AS production
+FROM node:26-bookworm-slim AS production
 ENV NODE_ENV=production \
     NPM_CONFIG_UPDATE_NOTIFIER=false \
     NPM_CONFIG_FUND=false
