@@ -8,7 +8,7 @@
 #   production  → minimal standalone server, non-root
 # =============================================================================
 
-FROM node:20-alpine AS base
+FROM node:26-alpine AS base
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN apk add --no-cache libc6-compat curl
 WORKDIR /app
