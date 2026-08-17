@@ -6,7 +6,7 @@
 # =============================================================================
 
 # ------------------------------------------------------------------ builder --
-FROM ruby:3.3-slim AS builder
+FROM ruby:4.0-slim AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive \
     BUNDLE_PATH=/usr/local/bundle \
@@ -39,7 +39,7 @@ RUN bundle install \
  && find /usr/local/bundle -name '*.o' -delete
 
 # ------------------------------------------------------------------ runtime --
-FROM ruby:3.3-slim AS runtime
+FROM ruby:4.0-slim AS runtime
 
 ENV DEBIAN_FRONTEND=noninteractive \
     BUNDLE_PATH=/usr/local/bundle \
