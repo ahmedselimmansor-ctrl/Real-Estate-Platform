@@ -1,0 +1,33 @@
+name: topchoice
+description: TopChoice — Egypt's property marketplace, on mobile.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Material's own strings and RTL behaviour in Arabic. Shipped with the SDK,
+  # so this adds no external dependency.
+  flutter_localizations:
+    sdk: flutter
+  # Networking. `http` rather than dio: the API is a plain JSON envelope and
+  # the one streaming case (chat SSE) is served fine by http's streamed reads.
+  http: ^1.2.2
+  # State + DI. ChangeNotifier is enough for this app's shape; provider is the
+  # smallest thing that wires it to the widget tree without ceremony.
+  provider: ^6.1.2
+  # Locale, favourites and the auth token survive a restart.
+  shared_preferences: ^2.3.2
+  # EGP formatting with Arabic-Indic digits when the locale is ar.
+  intl: ^0.20.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

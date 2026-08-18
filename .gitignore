@@ -28,6 +28,20 @@ venv/
 .ruff_cache/
 *.egg-info/
 
+# flutter / dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/build/
+*.iml
+apps/mobile/android/local.properties
+apps/mobile/android/.gradle/
+apps/mobile/ios/Pods/
+apps/mobile/ios/.symlinks/
+apps/mobile/ios/Flutter/Flutter.podspec
+apps/mobile/ios/Flutter/Generated.xcconfig
+apps/mobile/ios/Flutter/flutter_export_environment.sh
+
 # ruby
 vendor/bundle/
 .bundle/
