@@ -97,8 +97,7 @@ module Reports
     def to_date(value)
       case value
       when Date then value
-      when Time then value.to_date
-      when DateTime then value.to_date
+      when Time, DateTime then value.to_date
       when String
         return nil if value.strip.empty?
 
@@ -113,8 +112,7 @@ module Reports
     def to_time(value)
       case value
       when Time then value
-      when DateTime then value.to_time
-      when Date then value.to_time
+      when DateTime, Date then value.to_time
       when String
         begin
           Time.parse(value)

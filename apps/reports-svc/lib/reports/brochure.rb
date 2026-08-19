@@ -150,7 +150,7 @@ module Reports
       return 'Coordinates unavailable' unless coordinates.is_a?(Array) && coordinates.length == 2
 
       lng, lat = coordinates
-      format('Coordinates: %.6f, %.6f (lat, lng)', lat.to_f, lng.to_f)
+      format('Coordinates: %<lat>.6f, %<lng>.6f (lat, lng)', lat: lat.to_f, lng: lng.to_f)
     end
 
     def derived_price_per_meter(price, specs)
@@ -170,7 +170,7 @@ module Reports
     end
 
     def spec_rows(property, specs, plan)
-      rows = [
+      [
         ['Property type', Formatting.humanize(property['propertyType'])],
         ['Sale type', Formatting.humanize(property['saleType'])],
         ['Bedrooms', specs['bedrooms']&.to_s || '—'],
@@ -184,7 +184,6 @@ module Reports
         ['Delivery', Formatting.quarter(plan['deliveryDate'])],
         ['Reference', property['referenceNo'].to_s]
       ]
-      rows
     end
 
     def amenity_labels(slugs)

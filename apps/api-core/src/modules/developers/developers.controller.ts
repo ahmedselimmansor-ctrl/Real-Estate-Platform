@@ -18,11 +18,7 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import type { PaginatedResult } from '../../common/types/api-response';
 import { assertUuid } from '../shared/identifier.util';
 import { DeveloperDetail, DevelopersService } from './developers.service';
-import {
-  CreateDeveloperDto,
-  ListDevelopersDto,
-  UpdateDeveloperDto,
-} from './dto/developer.dto';
+import { CreateDeveloperDto, ListDevelopersDto, UpdateDeveloperDto } from './dto/developer.dto';
 
 @ApiTags('developers')
 @Controller('developers')

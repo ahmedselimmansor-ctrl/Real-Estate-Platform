@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import type { Lead, LeadStatus, Prisma } from '@prisma/client';
+import type { LeadStatus, Prisma } from '@prisma/client';
 
 import { AppException } from '../../common/errors/app.exception';
 import { ERROR_CODES } from '../../common/errors/error-codes';

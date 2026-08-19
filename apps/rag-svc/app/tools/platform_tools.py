@@ -20,8 +20,17 @@ from app.tools.base import Tool, ToolContext, ToolResult
 logger = get_logger("rag-svc.tools.platform")
 
 PROPERTY_TYPES = (
-    "apartment", "villa", "townhouse", "twinhouse", "duplex", "penthouse",
-    "studio", "chalet", "office", "retail", "clinic",
+    "apartment",
+    "villa",
+    "townhouse",
+    "twinhouse",
+    "duplex",
+    "penthouse",
+    "studio",
+    "chalet",
+    "office",
+    "retail",
+    "clinic",
 )
 
 
@@ -32,16 +41,26 @@ def _money(amount: Any) -> str:
         return "price on request"
 
 
-async def _get_json(url: str, *, params: dict | None = None, headers: dict | None = None,
-                    timeout: float = 8.0) -> Any:
+async def _get_json(
+    url: str,
+    *,
+    params: dict | None = None,
+    headers: dict | None = None,
+    timeout: float = 8.0,  # noqa: ASYNC109 - forwarded to httpx, not an asyncio deadline
+) -> Any:
     async with httpx.AsyncClient(timeout=timeout) as client:
         response = await client.get(url, params=params, headers=headers or {})
         response.raise_for_status()
         return response.json()
 
 
-async def _post_json(url: str, payload: dict, *, headers: dict | None = None,
-                     timeout: float = 8.0) -> Any:
+async def _post_json(
+    url: str,
+    payload: dict,
+    *,
+    headers: dict | None = None,
+    timeout: float = 8.0,  # noqa: ASYNC109 - forwarded to httpx, not an asyncio deadline
+) -> Any:
     async with httpx.AsyncClient(timeout=timeout) as client:
         response = await client.post(url, json=payload, headers=headers or {})
         response.raise_for_status()
@@ -59,9 +78,7 @@ def _unwrap(body: Any) -> Any:
 
 
 class SearchListingsArgs(BaseModel):
-    query: str | None = Field(
-        default=None, description="Free-text search, e.g. 'sea view chalet'"
-    )
+    query: str | None = Field(default=None, description="Free-text search, e.g. 'sea view chalet'")
     propertyType: str | None = Field(
         default=None, description=f"One of: {', '.join(PROPERTY_TYPES)}"
     )
@@ -160,10 +177,11 @@ class SearchListingsTool(Tool):
             price_amount = price.get("amount") if isinstance(price, dict) else price
             slug = listing.get("slug", "")
 
+            compound_name = (listing.get("compound") or {}).get("name", "")
             lines.append(
                 f"{title}: {specs.get('bedrooms', '?')} bed, "
                 f"{specs.get('areaSqm', '?')} m², {_money(price_amount)}, "
-                f"{listing.get('compoundName') or (listing.get('compound') or {}).get('name', '')}, "
+                f"{listing.get('compoundName') or compound_name}, "
                 f"{listing.get('areaName') or (listing.get('location') or {}).get('areaName', '')}"
             )
             sources.append(
@@ -278,7 +296,9 @@ class MortgageArgs(BaseModel):
     downPaymentPercent: float = Field(default=10, ge=0, le=100)
     years: int = Field(default=8, gt=0, le=30, description="Repayment period in years")
     annualRatePercent: float = Field(
-        default=0, ge=0, le=100,
+        default=0,
+        ge=0,
+        le=100,
         description="Annual interest rate; 0 for a developer instalment plan",
     )
 

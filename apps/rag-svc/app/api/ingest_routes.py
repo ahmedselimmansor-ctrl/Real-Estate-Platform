@@ -115,9 +115,7 @@ async def ingestion_status(
     async with get_database().session() as session:
         run = await IngestionRunRepository(session).get(run_id)
         if run is None:
-            raise NotFoundError(
-                "INGESTION_RUN_NOT_FOUND", f"No ingestion run with id {run_id}"
-            )
+            raise NotFoundError("INGESTION_RUN_NOT_FOUND", f"No ingestion run with id {run_id}")
         corpus = await DocumentRepository(session).counts()
 
     return ORJSONResponse(content=envelope({**run.as_dict(), "corpus": corpus}))

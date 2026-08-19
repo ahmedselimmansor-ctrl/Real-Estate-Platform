@@ -39,7 +39,7 @@ async def _guarded(coro: Any, name: str) -> bool:
     except TimeoutError:
         logger.warning("dependency_probe_timeout", dependency=name)
         return False
-    except Exception as exc:  # noqa: BLE001 - a probe must never raise
+    except Exception as exc:
         logger.warning("dependency_probe_failed", dependency=name, error=str(exc))
         return False
 
@@ -119,6 +119,6 @@ async def _corpus_counts() -> dict[str, int] | None:
     try:
         async with get_database().session() as session:
             return await DocumentRepository(session).counts()
-    except Exception as exc:  # noqa: BLE001 - readiness must not 500
+    except Exception as exc:
         logger.warning("corpus_counts_failed", error=str(exc))
         return None

@@ -51,10 +51,8 @@ class ProviderBundle:
         for provider in (self.embeddings, self.rerank, self.generation):
             try:
                 await provider.aclose()
-            except Exception as exc:  # noqa: BLE001 - shutdown must not raise
-                logger.warning(
-                    "provider_close_failed", provider=provider.name, error=str(exc)
-                )
+            except Exception as exc:
+                logger.warning("provider_close_failed", provider=provider.name, error=str(exc))
 
 
 def build_providers(settings: Settings | None = None) -> ProviderBundle:
@@ -65,5 +63,5 @@ def build_providers(settings: Settings | None = None) -> ProviderBundle:
         rerank=build_rerank_provider(cfg),
         generation=build_generation_provider(cfg),
     )
-    logger.info("providers_ready", **{key: value for key, value in bundle.describe().items()})
+    logger.info("providers_ready", **bundle.describe())
     return bundle

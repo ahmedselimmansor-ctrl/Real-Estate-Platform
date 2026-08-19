@@ -1,12 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import {
-  FinishingType,
-  PropertyStatus,
-  PropertyType,
-  SaleType,
-} from '../src/common/enums';
+import { FinishingType, PropertyStatus, PropertyType, SaleType } from '../src/common/enums';
 
 /** Shapes of the shared `seed/*.json` files (see `seed/README.md`). */
 

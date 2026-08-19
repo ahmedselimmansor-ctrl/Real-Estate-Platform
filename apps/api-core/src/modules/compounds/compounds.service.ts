@@ -11,11 +11,7 @@ import { CACHE_TTL, cacheKeys } from '../../redis/cache-keys';
 import { DevelopersService } from '../developers/developers.service';
 import { isUuid } from '../shared/identifier.util';
 import { buildUniqueSlug } from '../shared/slug.util';
-import type {
-  CreateCompoundDto,
-  ListCompoundsDto,
-  UpdateCompoundDto,
-} from './dto/compound.dto';
+import type { CreateCompoundDto, ListCompoundsDto, UpdateCompoundDto } from './dto/compound.dto';
 
 const SORTABLE = ['name', 'startingPrice', 'deliveryYear', 'createdAt'] as const;
 
@@ -194,10 +190,7 @@ export class CompoundsService {
     });
 
     if (!existing) {
-      throw AppException.notFound(
-        `Compound "${id}" was not found`,
-        ERROR_CODES.COMPOUND_NOT_FOUND,
-      );
+      throw AppException.notFound(`Compound "${id}" was not found`, ERROR_CODES.COMPOUND_NOT_FOUND);
     }
 
     if (dto.developerId || dto.areaId) {
@@ -273,10 +266,7 @@ export class CompoundsService {
     });
 
     if (!existing) {
-      throw AppException.notFound(
-        `Compound "${id}" was not found`,
-        ERROR_CODES.COMPOUND_NOT_FOUND,
-      );
+      throw AppException.notFound(`Compound "${id}" was not found`, ERROR_CODES.COMPOUND_NOT_FOUND);
     }
 
     const listings = await this.prisma.propertyIndex.count({

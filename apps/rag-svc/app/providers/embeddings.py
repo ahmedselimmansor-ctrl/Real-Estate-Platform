@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import itertools
 import math
 import re
 import time
@@ -137,18 +138,14 @@ class DashScopeEmbeddingProvider:
             payload["dimensions"] = self.dim
 
         try:
-            body = await self._http.post_json(
-                "/embeddings", payload, operation="embeddings"
-            )
+            body = await self._http.post_json("/embeddings", payload, operation="embeddings")
         except UpstreamError as exc:
             # Some model revisions reject the optional `dimensions` parameter.
             if self._send_dimensions and "dimension" in str(exc).lower():
                 logger.warning("embeddings_retry_without_dimensions", model=self.model)
                 self._send_dimensions = False
                 payload.pop("dimensions", None)
-                body = await self._http.post_json(
-                    "/embeddings", payload, operation="embeddings"
-                )
+                body = await self._http.post_json("/embeddings", payload, operation="embeddings")
             else:
                 raise
 
@@ -230,9 +227,7 @@ class HashEmbeddingProvider:
 
         features: Counter[str] = Counter()
         features.update(tokens)
-        features.update(
-            f"{first}_{second}" for first, second in zip(tokens, tokens[1:], strict=False)
-        )
+        features.update(f"{first}_{second}" for first, second in itertools.pairwise(tokens))
         for token in tokens:
             if len(token) >= 4:
                 features.update(token[i : i + 3] for i in range(len(token) - 2))

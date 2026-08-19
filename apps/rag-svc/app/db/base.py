@@ -6,7 +6,8 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import DateTime, MetaData, func
-from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 #: Deterministic constraint/index names keep Alembic autogenerate stable.

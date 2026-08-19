@@ -92,9 +92,7 @@ class OpenAIGenerationProvider:
         )
 
     # --- public API -------------------------------------------------------
-    async def generate(
-        self, messages: Sequence[ChatMessage], **options: Any
-    ) -> GenerationResult:
+    async def generate(self, messages: Sequence[ChatMessage], **options: Any) -> GenerationResult:
         payload = self._payload(messages, options)
         started = time.perf_counter()
         completion: Any = None
@@ -144,9 +142,7 @@ class OpenAIGenerationProvider:
             finish_reason=getattr(choice, "finish_reason", None) if choice else None,
         )
 
-    async def stream(
-        self, messages: Sequence[ChatMessage], **options: Any
-    ) -> AsyncIterator[str]:
+    async def stream(self, messages: Sequence[ChatMessage], **options: Any) -> AsyncIterator[str]:
         payload = self._payload(messages, options)
         payload["stream"] = True
         started = time.perf_counter()
@@ -197,14 +193,10 @@ class TemplateGenerationProvider:
         self.available = False
         self._tokens = get_token_counter()
 
-    async def generate(
-        self, messages: Sequence[ChatMessage], **options: Any
-    ) -> GenerationResult:
+    async def generate(self, messages: Sequence[ChatMessage], **options: Any) -> GenerationResult:
         text = self.compose(messages, options.get("sources"))
         usage = GenerationUsage(
-            prompt_tokens=self._tokens.count(
-                "\n".join(message.content for message in messages)
-            ),
+            prompt_tokens=self._tokens.count("\n".join(message.content for message in messages)),
             completion_tokens=self._tokens.count(text),
         )
         usage.total_tokens = usage.prompt_tokens + usage.completion_tokens
@@ -222,9 +214,7 @@ class TemplateGenerationProvider:
             degraded=True,
         )
 
-    async def stream(
-        self, messages: Sequence[ChatMessage], **options: Any
-    ) -> AsyncIterator[str]:
+    async def stream(self, messages: Sequence[ChatMessage], **options: Any) -> AsyncIterator[str]:
         text = self.compose(messages, options.get("sources"))
         for piece in _stream_pieces(text):
             yield piece
@@ -233,9 +223,7 @@ class TemplateGenerationProvider:
         return None
 
     # --- composition ------------------------------------------------------
-    def compose(
-        self, messages: Sequence[ChatMessage], sources: Sequence[Any] | None = None
-    ) -> str:
+    def compose(self, messages: Sequence[ChatMessage], sources: Sequence[Any] | None = None) -> str:
         question = _last_user_message(messages)
         arabic = bool(_ARABIC_RE.search(question))
         passages = _passages(messages, sources)
@@ -281,9 +269,7 @@ def _last_user_message(messages: Sequence[ChatMessage]) -> str:
     return messages[-1].content if messages else ""
 
 
-def _passages(
-    messages: Sequence[ChatMessage], sources: Sequence[Any] | None
-) -> list[str]:
+def _passages(messages: Sequence[ChatMessage], sources: Sequence[Any] | None) -> list[str]:
     """Collect candidate context text from explicit sources or the prompt."""
     passages: list[str] = []
     for source in sources or []:
@@ -374,9 +360,7 @@ def build_generation_provider(settings: Settings | None = None):
     """OpenAI when a key is configured, otherwise the extractive template."""
     cfg = settings or get_settings()
     if cfg.openai_enabled:
-        logger.info(
-            "generation_provider_selected", provider="openai", model=cfg.generation_model
-        )
+        logger.info("generation_provider_selected", provider="openai", model=cfg.generation_model)
         return OpenAIGenerationProvider(cfg)
     logger.warning(
         "generation_provider_fallback",

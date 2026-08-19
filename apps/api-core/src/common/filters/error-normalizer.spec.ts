@@ -73,7 +73,11 @@ describe('normalizeException', () => {
     const result = normalizeException({
       name: 'ValidationError',
       errors: {
-        'price.amount': { path: 'price.amount', message: 'Path `amount` is required.', kind: 'required' },
+        'price.amount': {
+          path: 'price.amount',
+          message: 'Path `amount` is required.',
+          kind: 'required',
+        },
       },
     });
 

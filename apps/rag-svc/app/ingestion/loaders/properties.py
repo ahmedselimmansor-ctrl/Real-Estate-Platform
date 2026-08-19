@@ -32,7 +32,6 @@ from app.ingestion.formatting import (
     format_area,
     format_egp,
     format_month_year,
-    format_number,
     format_quarter,
     join_list,
     label,
@@ -52,7 +51,7 @@ def _amenity_labels() -> dict[str, tuple[str, str]]:
     """``slug -> (english, arabic)`` from ``seed/amenities.json``."""
     try:
         records = load_json(AMENITIES)
-    except Exception as exc:  # noqa: BLE001 - amenity labels are cosmetic
+    except Exception as exc:
         logger.warning("amenity_labels_unavailable", error=str(exc))
         return {}
     return {
@@ -114,7 +113,9 @@ def render_property(listing: dict[str, Any], lang: str = "en") -> str:
     down_percent = percent(plan.get("downPaymentPercent"))
     try:
         down_amount = format_egp(
-            round(float(price.get("amount") or 0) * float(plan.get("downPaymentPercent") or 0) / 100),
+            round(
+                float(price.get("amount") or 0) * float(plan.get("downPaymentPercent") or 0) / 100
+            ),
             lang,
         )
     except (TypeError, ValueError):  # pragma: no cover - seed data is always numeric
@@ -128,7 +129,8 @@ def render_property(listing: dict[str, Any], lang: str = "en") -> str:
 
     if arabic:
         lines.append(
-            f"{_bilingual(listing.get('title'), 'ar')} (كود الوحدة {listing.get('referenceNo', '')})."
+            f"{_bilingual(listing.get('title'), 'ar')} "
+            f"(كود الوحدة {listing.get('referenceNo', '')})."
         )
         headline = (
             f"{type_label} {bedrooms} في {compound_name} بمنطقة {area_name}، "
@@ -142,7 +144,8 @@ def render_property(listing: dict[str, Any], lang: str = "en") -> str:
             headline += f"، {finishing}"
         lines.append(headline + ".")
         lines.append(
-            f"السعر {amount} أي {per_meter} للمتر المربع. نوع البيع: {sale_type}. حالة الوحدة: {status}."
+            f"السعر {amount} أي {per_meter} للمتر المربع. "
+            f"نوع البيع: {sale_type}. حالة الوحدة: {status}."
         )
         if down_percent and years:
             lines.append(
@@ -165,11 +168,7 @@ def render_property(listing: dict[str, Any], lang: str = "en") -> str:
                         else ""
                     ),
                     (f"الدور {specs.get('floor')}" if specs.get("floor") else ""),
-                    (
-                        f"{specs.get('parkingSpots')} جراج"
-                        if specs.get("parkingSpots")
-                        else ""
-                    ),
+                    (f"{specs.get('parkingSpots')} جراج" if specs.get("parkingSpots") else ""),
                 ],
                 lang,
             )
@@ -193,8 +192,7 @@ def render_property(listing: dict[str, Any], lang: str = "en") -> str:
             f"(reference {listing.get('referenceNo', '')})."
         )
         headline = (
-            f"{bedrooms} {type_label} in {compound_name}, {area_name} — "
-            f"{area_sqm}, {amount}"
+            f"{bedrooms} {type_label} in {compound_name}, {area_name} — " f"{area_sqm}, {amount}"
         )
         if down_percent and years:
             headline += f", {down_percent} down payment over {years} years"

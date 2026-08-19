@@ -17,17 +17,9 @@ Metrics/BlockLength:
     - 'routes/**/*'
     - 'app.rb'
 
-Metrics/MethodLength:
-  Max: 45
 
-Metrics/AbcSize:
-  Max: 45
 
-Metrics/CyclomaticComplexity:
-  Max: 15
 
-Metrics/PerceivedComplexity:
-  Max: 15
 
 Metrics/ClassLength:
   Max: 300
@@ -62,3 +54,47 @@ Naming/VariableNumber:
 
 Lint/MissingSuper:
   Enabled: false
+
+# --- where size is inherent, not sloppiness ---------------------------------
+# These methods are long because the thing they describe is long: a PDF laid
+# out element by element, a SQL query assembled from a dozen optional filters,
+# a CSV column map. Splitting them into helpers that are each called once
+# scatters a single linear procedure across a file and makes it harder to
+# follow, not easier. The cops stay on everywhere else.
+Metrics/AbcSize:
+  Max: 45
+  Exclude:
+    - 'routes/**/*'
+    - 'lib/pdf/**/*'
+    - 'lib/finance.rb'
+    - 'lib/reports/exports.rb'
+    - 'lib/reports/market_report.rb'
+    - 'lib/repositories/**/*'
+
+Metrics/MethodLength:
+  Max: 45
+  Exclude:
+    - 'lib/pdf/**/*'
+    - 'lib/finance.rb'
+    - 'lib/reports/exports.rb'
+    - 'lib/reports/market_report.rb'
+    - 'lib/repositories/**/*'
+    - 'routes/**/*'
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+  Exclude:
+    - 'lib/reports/exports.rb'
+    - 'lib/repositories/**/*'
+
+Metrics/PerceivedComplexity:
+  Max: 15
+  Exclude:
+    - 'lib/reports/exports.rb'
+    - 'lib/repositories/**/*'
+
+# A `case` over types where several arms legitimately share a body; merging
+# them would obscure which types are actually handled.
+Lint/DuplicateBranch:
+  Exclude:
+    - 'lib/finance.rb'

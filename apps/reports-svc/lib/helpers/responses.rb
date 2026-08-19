@@ -68,7 +68,7 @@ module Reports
       # Percent-encoding for RFC 5987 (`Rack::Utils.escape` is form encoding and
       # would turn spaces into "+").
       def rfc5987_escape(value)
-        value.to_s.b.gsub(/[^A-Za-z0-9!#$&+.^_`|~-]/) do |char|
+        value.to_s.b.gsub(/[^A-Za-z0-9!#{::Regexp.last_match(0)}+.^_`|~-]/) do |char|
           char.bytes.map { |byte| format('%%%02X', byte) }.join
         end
       end

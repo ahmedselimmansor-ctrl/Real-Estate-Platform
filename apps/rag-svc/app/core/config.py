@@ -18,6 +18,7 @@ from typing import Literal
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 def _ancestor(path: Path, levels: int) -> Path:
     """`path.parents[levels]`, clamped to the filesystem root.
 
@@ -81,8 +82,12 @@ class Settings(BaseSettings):
     jwt_audience: str = "topchoice-clients"
 
     # --- postgres (CONTRACT §2 — database topchoice_rag) -----------------------
-    rag_database_url: str = "postgresql+asyncpg://topchoice:topchoice_password@postgres:5432/topchoice_rag"
-    rag_database_url_sync: str = "postgresql://topchoice:topchoice_password@postgres:5432/topchoice_rag"
+    rag_database_url: str = (
+        "postgresql+asyncpg://topchoice:topchoice_password@postgres:5432/topchoice_rag"
+    )
+    rag_database_url_sync: str = (
+        "postgresql://topchoice:topchoice_password@postgres:5432/topchoice_rag"
+    )
     rag_db_pool_size: int = 5
     rag_db_max_overflow: int = 10
     rag_db_pool_timeout: int = 30

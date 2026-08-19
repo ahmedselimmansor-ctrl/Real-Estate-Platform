@@ -154,9 +154,7 @@ async def fetch_page(url: str, settings: Settings | None = None) -> tuple[str, s
         return str(response.url), content_type, body
 
 
-def build_document(
-    url: str, final_url: str, content_type: str, body: str
-) -> RawDocument | None:
+def build_document(url: str, final_url: str, content_type: str, body: str) -> RawDocument | None:
     if "html" in content_type.lower() or body.lstrip().startswith("<"):
         title, text = html_to_markdown(body)
     else:

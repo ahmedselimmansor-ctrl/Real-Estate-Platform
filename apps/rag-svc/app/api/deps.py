@@ -21,9 +21,7 @@ from app.retrieval.hybrid_search import HybridSearcher
 def _from_state(request: Request, attribute: str, label: str):
     value = getattr(request.app.state, attribute, None)
     if value is None:
-        raise ServiceUnavailableError(
-            f"{label} is not initialised yet", code="SERVICE_STARTING"
-        )
+        raise ServiceUnavailableError(f"{label} is not initialised yet", code="SERVICE_STARTING")
     return value
 
 

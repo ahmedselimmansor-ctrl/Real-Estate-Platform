@@ -87,8 +87,7 @@ export class DevelopersService {
   async create(dto: CreateDeveloperDto): Promise<Developer> {
     const slug = await buildUniqueSlug(
       dto.slug ?? dto.name,
-      async (candidate) =>
-        (await this.prisma.developer.count({ where: { slug: candidate } })) > 0,
+      async (candidate) => (await this.prisma.developer.count({ where: { slug: candidate } })) > 0,
       'developer',
     );
 

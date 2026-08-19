@@ -48,9 +48,7 @@ async def ensure_database_exists(settings: Settings | None = None) -> bool:
         return False
 
     maintenance_url = url.set(database="postgres")
-    engine = create_async_engine(
-        maintenance_url, isolation_level="AUTOCOMMIT", poolclass=NullPool
-    )
+    engine = create_async_engine(maintenance_url, isolation_level="AUTOCOMMIT", poolclass=NullPool)
     try:
         async with engine.connect() as conn:
             exists = await conn.scalar(

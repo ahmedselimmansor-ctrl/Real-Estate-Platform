@@ -10,12 +10,7 @@ import { randomToken, sha256Hex } from '../shared/hash.util';
 import { secondsFromNow } from '../shared/duration.util';
 import { MailerService } from './mailer.service';
 import { IssuedTokens, SessionContext, TokenService, TokenSubject } from './token.service';
-import type {
-  ForgotPasswordDto,
-  LoginDto,
-  RegisterDto,
-  ResetPasswordDto,
-} from './dto/auth.dto';
+import type { ForgotPasswordDto, LoginDto, RegisterDto, ResetPasswordDto } from './dto/auth.dto';
 
 /**
  * Argon2id parameters — OWASP's 2024 baseline for interactive logins.
@@ -118,10 +113,7 @@ export class AuthService {
     }
 
     if (!user.isActive) {
-      throw AppException.forbidden(
-        'This account has been disabled',
-        ERROR_CODES.ACCOUNT_DISABLED,
-      );
+      throw AppException.forbidden('This account has been disabled', ERROR_CODES.ACCOUNT_DISABLED);
     }
 
     return user;
@@ -162,9 +154,7 @@ export class AuthService {
 
   async logout(principal: AuthenticatedUser | undefined, refreshToken?: string): Promise<void> {
     if (refreshToken) {
-      const payload = await this.tokens
-        .verifyRefreshToken(refreshToken)
-        .catch(() => null);
+      const payload = await this.tokens.verifyRefreshToken(refreshToken).catch(() => null);
 
       if (payload) {
         await this.tokens.revokeRefreshJti(payload.sub, payload.jti, payload.exp);

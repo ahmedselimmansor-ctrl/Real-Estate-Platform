@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 from typing import Any
 
+
 def _repo_root() -> Path:
     """Walk up to the directory holding `seed/`, falling back to the checkout root.
 

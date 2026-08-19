@@ -64,7 +64,7 @@ RSpec.describe 'Admin CSV exports', type: :request do
               any_args)
         .and_return(0)
 
-      get "/api/reports/admin/export/leads.csv?from=2026-01-01&to=2026-03-31&status=qualified" \
+      get '/api/reports/admin/export/leads.csv?from=2026-01-01&to=2026-03-31&status=qualified' \
           "&areaId=#{SpecSupport::Fixtures::AREA_ID}", {}, admin_headers
 
       expect(last_response.status).to eq(200)
@@ -159,7 +159,7 @@ RSpec.describe 'Admin CSV exports', type: :request do
               any_args)
         .and_return(0)
 
-      get "/api/reports/admin/export/properties.csv?status=available&propertyType=villa" \
+      get '/api/reports/admin/export/properties.csv?status=available&propertyType=villa' \
           "&areaId=#{SpecSupport::Fixtures::AREA_ID}", {}, admin_headers
 
       expect(last_response.status).to eq(200)

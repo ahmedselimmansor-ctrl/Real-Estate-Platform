@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Module,
-  Param,
-  Patch,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Module, Param, Patch, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
@@ -32,10 +23,7 @@ export class UsersController {
 
   @Patch('me')
   @ApiOperation({ summary: 'Update your profile' })
-  updateMe(
-    @CurrentUser('id') userId: string,
-    @Body() dto: UpdateProfileDto,
-  ): Promise<UserRecord> {
+  updateMe(@CurrentUser('id') userId: string, @Body() dto: UpdateProfileDto): Promise<UserRecord> {
     return this.users.updateProfile(userId, dto);
   }
 

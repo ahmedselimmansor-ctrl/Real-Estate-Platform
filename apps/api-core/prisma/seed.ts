@@ -21,7 +21,8 @@ import { seedEngagement } from './seed-engagement';
 
 /** Fixed namespace so generated ids (payment plans, demo users) stay stable. */
 const SEED_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-const deterministicId = (key: string): string => uuidv5(`topchoice-api-core:${key}`, SEED_NAMESPACE);
+const deterministicId = (key: string): string =>
+  uuidv5(`topchoice-api-core:${key}`, SEED_NAMESPACE);
 
 const prisma = new PrismaClient();
 
@@ -29,8 +30,7 @@ const log = (message: string): void => {
   process.stdout.write(`[seed] ${message}\n`);
 };
 
-const toDate = (value: string | null | undefined): Date | null =>
-  value ? new Date(value) : null;
+const toDate = (value: string | null | undefined): Date | null => (value ? new Date(value) : null);
 
 // --------------------------------------------------------------------- users
 interface DemoUser {
@@ -310,9 +310,7 @@ async function seedMongo(): Promise<void> {
  * dashboard and property cards show consistent numbers, and gives every listing
  * a plausible view count derived from its own id (stable across reruns).
  */
-async function syncEngagementStats(
-  PropertyModel: mongoose.Model<Property>,
-): Promise<void> {
+async function syncEngagementStats(PropertyModel: mongoose.Model<Property>): Promise<void> {
   const [favorites, leads] = await Promise.all([
     prisma.favorite.groupBy({ by: ['propertyId'], _count: { _all: true } }),
     prisma.lead.groupBy({
@@ -329,7 +327,7 @@ async function syncEngagementStats(
 
   const ids = await PropertyModel.distinct('propertyId').exec();
 
-  const operations = (ids as string[]).map((propertyId) => {
+  const operations = ids.map((propertyId) => {
     // Deterministic pseudo-random view count in [40, 2039) seeded by the id.
     const fingerprint = Number.parseInt(propertyId.slice(0, 8), 16);
     const views = 40 + (fingerprint % 2000);
@@ -375,7 +373,9 @@ async function main(): Promise<void> {
 
 main()
   .catch((error: unknown) => {
-    process.stderr.write(`[seed] failed: ${error instanceof Error ? error.stack : String(error)}\n`);
+    process.stderr.write(
+      `[seed] failed: ${error instanceof Error ? error.stack : String(error)}\n`,
+    );
     process.exitCode = 1;
   })
   .finally(() => {

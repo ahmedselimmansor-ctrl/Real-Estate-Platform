@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from app.retrieval.fusion import rank_positions, reciprocal_rank_fusion
 
 

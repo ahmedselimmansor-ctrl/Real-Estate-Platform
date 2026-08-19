@@ -58,9 +58,7 @@ class DashScopeRerankProvider:
         )
         self._fallback = LexicalRerankProvider(cfg)
 
-    async def rerank(
-        self, query: str, documents: Sequence[str], top_n: int
-    ) -> RerankResponse:
+    async def rerank(self, query: str, documents: Sequence[str], top_n: int) -> RerankResponse:
         if not documents:
             return RerankResponse(results=[], model=self.model, provider=self.name)
 
@@ -103,9 +101,7 @@ class DashScopeRerankProvider:
             total_tokens=int(usage.get("total_tokens") or 0),
             latency_ms=round((time.perf_counter() - started) * 1000, 2),
         )
-        return RerankResponse(
-            results=results[:top_n], model=self.model, provider=self.name
-        )
+        return RerankResponse(results=results[:top_n], model=self.model, provider=self.name)
 
     async def aclose(self) -> None:
         await self._http.aclose()
@@ -121,9 +117,7 @@ class LexicalRerankProvider:
         self.model = "offline-bm25-v1"
         self.available = False
 
-    async def rerank(
-        self, query: str, documents: Sequence[str], top_n: int
-    ) -> RerankResponse:
+    async def rerank(self, query: str, documents: Sequence[str], top_n: int) -> RerankResponse:
         scores = self.score(query, documents)
         ranked = sorted(
             (RerankResult(index=index, score=score) for index, score in enumerate(scores)),
@@ -171,9 +165,7 @@ class LexicalRerankProvider:
                     continue
                 df = document_frequency.get(term, 0)
                 idf = math.log(1.0 + (doc_count - df + 0.5) / (df + 0.5))
-                denominator = frequency + BM25_K1 * (
-                    1 - BM25_B + BM25_B * length / avg_length
-                )
+                denominator = frequency + BM25_K1 * (1 - BM25_B + BM25_B * length / avg_length)
                 score += idf * (frequency * (BM25_K1 + 1)) / denominator
             raw_scores.append(score)
 

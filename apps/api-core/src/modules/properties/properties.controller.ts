@@ -22,11 +22,7 @@ import type { PaginatedResult } from '../../common/types/api-response';
 import type { AuthenticatedUser } from '../../common/types/authenticated-user';
 import type { Property } from '../../mongo/schemas/property.schema';
 import { assertUuid } from '../shared/identifier.util';
-import {
-  CreatePropertyDto,
-  ListPropertiesDto,
-  UpdatePropertyDto,
-} from './dto/property.dto';
+import { CreatePropertyDto, ListPropertiesDto, UpdatePropertyDto } from './dto/property.dto';
 import { PropertiesService } from './properties.service';
 
 @ApiTags('properties')

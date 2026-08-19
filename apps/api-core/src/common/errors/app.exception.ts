@@ -3,6 +3,15 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { ApiErrorDetail } from '../types/api-response';
 import { ERROR_CODES, ErrorCode } from './error-codes';
 
+/**
+ * A known error code, or any other string.
+ *
+ * `ErrorCode | string` would collapse to `string` and lose the autocomplete
+ * that makes the catalogue useful; intersecting with `{}` keeps the literals
+ * suggested while still accepting a code a module defines for itself.
+ */
+type AnyErrorCode = ErrorCode | (string & {});
+
 export interface AppExceptionPayload {
   code: string;
   message: string;
@@ -34,7 +43,7 @@ export class AppException extends HttpException {
 
   static badRequest(
     message: string,
-    code: ErrorCode | string = ERROR_CODES.BAD_REQUEST,
+    code: AnyErrorCode = ERROR_CODES.BAD_REQUEST,
     details: ApiErrorDetail[] = [],
   ): AppException {
     return new AppException(HttpStatus.BAD_REQUEST, { code, message, details });
@@ -43,35 +52,32 @@ export class AppException extends HttpException {
   static validation(
     message: string,
     details: ApiErrorDetail[] = [],
-    code: ErrorCode | string = ERROR_CODES.VALIDATION_ERROR,
+    code: AnyErrorCode = ERROR_CODES.VALIDATION_ERROR,
   ): AppException {
     return new AppException(HttpStatus.UNPROCESSABLE_ENTITY, { code, message, details });
   }
 
   static unauthorized(
     message = 'Authentication required',
-    code: ErrorCode | string = ERROR_CODES.UNAUTHORIZED,
+    code: AnyErrorCode = ERROR_CODES.UNAUTHORIZED,
   ): AppException {
     return new AppException(HttpStatus.UNAUTHORIZED, { code, message });
   }
 
   static forbidden(
     message = 'You do not have access to this resource',
-    code: ErrorCode | string = ERROR_CODES.FORBIDDEN,
+    code: AnyErrorCode = ERROR_CODES.FORBIDDEN,
   ): AppException {
     return new AppException(HttpStatus.FORBIDDEN, { code, message });
   }
 
-  static notFound(
-    message: string,
-    code: ErrorCode | string = ERROR_CODES.NOT_FOUND,
-  ): AppException {
+  static notFound(message: string, code: AnyErrorCode = ERROR_CODES.NOT_FOUND): AppException {
     return new AppException(HttpStatus.NOT_FOUND, { code, message });
   }
 
   static conflict(
     message: string,
-    code: ErrorCode | string = ERROR_CODES.CONFLICT,
+    code: AnyErrorCode = ERROR_CODES.CONFLICT,
     details: ApiErrorDetail[] = [],
   ): AppException {
     return new AppException(HttpStatus.CONFLICT, { code, message, details });
@@ -86,14 +92,14 @@ export class AppException extends HttpException {
 
   static serviceUnavailable(
     message: string,
-    code: ErrorCode | string = ERROR_CODES.SERVICE_UNAVAILABLE,
+    code: AnyErrorCode = ERROR_CODES.SERVICE_UNAVAILABLE,
   ): AppException {
     return new AppException(HttpStatus.SERVICE_UNAVAILABLE, { code, message });
   }
 
   static internal(
     message = 'Unexpected server error',
-    code: ErrorCode | string = ERROR_CODES.INTERNAL_SERVER_ERROR,
+    code: AnyErrorCode = ERROR_CODES.INTERNAL_SERVER_ERROR,
   ): AppException {
     return new AppException(HttpStatus.INTERNAL_SERVER_ERROR, { code, message });
   }

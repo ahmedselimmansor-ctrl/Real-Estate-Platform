@@ -1,6 +1,6 @@
 """Error envelope and exception handlers (CONTRACT §4).
 
-    {"success": false, "error": {"code": "…", "message": "…", "details": []}}
+{"success": false, "error": {"code": "…", "message": "…", "details": []}}
 """
 
 from __future__ import annotations
@@ -79,9 +79,7 @@ class UnauthorizedError(ApiError):
 
 
 class ForbiddenError(ApiError):
-    def __init__(
-        self, message: str = "Insufficient permissions", code: str = "FORBIDDEN"
-    ) -> None:
+    def __init__(self, message: str = "Insufficient permissions", code: str = "FORBIDDEN") -> None:
         super().__init__(code, message, status_code=403)
 
 
@@ -152,9 +150,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         return error_response(exc.status_code, exc.code, exc.message, exc.details, exc.headers)
 
     @app.exception_handler(RequestValidationError)
-    async def _validation_error(
-        request: Request, exc: RequestValidationError
-    ) -> ORJSONResponse:
+    async def _validation_error(request: Request, exc: RequestValidationError) -> ORJSONResponse:
         details = [
             {
                 "field": ".".join(str(part) for part in err.get("loc", ()) if part != "body"),

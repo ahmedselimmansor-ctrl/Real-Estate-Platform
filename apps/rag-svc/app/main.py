@@ -73,9 +73,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # --- model providers + retrieval + ingestion --------------------------
     providers = build_providers(settings)
     app.state.providers = providers
-    app.state.retriever = HybridSearcher(
-        database=database, providers=providers, settings=settings
-    )
+    app.state.retriever = HybridSearcher(database=database, providers=providers, settings=settings)
     app.state.pipeline = IngestionPipeline(
         database=database, providers=providers, settings=settings
     )

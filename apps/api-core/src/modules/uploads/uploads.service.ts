@@ -67,8 +67,7 @@ export class UploadsService {
     }
 
     const original = extname(filename).replace('.', '').toLowerCase();
-    const isEquivalent =
-      original === canonical || (canonical === 'jpg' && original === 'jpeg');
+    const isEquivalent = original === canonical || (canonical === 'jpg' && original === 'jpeg');
 
     return isEquivalent && /^[a-z0-9]{1,5}$/.test(original) ? original : canonical;
   }
@@ -78,11 +77,9 @@ export class UploadsService {
     const safe = /^[a-z0-9-]+\/[A-Za-z0-9._-]+$/.test(key) && !key.includes('..');
 
     if (!safe) {
-      throw AppException.badRequest(
-        'Invalid object key',
-        ERROR_CODES.INVALID_IDENTIFIER,
-        [{ field: 'key', message: 'malformed object key', rule: 'pattern' }],
-      );
+      throw AppException.badRequest('Invalid object key', ERROR_CODES.INVALID_IDENTIFIER, [
+        { field: 'key', message: 'malformed object key', rule: 'pattern' },
+      ]);
     }
   }
 }

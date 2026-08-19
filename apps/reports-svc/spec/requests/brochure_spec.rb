@@ -72,7 +72,7 @@ RSpec.describe 'GET /api/reports/property/:id/brochure.pdf', type: :request do
 
   it 'looks the property up by slug or reference number too' do
     expect(Reports::Repositories::PropertyRepository).to receive(:find).with('TC-1042')
-                                                                      .and_return(document)
+                                                                       .and_return(document)
 
     get '/api/reports/property/TC-1042/brochure.pdf'
     expect(last_response.status).to eq(200)

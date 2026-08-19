@@ -14,6 +14,7 @@ process.env.JWT_ACCESS_SECRET =
 process.env.JWT_REFRESH_SECRET =
   process.env.JWT_REFRESH_SECRET ?? 'test-refresh-secret-min-32-chars-long-00000';
 process.env.DATABASE_URL =
-  process.env.DATABASE_URL ?? 'postgresql://topchoice:topchoice_password@localhost:5432/topchoice?schema=public';
+  process.env.DATABASE_URL ??
+  'postgresql://topchoice:topchoice_password@localhost:5432/topchoice?schema=public';
 process.env.MONGO_URI = process.env.MONGO_URI ?? 'mongodb://localhost:27017/topchoice';
 process.env.REDIS_URL = process.env.REDIS_URL ?? 'redis://localhost:6379';

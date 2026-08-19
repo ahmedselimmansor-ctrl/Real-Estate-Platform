@@ -18,9 +18,7 @@ from app.core.logging import get_logger
 
 logger = get_logger("rag-svc.tokens")
 
-_ARABIC_RE = re.compile(
-    "[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]"
-)
+_ARABIC_RE = re.compile("[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
 _WHITESPACE_RE = re.compile(r"\s+")
 
 #: Rough characters-per-token ratios, measured against cl100k_base.
@@ -53,7 +51,7 @@ class TokenCounter:
 
                 self._encoding = tiktoken.get_encoding(self._encoding_name)
                 logger.info("tiktoken_loaded", encoding=self._encoding_name)
-            except Exception as exc:  # noqa: BLE001 - any failure must degrade, not crash
+            except Exception as exc:
                 logger.warning(
                     "tiktoken_unavailable",
                     encoding=self._encoding_name,
@@ -76,7 +74,7 @@ class TokenCounter:
         if encoding is not None:
             try:
                 return len(encoding.encode(text, disallowed_special=()))
-            except Exception:  # noqa: BLE001 - never fail a request over counting
+            except Exception:
                 return estimate_tokens(text)
         return estimate_tokens(text)
 
@@ -94,7 +92,7 @@ class TokenCounter:
             try:
                 tokens = encoding.encode(text, disallowed_special=())
                 return encoding.decode(tokens[:max_tokens])
-            except Exception:  # noqa: BLE001
+            except Exception:
                 pass
         words = text.split()
         low, high = 0, len(words)

@@ -121,10 +121,7 @@ export class UsersService {
         );
       }
       if (actor.id === id) {
-        throw AppException.badRequest(
-          'You cannot change your own role',
-          ERROR_CODES.BAD_REQUEST,
-        );
+        throw AppException.badRequest('You cannot change your own role', ERROR_CODES.BAD_REQUEST);
       }
     }
 
@@ -149,8 +146,7 @@ export class UsersService {
       select: PUBLIC_SELECT,
     });
 
-    const revoke =
-      (dto.role !== undefined && dto.role !== target.role) || dto.isActive === false;
+    const revoke = (dto.role !== undefined && dto.role !== target.role) || dto.isActive === false;
 
     if (revoke) {
       await this.tokens.revokeAllSessions(id);
@@ -165,10 +161,7 @@ export class UsersService {
    */
   async remove(id: string, actorId: string): Promise<{ id: string; deleted: true }> {
     if (id === actorId) {
-      throw AppException.badRequest(
-        'You cannot delete your own account',
-        ERROR_CODES.BAD_REQUEST,
-      );
+      throw AppException.badRequest('You cannot delete your own account', ERROR_CODES.BAD_REQUEST);
     }
 
     await this.ensureExists(id);

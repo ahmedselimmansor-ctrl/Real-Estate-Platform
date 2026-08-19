@@ -1,7 +1,12 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { REFRESH_TOKEN_COOKIE, SERVICE_VERSION, SERVICE_TOKEN_HEADER, SWAGGER_PATH } from './common/constants';
+import {
+  REFRESH_TOKEN_COOKIE,
+  SERVICE_VERSION,
+  SERVICE_TOKEN_HEADER,
+  SWAGGER_PATH,
+} from './common/constants';
 
 /** OpenAPI docs served at `/api/v1/docs` (CONTRACT §1 prefix). */
 export function setupSwagger(app: INestApplication): void {
@@ -36,10 +41,7 @@ export function setupSwagger(app: INestApplication): void {
       { type: 'apiKey', in: 'cookie', name: REFRESH_TOKEN_COOKIE },
       'refresh-token',
     )
-    .addApiKey(
-      { type: 'apiKey', name: SERVICE_TOKEN_HEADER, in: 'header' },
-      'service-token',
-    )
+    .addApiKey({ type: 'apiKey', name: SERVICE_TOKEN_HEADER, in: 'header' }, 'service-token')
     .addTag('health', 'Liveness and readiness probes')
     .addTag('auth', 'Registration, login, refresh, OAuth')
     .addTag('properties', 'Listing read/write endpoints')

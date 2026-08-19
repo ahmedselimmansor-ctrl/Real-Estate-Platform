@@ -74,10 +74,7 @@ export class UploadsController {
     const driver = this.localDriver();
 
     if (!key || !exp || !sig) {
-      throw AppException.badRequest(
-        'key, exp and sig are all required',
-        ERROR_CODES.BAD_REQUEST,
-      );
+      throw AppException.badRequest('key, exp and sig are all required', ERROR_CODES.BAD_REQUEST);
     }
 
     driver.verifyUploadSignature(key, Number.parseInt(exp, 10), sig);

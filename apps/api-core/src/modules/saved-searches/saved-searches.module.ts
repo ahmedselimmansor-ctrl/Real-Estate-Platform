@@ -15,14 +15,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
 import type { Prisma, SavedSearch } from '@prisma/client';
 import { Transform } from 'class-transformer';
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsObject,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, MaxLength } from 'class-validator';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
@@ -83,10 +76,7 @@ export class UpdateSavedSearchDto {
 export class SavedSearchesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async list(
-    userId: string,
-    query: PaginationQueryDto,
-  ): Promise<PaginatedResult<SavedSearch>> {
+  async list(userId: string, query: PaginationQueryDto): Promise<PaginatedResult<SavedSearch>> {
     const where = { userId };
 
     const [data, total] = await Promise.all([
@@ -122,20 +112,14 @@ export class SavedSearchesService {
     });
   }
 
-  async update(
-    userId: string,
-    id: string,
-    dto: UpdateSavedSearchDto,
-  ): Promise<SavedSearch> {
+  async update(userId: string, id: string, dto: UpdateSavedSearchDto): Promise<SavedSearch> {
     await this.ensureOwned(userId, id);
 
     return this.prisma.savedSearch.update({
       where: { id },
       data: {
         ...(dto.name !== undefined ? { name: dto.name } : {}),
-        ...(dto.criteria !== undefined
-          ? { criteria: dto.criteria as Prisma.InputJsonValue }
-          : {}),
+        ...(dto.criteria !== undefined ? { criteria: dto.criteria as Prisma.InputJsonValue } : {}),
         ...(dto.alertEnabled !== undefined ? { alertEnabled: dto.alertEnabled } : {}),
       },
     });

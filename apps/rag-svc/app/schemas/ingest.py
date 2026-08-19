@@ -9,9 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from app.ingestion.loaders import DEFAULT_LANGS
 from app.ingestion.loaders.base import IngestOptions
 
-IngestSource = Literal[
-    "properties", "faq", "compounds", "developers", "areas", "url", "all"
-]
+IngestSource = Literal["properties", "faq", "compounds", "developers", "areas", "url", "all"]
 
 Language = Literal["en", "ar"]
 
@@ -84,21 +82,21 @@ class IngestRequest(BaseModel):
 class IngestAccepted(BaseModel):
     """202 payload — the run id to poll."""
 
-    runId: str  # noqa: N815 - camelCase is the wire contract
+    runId: str
     source: IngestSource
     status: str
-    statusUrl: str  # noqa: N815
-    acceptedAt: str  # noqa: N815
+    statusUrl: str
+    acceptedAt: str
 
 
 class IngestRunStatus(BaseModel):
     """GET /api/chat/ingest/status/{runId} payload."""
 
-    runId: str  # noqa: N815
+    runId: str
     source: str
     status: str
     stats: dict[str, Any] = Field(default_factory=dict)
     error: str | None = None
-    startedAt: str | None = None  # noqa: N815
-    finishedAt: str | None = None  # noqa: N815
+    startedAt: str | None = None
+    finishedAt: str | None = None
     corpus: dict[str, int] | None = None

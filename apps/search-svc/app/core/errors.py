@@ -283,9 +283,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         )
 
     @app.exception_handler(TransportError)
-    async def _es_transport_error_handler(
-        _request: Request, exc: TransportError
-    ) -> ORJSONResponse:
+    async def _es_transport_error_handler(_request: Request, exc: TransportError) -> ORJSONResponse:
         log.error("elasticsearch_transport_error", message=str(exc))
         return error_response(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

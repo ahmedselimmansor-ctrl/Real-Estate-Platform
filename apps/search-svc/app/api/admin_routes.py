@@ -64,10 +64,7 @@ async def reindex(
     """Queue a reindex run and return its `runId` immediately."""
     # An empty body means "rebuild everything", matching `{"full": true}`.
     payload = body or ReindexRequest(full=True)
-    if payload.is_partial:
-        mode = "partial"
-    else:
-        mode = "zero_downtime" if payload.zeroDowntime else "full"
+    mode = "partial" if payload.is_partial else "zero_downtime" if payload.zeroDowntime else "full"
     run = run_registry.create(mode=mode, source=payload.source)  # type: ignore[arg-type]
     await run_registry.persist(run)
 

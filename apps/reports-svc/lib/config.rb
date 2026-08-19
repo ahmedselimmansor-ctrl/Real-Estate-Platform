@@ -71,7 +71,7 @@ module Reports
         Integer(DEFAULTS.fetch(key, '0'), 10)
       end
 
-      def fetch_bool(key)
+      def fetch_bool?(key)
         %w[1 true yes on].include?(fetch(key).to_s.strip.downcase)
       end
 
@@ -88,7 +88,7 @@ module Reports
       def log_level = fetch('LOG_LEVEL').to_s.downcase
 
       # --- urls -------------------------------------------------------------
-      def frontend_url  = fetch('FRONTEND_URL').to_s.sub(%r{/+\z}, '')
+      def frontend_url = fetch('FRONTEND_URL').to_s.sub(%r{/+\z}, '')
       def s3_public_base_url = source['S3_PUBLIC_BASE_URL'].to_s.sub(%r{/+\z}, '')
 
       def cors_origins
@@ -144,7 +144,7 @@ module Reports
       def export_batch_size   = fetch_int('REPORTS_EXPORT_BATCH_SIZE')
       def image_timeout       = fetch_int('REPORTS_IMAGE_TIMEOUT')
       def image_max_bytes     = fetch_int('REPORTS_IMAGE_MAX_BYTES')
-      def rate_limit_enabled? = fetch_bool('REPORTS_RATE_LIMIT_ENABLED')
+      def rate_limit_enabled? = fetch_bool?('REPORTS_RATE_LIMIT_ENABLED')
 
       # --- validation -------------------------------------------------------
       # Raises Errors::ConfigError listing *every* problem at once.

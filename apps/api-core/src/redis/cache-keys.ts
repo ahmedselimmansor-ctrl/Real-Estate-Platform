@@ -45,7 +45,9 @@ export function hashKey(payload: unknown): string {
     return value;
   };
 
-  return createHash('sha1').update(JSON.stringify(normalize(payload) ?? null)).digest('hex');
+  return createHash('sha1')
+    .update(JSON.stringify(normalize(payload) ?? null))
+    .digest('hex');
 }
 
 export const cacheKeys = {

@@ -11,6 +11,7 @@ and the rate limiter fails open, so search keeps serving from Elasticsearch.
 
 from __future__ import annotations
 
+import contextlib
 import functools
 import hashlib
 import time
@@ -98,7 +99,7 @@ def _stable_dumps(value: Any) -> bytes:
 
 def build_cache_key(prefix: str, payload: Any, *, namespace: str = CACHE_NAMESPACE) -> str:
     """`cache:search:{prefix}:{hash}` — deterministic for equal payloads."""
-    digest = hashlib.sha1(_stable_dumps(payload)).hexdigest()[:20]  # noqa: S324 - cache key only
+    digest = hashlib.sha1(_stable_dumps(payload)).hexdigest()[:20]
     return f"{namespace}:{prefix}:{digest}" if prefix else f"{namespace}:{digest}"
 
 
@@ -238,10 +239,9 @@ async def sliding_window_hit(
         return True, limit, 0
 
     if used > limit:
-        try:
+        # Best effort rollback: the counter self-heals on the next window.
+        with contextlib.suppress(RedisError, OSError):  # pragma: no cover
             await get_redis().zrem(key, member)
-        except (RedisError, OSError):  # pragma: no cover - best effort rollback
-            pass
         return False, 0, window_seconds
     return True, max(0, limit - used), 0
 
@@ -286,9 +286,7 @@ class RateLimiter:
     ) -> None:
         await self._enforce(request, user)
 
-    async def _enforce(
-        self, request: Request, user: AuthenticatedUser | None = None
-    ) -> None:
+    async def _enforce(self, request: Request, user: AuthenticatedUser | None = None) -> None:
         settings = get_settings()
         if not settings.RATE_LIMIT_ENABLED:
             return

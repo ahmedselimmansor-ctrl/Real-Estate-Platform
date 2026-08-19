@@ -25,7 +25,7 @@ class PageMeta(BaseModel):
     page: int = Field(default=1, ge=1, description="1-based page number")
     limit: int = Field(default=20, ge=1, description="Items per page")
     total: int = Field(default=0, ge=0, description="Total matching items")
-    totalPages: int = Field(default=0, ge=0, description="ceil(total / limit)")  # noqa: N815
+    totalPages: int = Field(default=0, ge=0, description="ceil(total / limit)")
 
 
 class ResponseEnvelope(BaseModel, Generic[T]):

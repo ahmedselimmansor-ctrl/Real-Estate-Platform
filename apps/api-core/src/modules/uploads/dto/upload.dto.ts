@@ -2,10 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsIn, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
-import {
-  ALLOWED_CONTENT_TYPES,
-  ALLOWED_FOLDERS,
-} from '../storage/storage.driver';
+import { ALLOWED_CONTENT_TYPES, ALLOWED_FOLDERS } from '../storage/storage.driver';
 
 const trim = ({ value }: { value: unknown }): unknown =>
   typeof value === 'string' ? value.trim() : value;

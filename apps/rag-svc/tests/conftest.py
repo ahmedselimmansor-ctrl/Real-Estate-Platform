@@ -10,6 +10,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+
 # --- pin the environment before `app.*` is imported ------------------------
 def _repo_root() -> Path:
     """Walk up to the directory holding `seed/`, falling back to the checkout root.
@@ -37,7 +38,6 @@ os.environ.setdefault("FRONTEND_URL", "https://localhost")
 os.environ.setdefault("SEED_DIR", str(REPO_ROOT / "seed"))
 
 import pytest  # noqa: E402
-
 from app.core.config import Settings, get_settings  # noqa: E402
 from app.core.tokens import TokenCounter  # noqa: E402
 

@@ -29,11 +29,29 @@ logger = get_logger("rag-svc.retrieval.filters")
 #: Arabic-Indic digits and separators -> ASCII.
 _DIGIT_TRANSLATION = str.maketrans(
     {
-        "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4",
-        "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9",
-        "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4",
-        "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
-        "٫": ".", "٬": ",", "،": ",",
+        "٠": "0",
+        "١": "1",
+        "٢": "2",
+        "٣": "3",
+        "٤": "4",
+        "٥": "5",
+        "٦": "6",
+        "٧": "7",
+        "٨": "8",
+        "٩": "9",
+        "۰": "0",
+        "۱": "1",
+        "۲": "2",
+        "۳": "3",
+        "۴": "4",
+        "۵": "5",
+        "۶": "6",
+        "۷": "7",
+        "۸": "8",
+        "۹": "9",
+        "٫": ".",
+        "٬": ",",
+        "،": ",",
     }
 )
 
@@ -212,7 +230,7 @@ def area_catalogue() -> tuple[tuple[str, str, str], ...]:
     """``(id, english name, arabic name)`` for every known area."""
     try:
         records = load_json(AREAS)
-    except Exception as exc:  # noqa: BLE001 - filters must work without the seed dir
+    except Exception as exc:
         logger.warning("area_catalogue_fallback", error=str(exc))
         return _FALLBACK_AREAS
     catalogue = [
@@ -267,7 +285,9 @@ def parse_price_range(text: str) -> tuple[int | None, int | None]:
             "",
         )
         high = _to_amount(
-            range_match.group("high"), range_match.group("high_unit"), normalized[range_match.end() :]
+            range_match.group("high"),
+            range_match.group("high_unit"),
+            normalized[range_match.end() :],
         )
         if low is not None and high is not None:
             return (min(low, high), max(low, high))
@@ -334,7 +354,6 @@ def parse_area(text: str) -> tuple[str | None, str | None]:
     return best[1], best[2]
 
 
-
 #: "8 million", "8m", "8,000,000" -> 8_000_000. Unlike `parse_price_range` this
 #: needs no "under"/"from" cue: a financing question states a bare figure ("the
 #: monthly payment on 8 million"), which is a price all the same.
@@ -357,6 +376,7 @@ def parse_stated_amount(text: str) -> int | None:
         if value >= 100_000:
             return int(value)
     return None
+
 
 def parse_query_filters(query: str) -> QueryFilters:
     """Parse every supported constraint out of a natural-language query."""

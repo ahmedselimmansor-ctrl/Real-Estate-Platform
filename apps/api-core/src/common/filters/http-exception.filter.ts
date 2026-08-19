@@ -1,4 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import type { Request, Response } from 'express';
 
@@ -26,7 +33,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
   catch(exception: unknown, host: ArgumentsHost): void {
     if (host.getType() !== 'http') {
-      this.logger.error('Non-HTTP exception', exception instanceof Error ? exception.stack : exception);
+      this.logger.error(
+        'Non-HTTP exception',
+        exception instanceof Error ? exception.stack : exception,
+      );
       return;
     }
 
@@ -78,7 +88,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       statusCode: status,
     };
 
-    if (status >= HttpStatus.INTERNAL_SERVER_ERROR) {
+    if (status >= (HttpStatus.INTERNAL_SERVER_ERROR as number)) {
       this.logger.error(
         `${message} ${JSON.stringify(context)}`,
         cause instanceof Error ? cause.stack : JSON.stringify(cause ?? {}),
@@ -86,7 +96,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       return;
     }
 
-    if (status === HttpStatus.NOT_FOUND) {
+    if (status === (HttpStatus.NOT_FOUND as number)) {
       this.logger.debug(`${message} ${JSON.stringify(context)}`);
       return;
     }

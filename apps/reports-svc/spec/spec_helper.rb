@@ -22,7 +22,7 @@ require 'json'
 
 require_relative '../app'
 
-Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |file| require file }
+Dir[File.expand_path('support/**/*.rb', __dir__)].each { |file| require file }
 
 RSpec.configure do |config|
   config.expect_with(:rspec) { |expectations| expectations.include_chain_clauses_in_custom_matcher_descriptions = true }

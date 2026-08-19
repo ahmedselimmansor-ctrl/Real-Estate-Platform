@@ -51,7 +51,7 @@ _INSERT_CHUNK_SQL = text(
     VALUES
         (:id, :document_id, :ordinal, :content, :token_count,
          CAST(:metadata AS jsonb), {vector_param("embedding")}, :created_at)
-    """  # noqa: S608 - the only interpolation is a constant cast fragment
+    """
 )
 
 

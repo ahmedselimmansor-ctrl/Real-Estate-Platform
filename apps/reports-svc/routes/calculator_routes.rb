@@ -25,7 +25,7 @@ module Reports
             start_date: body_value(body, 'startDate')
           )
 
-          result = result.reject { |key, _| key == :schedule } unless
+          result = result.except(:schedule) unless
             coerce_boolean(body_value(body, 'includeSchedule'), default: true)
 
           cache_for!(60)

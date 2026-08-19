@@ -260,8 +260,16 @@ module Reports
           installments_count: count,
           installments_per_year: per_year,
           installment_amount: to_money(base_installment),
-          final_installment_amount: to_money(entries.reverse.find { |e| e[:type] == 'installment' }&.fetch(:amount) || ZERO),
-          monthly_equivalent: to_money(count.positive? ? round_money(remaining / BigDecimal((years_i * MONTHS_PER_YEAR).to_s)) : ZERO),
+          final_installment_amount: to_money(entries.reverse.find do |e|
+            e[:type] == 'installment'
+          end&.fetch(:amount) || ZERO),
+          monthly_equivalent: to_money(
+            if count.positive?
+              round_money(remaining / BigDecimal((years_i * MONTHS_PER_YEAR).to_s))
+            else
+              ZERO
+            end
+          ),
           maintenance_percent: to_number(maint_pct),
           maintenance_deposit: to_money(maintenance),
           total_paid: to_money(total_cash),
@@ -372,10 +380,11 @@ module Reports
       case value
       when BigDecimal then value
       when Integer    then BigDecimal(value)
-      when Float      then BigDecimal(value.to_s)
-      when String     then BigDecimal(value)
-      when nil        then ZERO
+      when String then BigDecimal(value)
+      when nil    then ZERO
       else
+        # Float and anything else round-trip through their string form, which
+        # is the only way to get an exact BigDecimal from a Float.
         BigDecimal(value.to_s)
       end
     end

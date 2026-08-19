@@ -18,7 +18,9 @@ export class GoogleAuthGuard extends AuthGuard('google') {
     super({ session: false, accessType: 'offline', prompt: 'select_account' });
   }
 
-  override canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  override canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     if (!this.config.google.enabled) {
       throw AppException.serviceUnavailable(
         'Google sign-in is not configured on this deployment',

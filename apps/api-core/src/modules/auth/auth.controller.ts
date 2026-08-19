@@ -213,8 +213,7 @@ export class AuthController {
       });
       res.redirect(`${frontend}/auth/callback#${params.toString()}`);
     } catch (error) {
-      const code =
-        error instanceof AppException ? error.code : ERROR_CODES.OAUTH_FAILED;
+      const code = error instanceof AppException ? error.code : ERROR_CODES.OAUTH_FAILED;
       res.redirect(`${frontend}/login?error=${encodeURIComponent(code)}`);
     }
   }

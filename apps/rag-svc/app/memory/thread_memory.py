@@ -16,7 +16,7 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any
 
-from sqlalchemy import desc, select, update
+from sqlalchemy import desc, select
 
 from app.core.config import Settings, get_settings
 from app.core.logging import get_logger
@@ -81,23 +81,31 @@ class MemoryStore:
 
         async with self._database.session() as session:
             rows = (
-                await session.execute(
-                    select(ChatMessage)
-                    .where(
-                        ChatMessage.thread_id == identifier,
-                        ChatMessage.role.in_(("user", "assistant")),
+                (
+                    await session.execute(
+                        select(ChatMessage)
+                        .where(
+                            ChatMessage.thread_id == identifier,
+                            ChatMessage.role.in_(("user", "assistant")),
+                        )
+                        .order_by(desc(ChatMessage.created_at))
+                        # `window` turns ≈ 2×window messages.
+                        .limit(window * 2)
                     )
-                    .order_by(desc(ChatMessage.created_at))
-                    # `window` turns ≈ 2×window messages.
-                    .limit(window * 2)
                 )
-            ).scalars().all()
+                .scalars()
+                .all()
+            )
 
             total = (
-                await session.execute(
-                    select(ChatMessage.id).where(ChatMessage.thread_id == identifier)
+                (
+                    await session.execute(
+                        select(ChatMessage.id).where(ChatMessage.thread_id == identifier)
+                    )
                 )
-            ).scalars().all()
+                .scalars()
+                .all()
+            )
 
             summary_row = (
                 await session.execute(
@@ -111,9 +119,7 @@ class MemoryStore:
             thread = await session.get(ChatThread, identifier)
 
         messages = [
-            {"role": row.role, "content": row.content}
-            for row in reversed(rows)
-            if row.content
+            {"role": row.role, "content": row.content} for row in reversed(rows) if row.content
         ]
 
         return ThreadMemory(
@@ -125,9 +131,7 @@ class MemoryStore:
 
     # --------------------------------------------------------------- profile
 
-    def update_profile(
-        self, profile: dict[str, Any], question: str
-    ) -> dict[str, Any]:
+    def update_profile(self, profile: dict[str, Any], question: str) -> dict[str, Any]:
         """Fold newly stated constraints into the buyer profile.
 
         Reuses the same deterministic parser the retriever uses for metadata
@@ -151,9 +155,7 @@ class MemoryStore:
 
         return updated
 
-    async def persist_profile(
-        self, thread_id: str | uuid.UUID, profile: dict[str, Any]
-    ) -> None:
+    async def persist_profile(self, thread_id: str | uuid.UUID, profile: dict[str, Any]) -> None:
         if not profile:
             return
 
@@ -176,7 +178,7 @@ class MemoryStore:
                 # the profile silently never persisted between turns.
                 thread.meta = meta
                 await session.commit()
-        except Exception as exc:  # noqa: BLE001 - memory is best-effort
+        except Exception as exc:
             logger.warning("profile_persist_failed", thread_id=str(thread_id), error=str(exc))
 
     # --------------------------------------------------------------- summary
@@ -215,7 +217,7 @@ class MemoryStore:
                 max_tokens=320,
             )
             summary = (result.text or "").strip()
-        except Exception as exc:  # noqa: BLE001 - summarising must not fail a turn
+        except Exception as exc:
             logger.warning("summary_failed", thread_id=str(thread_id), error=str(exc))
             return previous
 
@@ -226,7 +228,7 @@ class MemoryStore:
             async with self._database.session() as session:
                 session.add(ChatSummary(thread_id=identifier, summary=summary))
                 await session.commit()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             logger.warning("summary_persist_failed", thread_id=str(thread_id), error=str(exc))
             return previous
 

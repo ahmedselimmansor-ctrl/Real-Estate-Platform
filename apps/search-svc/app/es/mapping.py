@@ -5,7 +5,8 @@ Index: ``properties_v1``  •  Alias: ``properties``
 Analysis
 --------
 ``topchoice_english``      standard tokenizer + possessive/english stemming + english stopwords
-``topchoice_arabic``       standard tokenizer + arabic_normalization + arabic_stem + arabic stopwords
+``topchoice_arabic``       standard tokenizer + arabic_normalization + arabic_stem
+                           + arabic stopwords
 ``autocomplete``      edge-ngram (2..20) index-time analyzer, latin + arabic normalised
 ``autocomplete_search`` the same chain *without* the edge-ngram filter (search-time)
 ``slug``              keyword normalizer (lowercase + asciifolding)

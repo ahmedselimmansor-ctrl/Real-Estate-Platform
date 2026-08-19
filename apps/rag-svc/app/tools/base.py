@@ -66,7 +66,7 @@ class Tool(ABC):
     requires_confirmation: bool = False
 
     @abstractmethod
-    async def run(self, args: BaseModel, context: "ToolContext") -> ToolResult:
+    async def run(self, args: BaseModel, context: ToolContext) -> ToolResult:
         """Execute the tool. Implementations may raise; `invoke` contains it."""
 
     # ------------------------------------------------------------------ api
@@ -87,7 +87,7 @@ class Tool(ABC):
             },
         }
 
-    async def invoke(self, raw_args: dict[str, Any], context: "ToolContext") -> ToolResult:
+    async def invoke(self, raw_args: dict[str, Any], context: ToolContext) -> ToolResult:
         """Validate, run and time the tool, converting every failure to a result."""
         started = time.perf_counter()
 
@@ -108,7 +108,7 @@ class Tool(ABC):
 
         try:
             result = await asyncio.wait_for(self.run(args, context), timeout=self.timeout)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             logger.warning("tool_timeout", tool=self.name, timeout=self.timeout)
             return ToolResult(
                 name=self.name,
@@ -118,7 +118,7 @@ class Tool(ABC):
             )
         except asyncio.CancelledError:
             raise
-        except Exception as exc:  # noqa: BLE001 - a tool must never break the turn
+        except Exception as exc:
             logger.warning("tool_failed", tool=self.name, error=str(exc))
             return ToolResult(
                 name=self.name,
@@ -128,9 +128,7 @@ class Tool(ABC):
             )
 
         result.latency_ms = (time.perf_counter() - started) * 1000
-        logger.info(
-            "tool_completed", tool=self.name, ok=result.ok, latency_ms=result.latency_ms
-        )
+        logger.info("tool_completed", tool=self.name, ok=result.ok, latency_ms=result.latency_ms)
         return result
 
 

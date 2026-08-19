@@ -120,9 +120,7 @@ class FaqLoader:
         records = load_json(FAQ)
         documents: list[RawDocument] = []
         for record in records:
-            if not options.selected(
-                str(record.get("id") or ""), str(record.get("category") or "")
-            ):
+            if not options.selected(str(record.get("id") or ""), str(record.get("category") or "")):
                 continue
             documents.extend(build_documents(record, options))
         documents = apply_limit(documents, options.limit)

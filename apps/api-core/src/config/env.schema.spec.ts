@@ -48,9 +48,9 @@ describe('validateEnv', () => {
     expect(() => validateEnv({ ...validEnv, JWT_ACCESS_SECRET: 'too-short' })).toThrow(
       EnvValidationError,
     );
-    expect(() => validateEnv({ ...validEnv, DATABASE_URL: 'mysql://topchoice@db/topchoice' })).toThrow(
-      EnvValidationError,
-    );
+    expect(() =>
+      validateEnv({ ...validEnv, DATABASE_URL: 'mysql://topchoice@db/topchoice' }),
+    ).toThrow(EnvValidationError);
     expect(() => validateEnv({ ...validEnv, MONGO_URI: 'http://mongo:27017' })).toThrow(
       EnvValidationError,
     );

@@ -14,9 +14,9 @@ cannot enumerate another's conversation.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import hashlib
 import hmac
-import json
 import time
 from collections.abc import AsyncIterator
 from typing import Annotated, Any
@@ -27,7 +27,7 @@ from fastapi.responses import ORJSONResponse, StreamingResponse
 
 from app.core.config import Settings, get_settings
 from app.core.envelope import envelope, paginated
-from app.core.errors import ForbiddenError, NotFoundError, ValidationError
+from app.core.errors import ForbiddenError, NotFoundError
 from app.core.logging import get_logger
 from app.core.rate_limit import rate_limit
 from app.core.redis import get_redis_manager
@@ -156,9 +156,7 @@ async def list_messages(
         thread_id, limit=limit, offset=(page - 1) * limit
     )
 
-    return ORJSONResponse(
-        paginated(messages, page=page, limit=limit, total=total)
-    )
+    return ORJSONResponse(paginated(messages, page=page, limit=limit, total=total))
 
 
 # ------------------------------------------------------------------- message
@@ -259,7 +257,7 @@ async def _event_stream(
     except asyncio.CancelledError:  # pragma: no cover - client aborted
         logger.info("stream_cancelled", thread_id=thread_id)
         raise
-    except Exception as exc:  # noqa: BLE001 - the client must always get an error frame
+    except Exception as exc:
         logger.error("stream_error", thread_id=thread_id, error=str(exc))
         yield _sse(
             "error",
@@ -267,10 +265,9 @@ async def _event_stream(
         )
     finally:
         # Keep the frames briefly so `GET /stream/{threadId}` can replay them.
-        try:
+        # Best effort: a replay buffer that fails to save is not worth an error.
+        with contextlib.suppress(Exception):
             await redis.set_json(buffer_key, {"frames": frames}, ttl=STREAM_TTL_SECONDS)
-        except Exception:  # noqa: BLE001 - buffering is best effort
-            pass
 
         logger.info(
             "stream_completed",
@@ -358,9 +355,7 @@ async def submit_feedback(
         has_comment=bool(payload.comment),
     )
 
-    return ORJSONResponse(
-        envelope({"messageId": payload.messageId, "recorded": recorded})
-    )
+    return ORJSONResponse(envelope({"messageId": payload.messageId, "recorded": recorded}))
 
 
 __all__ = ["router"]

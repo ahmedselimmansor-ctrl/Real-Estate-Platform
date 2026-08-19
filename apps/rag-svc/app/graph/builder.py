@@ -128,7 +128,11 @@ def build_graph(deps: NodeDeps, checkpointer: Any | None = None):
     graph.add_edge("generate", END)
 
     compiled = graph.compile(checkpointer=checkpointer)
-    logger.info("graph_compiled", nodes=8, checkpointer=type(checkpointer).__name__ if checkpointer else None)
+    logger.info(
+        "graph_compiled",
+        nodes=8,
+        checkpointer=type(checkpointer).__name__ if checkpointer else None,
+    )
     return compiled
 
 
@@ -304,7 +308,7 @@ class ChatAgent:
                 if piece:
                     chunks.append(piece)
                     yield {"event": "token", "data": {"text": piece}}
-        except Exception as exc:  # noqa: BLE001 - the client must still get an end
+        except Exception as exc:
             logger.error("stream_failed", error=str(exc))
             yield {
                 "event": "error",
@@ -407,7 +411,8 @@ class ChatAgent:
 
             await self._memory.persist_profile(thread_id, state.get("profile", {}))
 
-            history = list(state.get("messages", [])) + [
+            history = [
+                *state.get("messages", []),
                 {"role": "user", "content": state.get("question", "")},
                 {"role": "assistant", "content": turn.answer},
             ]
@@ -415,7 +420,7 @@ class ChatAgent:
             if self._memory.should_summarise(memory.message_count):
                 await self._memory.refresh_summary(thread_id, history, state.get("summary"))
 
-        except Exception as exc:  # noqa: BLE001 - never fail a reply on persistence
+        except Exception as exc:
             logger.error("persist_failed", thread_id=str(thread_id), error=str(exc))
 
         return turn

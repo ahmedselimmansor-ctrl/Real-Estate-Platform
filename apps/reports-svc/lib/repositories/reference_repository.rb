@@ -90,8 +90,8 @@ module Reports
                 "FROM #{PgIntrospect.quote_ident(table)} " \
                 "WHERE #{PgIntrospect.quote_ident(slug_column)} = ANY($1::text[])"
 
-          conn.exec_params(sql, [pg_array(list)]).each_with_object({}) do |row, out|
-            out[row['slug']] = row['name']
+          conn.exec_params(sql, [pg_array(list)]).to_h do |row|
+            [row['slug'], row['name']]
           end
         end
       rescue StandardError => e

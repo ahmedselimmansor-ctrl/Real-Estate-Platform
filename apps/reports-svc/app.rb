@@ -67,8 +67,8 @@ module Reports
         resource '*',
                  headers: :any,
                  methods: %i[get post options head],
-                 expose: ['X-Request-Id', 'Content-Disposition', 'X-Total-Rows', 'X-Cache',
-                          'X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset'],
+                 expose: %w[X-Request-Id Content-Disposition X-Total-Rows X-Cache
+                            X-RateLimit-Limit X-RateLimit-Remaining X-RateLimit-Reset],
                  max_age: 600
       end
     end
@@ -99,18 +99,18 @@ module Reports
     # Service descriptor — handy when poking the container directly.
     get Reports::MOUNT_PATH do
       json_success({
-        service: Reports::SERVICE_NAME,
-        version: Reports::VERSION,
-        endpoints: [
-          'GET  /api/reports/property/:id/brochure.pdf',
-          'GET  /api/reports/market/summary?areaId=&from=&to=',
-          'POST /api/reports/mortgage/calculate',
-          'POST /api/reports/installment/schedule',
-          'GET  /api/reports/admin/export/leads.csv',
-          'GET  /api/reports/admin/export/properties.csv',
-          'GET  /api/reports/health'
-        ]
-      })
+                     service: Reports::SERVICE_NAME,
+                     version: Reports::VERSION,
+                     endpoints: [
+                       'GET  /api/reports/property/:id/brochure.pdf',
+                       'GET  /api/reports/market/summary?areaId=&from=&to=',
+                       'POST /api/reports/mortgage/calculate',
+                       'POST /api/reports/installment/schedule',
+                       'GET  /api/reports/admin/export/leads.csv',
+                       'GET  /api/reports/admin/export/properties.csv',
+                       'GET  /api/reports/health'
+                     ]
+                   })
     end
 
     # --- error handling (CONTRACT §4) -------------------------------------

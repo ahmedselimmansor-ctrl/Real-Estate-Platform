@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'set'
-
 require_relative 'errors'
 require_relative 'logging'
 
@@ -75,7 +73,7 @@ module Reports
         cached = cache[:columns]
         return cached[table_name] if cached.key?(table_name)
 
-        set = conn.exec_params(COLUMN_SQL, [table_name]).map { |row| row['attname'] }.to_set
+        set = conn.exec_params(COLUMN_SQL, [table_name]).to_set { |row| row['attname'] }
         MUTEX.synchronize { cache[:columns][table_name] = set }
         set
       end

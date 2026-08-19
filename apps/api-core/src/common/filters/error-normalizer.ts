@@ -71,7 +71,11 @@ function normalizePrismaKnownError(error: PrismaKnownRequestErrorLike): Normaliz
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         code: ERROR_CODES.RELATED_RESOURCE_NOT_FOUND,
         message: 'A referenced record does not exist',
-        details: fields.map((field) => ({ field, message: 'unknown reference', rule: 'foreignKey' })),
+        details: fields.map((field) => ({
+          field,
+          message: 'unknown reference',
+          rule: 'foreignKey',
+        })),
       };
     case 'P2011':
       return {
@@ -159,8 +163,7 @@ function normalizeHttpException(exception: HttpException): NormalizedError {
   }
 
   if (isRecord(response)) {
-    const code =
-      typeof response.code === 'string' ? response.code : errorCodeForStatus(status);
+    const code = typeof response.code === 'string' ? response.code : errorCodeForStatus(status);
     const rawMessage = response.message;
     const details: ApiErrorDetail[] = Array.isArray(response.details)
       ? (response.details as ApiErrorDetail[])
@@ -176,9 +179,10 @@ function normalizeHttpException(exception: HttpException): NormalizedError {
 
     return {
       status,
-      code: Array.isArray(rawMessage) && code === errorCodeForStatus(status)
-        ? ERROR_CODES.VALIDATION_ERROR
-        : code,
+      code:
+        Array.isArray(rawMessage) && code === errorCodeForStatus(status)
+          ? ERROR_CODES.VALIDATION_ERROR
+          : code,
       message,
       details,
       cause: status >= 500 ? exception : undefined,
@@ -293,7 +297,11 @@ export function normalizeException(exception: unknown): NormalizedError {
     };
   }
 
-  if (isRecord(exception) && typeof exception.name === 'string' && JWT_ERROR_NAMES.has(exception.name)) {
+  if (
+    isRecord(exception) &&
+    typeof exception.name === 'string' &&
+    JWT_ERROR_NAMES.has(exception.name)
+  ) {
     const expired = exception.name === 'TokenExpiredError';
     return {
       status: HttpStatus.UNAUTHORIZED,

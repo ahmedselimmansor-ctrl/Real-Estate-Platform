@@ -95,7 +95,7 @@ class ProviderHttpClient:
         payload: dict[str, Any],
         *,
         operation: str,
-        timeout: float | None = None,
+        timeout: float | None = None,  # noqa: ASYNC109 - forwarded to httpx, not an asyncio deadline
     ) -> dict[str, Any]:
         """POST JSON with retries; returns the decoded JSON body."""
         attempt_number = 0
@@ -117,8 +117,7 @@ class ProviderHttpClient:
 
             if response.status_code in RETRY_STATUS_CODES:
                 raise RetryableHttpError(
-                    f"{self.provider} returned {response.status_code}: "
-                    f"{response.text[:300]}",
+                    f"{self.provider} returned {response.status_code}: " f"{response.text[:300]}",
                     status_code=response.status_code,
                 )
             if response.status_code >= 400:

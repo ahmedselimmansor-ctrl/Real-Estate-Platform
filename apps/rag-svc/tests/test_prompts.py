@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from app.graph.prompts import (
     ROUTE_VALUES,
     build_system_prompt,

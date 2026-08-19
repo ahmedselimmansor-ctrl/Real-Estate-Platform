@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import type { User } from '@prisma/client';
 
@@ -15,7 +15,9 @@ export class LocalAuthGuard extends AuthGuard('local') {
       throw err;
     }
     if (err) {
-      throw err;
+      // Passport types this as `any`; rethrowing a non-Error loses the stack
+      // and confuses every handler downstream.
+      throw err instanceof Error ? err : new UnauthorizedException();
     }
     if (!user) {
       throw AppException.unauthorized(

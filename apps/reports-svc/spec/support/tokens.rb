@@ -23,8 +23,8 @@ module SpecSupport
       JWT.encode(payload, secret, 'HS256')
     end
 
-    def bearer(role: 'user', **options)
-      { 'HTTP_AUTHORIZATION' => "Bearer #{access_token(role: role, **options)}" }
+    def bearer(role: 'user', **)
+      { 'HTTP_AUTHORIZATION' => "Bearer #{access_token(role: role, **)}" }
     end
 
     def admin_headers

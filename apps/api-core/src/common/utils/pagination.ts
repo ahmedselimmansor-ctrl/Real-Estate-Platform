@@ -14,7 +14,9 @@ export interface NormalizedPagination {
 
 /** Clamps user supplied pagination to the CONTRACT §4 bounds. */
 export function normalizePagination(input: PaginationInput = {}): NormalizedPagination {
-  const page = Number.isFinite(input.page) ? Math.max(1, Math.trunc(input.page as number)) : DEFAULT_PAGE;
+  const page = Number.isFinite(input.page)
+    ? Math.max(1, Math.trunc(input.page as number))
+    : DEFAULT_PAGE;
   const rawLimit = Number.isFinite(input.limit)
     ? Math.trunc(input.limit as number)
     : DEFAULT_PAGE_SIZE;

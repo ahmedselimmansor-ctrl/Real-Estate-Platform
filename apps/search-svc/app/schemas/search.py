@@ -229,7 +229,9 @@ class SearchFilters(BaseModel):
     def _accept_csv(cls, value: Any) -> Any:
         return _split_multi(value)
 
-    @field_validator("propertyType", "finishing", "areaId", "compoundId", "developerId", "amenities")
+    @field_validator(
+        "propertyType", "finishing", "areaId", "compoundId", "developerId", "amenities"
+    )
     @classmethod
     def _normalise_strings(cls, value: list[str]) -> list[str]:
         return _dedupe_sorted([item for item in value if item])
@@ -244,7 +246,11 @@ class SearchFilters(BaseModel):
 
     @model_validator(mode="after")
     def _check_ranges(self) -> Self:
-        if self.minPrice is not None and self.maxPrice is not None and self.minPrice > self.maxPrice:
+        if (
+            self.minPrice is not None
+            and self.maxPrice is not None
+            and self.minPrice > self.maxPrice
+        ):
             raise ValueError("minPrice must be less than or equal to maxPrice")
         if self.minArea is not None and self.maxArea is not None and self.minArea > self.maxArea:
             raise ValueError("minArea must be less than or equal to maxArea")

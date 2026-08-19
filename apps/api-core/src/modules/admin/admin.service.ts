@@ -93,16 +93,22 @@ export class AdminService {
 
     const byLeadStatus = Object.fromEntries(
       (
-        ['new', 'contacted', 'qualified', 'viewing', 'negotiating', 'won', 'lost'] as LeadStatusValue[]
+        [
+          'new',
+          'contacted',
+          'qualified',
+          'viewing',
+          'negotiating',
+          'won',
+          'lost',
+        ] as LeadStatusValue[]
       ).map((status) => [status, 0]),
     ) as Record<LeadStatusValue, number>;
     for (const row of leadGroups) {
       byLeadStatus[row.status as LeadStatusValue] = row._count._all;
     }
 
-    const listingsByMonth = new Map(
-      (facets.listingTrend ?? []).map((row) => [row._id, row.count]),
-    );
+    const listingsByMonth = new Map((facets.listingTrend ?? []).map((row) => [row._id, row.count]));
     const leadsByMonth = new Map(leadTrend.map((row) => [row.month, row.count]));
 
     return {
@@ -118,7 +124,11 @@ export class AdminService {
         avgPrice: Math.round(totals.avgPrice),
         avgPricePerMeter: Math.round(totals.avgPpm),
       },
-      users: { total: userGroups.reduce((n, r) => n + r._count._all, 0), byRole, newThisMonth: newUsers },
+      users: {
+        total: userGroups.reduce((n, r) => n + r._count._all, 0),
+        byRole,
+        newThisMonth: newUsers,
+      },
       leads: {
         total: leadGroups.reduce((n, r) => n + r._count._all, 0),
         byStatus: byLeadStatus,
@@ -171,14 +181,8 @@ export class AdminService {
               { $group: { _id: '$status', count: { $sum: 1 } } },
               { $project: { _id: 1, count: 1 } },
             ],
-            featured: [
-              { $match: { isFeatured: true } },
-              { $count: 'count' },
-            ],
-            newThisMonth: [
-              { $match: { createdAt: { $gte: monthStart } } },
-              { $count: 'count' },
-            ],
+            featured: [{ $match: { isFeatured: true } }, { $count: 'count' }],
+            newThisMonth: [{ $match: { createdAt: { $gte: monthStart } } }, { $count: 'count' }],
             engagement: [
               {
                 $group: {
@@ -255,9 +259,7 @@ export class AdminService {
     const cursor = new Date(start);
 
     for (let index = 0; index < TREND_MONTHS; index += 1) {
-      keys.push(
-        `${cursor.getUTCFullYear()}-${String(cursor.getUTCMonth() + 1).padStart(2, '0')}`,
-      );
+      keys.push(`${cursor.getUTCFullYear()}-${String(cursor.getUTCMonth() + 1).padStart(2, '0')}`);
       cursor.setUTCMonth(cursor.getUTCMonth() + 1);
     }
 

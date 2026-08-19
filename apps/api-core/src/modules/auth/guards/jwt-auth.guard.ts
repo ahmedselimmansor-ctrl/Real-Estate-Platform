@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import type { Observable } from 'rxjs';
@@ -22,7 +22,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super();
   }
 
-  override canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  override canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     if (context.getType() !== 'http') {
       return true;
     }
@@ -45,7 +47,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
 
     if (err) {
-      throw err;
+      // Passport types this as `any`; rethrowing a non-Error loses the stack
+      // and confuses every handler downstream.
+      throw err instanceof Error ? err : new UnauthorizedException();
     }
 
     if (!user) {

@@ -31,8 +31,8 @@ from app.core.logging import get_logger
 from app.graph.prompts import (
     GRADE_PROMPT,
     REWRITE_PROMPT,
-    ROUTER_PROMPT,
     ROUTE_VALUES,
+    ROUTER_PROMPT,
     SMALLTALK_PROMPT,
     build_system_prompt,
     detect_locale,
@@ -59,9 +59,24 @@ MAX_QUESTION_CHARS = 4000
 
 #: Phrases that count as the user confirming a side-effecting tool.
 CONFIRMATION_PATTERNS = (
-    "yes", "yes please", "go ahead", "please do", "book it", "confirm",
-    "that's right", "correct", "sure", "ok", "okay",
-    "نعم", "أيوة", "ايوه", "تمام", "موافق", "احجز", "أكيد",
+    "yes",
+    "yes please",
+    "go ahead",
+    "please do",
+    "book it",
+    "confirm",
+    "that's right",
+    "correct",
+    "sure",
+    "ok",
+    "okay",
+    "نعم",
+    "أيوة",
+    "ايوه",
+    "تمام",
+    "موافق",
+    "احجز",
+    "أكيد",
 )
 
 
@@ -83,7 +98,7 @@ class NodeDeps:
         tools: ToolRegistry,
         memory: MemoryStore,
         settings: Settings | None = None,
-    ) -> "NodeDeps":
+    ) -> NodeDeps:
         return cls(
             providers=providers,
             retriever=retriever,
@@ -214,7 +229,7 @@ async def route(state: GraphState, deps: NodeDeps) -> dict[str, Any]:
         parsed = _extract_json(result.text)
         selected = str(parsed.get("route", "")).strip()
         confidence = float(parsed.get("confidence", 0.5) or 0.5)
-    except Exception as exc:  # noqa: BLE001 - routing must never fail a turn
+    except Exception as exc:
         logger.warning("route_failed", error=str(exc))
         return {"route": keyword_route(question), "route_confidence": 0.3}
 
@@ -253,7 +268,7 @@ async def rewrite_query(state: GraphState, deps: NodeDeps) -> dict[str, Any]:
             # Guard against a model that "helpfully" answers instead of rewriting.
             if candidate and len(candidate) <= max(240, len(question) * 6):
                 rewritten = candidate
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             logger.warning("rewrite_failed", error=str(exc))
 
     from app.retrieval.filters import parse_query_filters
@@ -334,7 +349,7 @@ async def grade_context(state: GraphState, deps: NodeDeps) -> dict[str, Any]:
         parsed = _extract_json(result.text)
         sufficient = bool(parsed.get("sufficient", True))
         reason = str(parsed.get("reason", ""))[:120]
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.warning("grade_failed", error=str(exc))
         return {"context_sufficient": True, "grade_reason": "grading errored"}
 
@@ -381,7 +396,9 @@ async def call_tools(state: GraphState, deps: NodeDeps) -> dict[str, Any]:
             for key, value in profile.items()
             if key in _CARRIED_FILTER_KEYS and value not in (None, "", [], {})
         }
-        this_turn = {key: value for key, value in filters.items() if value not in (None, "", [], {})}
+        this_turn = {
+            key: value for key, value in filters.items() if value not in (None, "", [], {})
+        }
         filters = {**carried, **this_turn}
 
     state = {**state, "filters": filters}
@@ -465,21 +482,19 @@ async def _plan_tool_calls(
         )
         parsed = _extract_json(result.text)
         calls = parsed.get("calls", [])
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.warning("tool_planning_failed", error=str(exc))
         return _default_tool_calls(state, selected_route, question)
 
     allowed = {schema["function"]["name"] for schema in schemas}
-    planned = [
-        call
-        for call in calls
-        if isinstance(call, dict) and call.get("name") in allowed
-    ][:3]
+    planned = [call for call in calls if isinstance(call, dict) and call.get("name") in allowed][:3]
 
     return planned or _default_tool_calls(state, selected_route, question)
 
 
-_YEARS_RE = re.compile(r"(\d{1,2})\s*(?:years?|yrs?|\u0633\u0646\u0629|\u0633\u0646\u0648\u0627\u062a)", re.IGNORECASE)
+_YEARS_RE = re.compile(
+    r"(\d{1,2})\s*(?:years?|yrs?|\u0633\u0646\u0629|\u0633\u0646\u0648\u0627\u062a)", re.IGNORECASE
+)
 #: A follow-up that only restates the repayment term, e.g. "and over 10 years?"
 _TERM_ONLY_RE = re.compile(
     r"(?:and|what about|\u0648|\u0645\u0627\u0630\u0627 \u0639\u0646)?\s*"
@@ -489,10 +504,19 @@ _TERM_ONLY_RE = re.compile(
 )
 
 _MORTGAGE_TERMS = (
-    "monthly", "per month", "instal", "mortgage", "repay", "afford",
-    "down payment", "payment plan", "\u0634\u0647\u0631\u064a", "\u0642\u0633\u0637", "\u062a\u0642\u0633\u064a\u0637", "\u0645\u0642\u062f\u0645",
+    "monthly",
+    "per month",
+    "instal",
+    "mortgage",
+    "repay",
+    "afford",
+    "down payment",
+    "payment plan",
+    "\u0634\u0647\u0631\u064a",
+    "\u0642\u0633\u0637",
+    "\u062a\u0642\u0633\u064a\u0637",
+    "\u0645\u0642\u062f\u0645",
 )
-
 
 
 def _mortgage_arguments(
@@ -628,7 +652,9 @@ def build_generation_messages(state: GraphState) -> list[ProviderMessage]:
     has_context = bool(sources or tool_results)
 
     if selected_route == "smalltalk":
-        system = f"{build_system_prompt(locale=locale, include_few_shot=False)}\n\n{SMALLTALK_PROMPT}"
+        system = (
+            f"{build_system_prompt(locale=locale, include_few_shot=False)}\n\n{SMALLTALK_PROMPT}"
+        )
     else:
         system = build_system_prompt(locale=locale, has_context=has_context)
 
@@ -676,7 +702,7 @@ async def generate(state: GraphState, deps: NodeDeps) -> dict[str, Any]:
             sources=answer_sources(state),
             question=state.get("question", ""),
         )
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.error("generation_failed", error=str(exc))
         return {
             "answer": (

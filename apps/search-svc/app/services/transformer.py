@@ -22,12 +22,12 @@ from app.es.mapping import (
 )
 
 __all__ = [
-    "transform_property",
-    "transform_many",
+    "SUGGEST_WEIGHTS",
     "is_indexable",
     "resolve_document_id",
     "slugify",
-    "SUGGEST_WEIGHTS",
+    "transform_many",
+    "transform_property",
 ]
 
 #: Base type-ahead weights per suggestion category.
@@ -116,9 +116,7 @@ def _to_iso(value: Any) -> str | None:
         return value.isoformat()
     if isinstance(value, int | float) and not isinstance(value, bool):
         return (
-            datetime.fromtimestamp(float(value) / 1000.0, tz=UTC)
-            .isoformat()
-            .replace("+00:00", "Z")
+            datetime.fromtimestamp(float(value) / 1000.0, tz=UTC).isoformat().replace("+00:00", "Z")
         )
     text = str(value).strip()
     return text or None

@@ -108,12 +108,12 @@ module Reports
 
             doc.font_size(9) do
               doc.text_box safe(view[:reference_no].to_s), at: [doc.bounds.width - 236, doc.bounds.top - 28],
-                           width: 200, height: 14, align: :right, style: :bold
+                                                           width: 200, height: 14, align: :right, style: :bold
               doc.text_box safe([view[:property_type], view[:sale_type], view[:status]].compact.join('  ·  ')),
                            at: [doc.bounds.width - 236, doc.bounds.top - 44], width: 200, height: 14,
                            align: :right
               doc.text_box safe(view[:generated_on]), at: [doc.bounds.width - 236, doc.bounds.top - 60],
-                           width: 200, height: 14, align: :right
+                                                      width: 200, height: 14, align: :right
             end
           end
         end
@@ -191,7 +191,7 @@ module Reports
           doc.fill_color colour
           doc.font_size(index.zero? ? 15 : 11.5) do
             doc.text_box safe(value), at: [x + 14, top - 30], width: column - 20, height: 32,
-                         style: :bold, overflow: :shrink_to_fit
+                                      style: :bold, overflow: :shrink_to_fit
           end
         end
 
@@ -340,13 +340,13 @@ module Reports
             doc.fill_color MUTED
             doc.font_size(7.5) do
               doc.text_box safe(view[:listing_url]), at: [36, y + 6],
-                           width: doc.bounds.width - 220, height: 12
+                                                     width: doc.bounds.width - 220, height: 12
               doc.text_box safe("Generated #{view[:generated_at_label]}  ·  Page #{doc.page_number}"),
                            at: [doc.bounds.width - 256, y + 6], width: 220, height: 12, align: :right
             end
             doc.font_size(6.5) do
               doc.text_box safe(view[:footer_disclaimer]), at: [36, y - 8],
-                           width: doc.bounds.width - 72, height: 12
+                                                           width: doc.bounds.width - 72, height: 12
             end
             doc.fill_color INK
           end

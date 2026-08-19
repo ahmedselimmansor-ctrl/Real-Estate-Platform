@@ -9,23 +9,17 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-
-from app.graph.nodes import _default_tool_calls
-
 from app.graph import nodes as node_module
 from app.graph.builder import _after_grade, _after_guard, _after_route
-from app.graph.nodes import NodeDeps, build_generation_messages
+from app.graph.nodes import NodeDeps, _default_tool_calls, build_generation_messages
 from app.graph.state import MAX_ITERATIONS, initial_state
 from app.providers.base import (
     GenerationResult,
     GenerationUsage,
-    RerankResponse,
 )
 from app.retrieval.hybrid_search import RetrievalResult
 from app.retrieval.models import RetrievedChunk
-from app.tools.base import ToolResult
 from app.tools.registry import ToolRegistry
-
 
 # ------------------------------------------------------------------- doubles
 
@@ -39,14 +33,14 @@ class FakeGeneration:
         self._replies = replies or []
         self.calls: list[list[Any]] = []
 
-    async def generate(self, messages, **options):  # noqa: ANN001
+    async def generate(self, messages, **options):
         self.calls.append(list(messages))
         text = self._replies.pop(0) if self._replies else "A grounded answer [1]."
         return GenerationResult(
             text=text, model=self.model, provider=self.name, usage=GenerationUsage()
         )
 
-    async def stream(self, messages, **options):  # noqa: ANN001
+    async def stream(self, messages, **options):
         self.calls.append(list(messages))
         text = self._replies.pop(0) if self._replies else "streamed answer"
         for piece in text.split(" "):
@@ -72,28 +66,30 @@ class FakeMemory:
     def __init__(self, messages: list[dict[str, str]] | None = None) -> None:
         self._messages = messages or []
 
-    async def load(self, thread_id):  # noqa: ANN001
+    async def load(self, thread_id):
         from app.memory.thread_memory import ThreadMemory
 
         return ThreadMemory(messages=self._messages, summary=None, profile={})
 
-    def update_profile(self, profile, question):  # noqa: ANN001
+    def update_profile(self, profile, question):
         return profile
 
-    async def persist_profile(self, thread_id, profile):  # noqa: ANN001
+    async def persist_profile(self, thread_id, profile):
         return None
 
     def should_summarise(self, count: int) -> bool:
         return False
 
-    async def refresh_summary(self, *args, **kwargs):  # noqa: ANN001
+    async def refresh_summary(self, *args, **kwargs):
         return None
 
 
 class FakeProviders:
     def __init__(self, generation: FakeGeneration) -> None:
         self.generation = generation
-        self.embeddings = type("E", (), {"available": True, "name": "fake", "model": "m", "dim": 8})()
+        self.embeddings = type(
+            "E", (), {"available": True, "name": "fake", "model": "m", "dim": 8}
+        )()
         self.rerank = type("R", (), {"available": True, "name": "fake", "model": "m"})()
 
     def describe(self) -> dict[str, Any]:
@@ -194,16 +190,14 @@ class TestRouting:
     @pytest.mark.asyncio
     async def test_falls_back_to_keywords_without_a_provider(self) -> None:
         deps = build_deps(FakeGeneration(available=False))
-        update = await node_module.route(
-            initial_state(question="I want to speak to a human"), deps
-        )
+        update = await node_module.route(initial_state(question="I want to speak to a human"), deps)
 
         assert update["route"] == "handoff"
 
     @pytest.mark.asyncio
     async def test_survives_a_generation_error(self) -> None:
         class Exploding(FakeGeneration):
-            async def generate(self, messages, **options):  # noqa: ANN001
+            async def generate(self, messages, **options):
                 raise RuntimeError("provider down")
 
         update = await node_module.route(
@@ -312,8 +306,7 @@ class TestGrading:
         assert _after_grade({"context_sufficient": False, "iteration": 1}) == "rewrite_query"
         # Budget exhausted → hand over to tools rather than looping forever.
         assert (
-            _after_grade({"context_sufficient": False, "iteration": MAX_ITERATIONS})
-            == "call_tools"
+            _after_grade({"context_sufficient": False, "iteration": MAX_ITERATIONS}) == "call_tools"
         )
         assert _after_grade({"context_sufficient": True, "iteration": 0}) == "generate"
 
@@ -335,7 +328,7 @@ class TestToolExecution:
             description = "boom"
             args_model = Args
 
-            async def run(self, args, context):  # noqa: ANN001
+            async def run(self, args, context):
                 raise RuntimeError("upstream exploded")
 
         registry = ToolRegistry(tools={"web_search": Exploding()})
@@ -452,12 +445,10 @@ class TestGenerationMessages:
     @pytest.mark.asyncio
     async def test_generation_failure_returns_a_readable_apology(self) -> None:
         class Exploding(FakeGeneration):
-            async def generate(self, messages, **options):  # noqa: ANN001
+            async def generate(self, messages, **options):
                 raise RuntimeError("429")
 
-        update = await node_module.generate(
-            initial_state(question="hi"), build_deps(Exploding())
-        )
+        update = await node_module.generate(initial_state(question="hi"), build_deps(Exploding()))
 
         assert update["error"] == "GENERATION_FAILED"
         assert update["answer"]

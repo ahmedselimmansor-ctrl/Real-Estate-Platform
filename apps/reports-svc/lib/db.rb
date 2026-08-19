@@ -44,9 +44,7 @@ module Reports
               type_map = PG::BasicTypeMapForResults.new(conn)
               type_map.default_type_map = PG::TypeMapAllStrings.new
               conn.type_map_for_results = type_map
-              if search_path && search_path.match?(/\A[a-zA-Z0-9_, ]+\z/)
-                conn.exec("SET search_path TO #{search_path}")
-              end
+              conn.exec("SET search_path TO #{search_path}") if search_path&.match?(/\A[a-zA-Z0-9_, ]+\z/)
               conn
             end
           end
@@ -162,7 +160,7 @@ module Reports
       end
 
       def cache_key(namespace, *parts)
-        digest = Digest::SHA256.hexdigest(parts.map(&:to_s).join('|'))[0, 24]
+        digest = Digest::SHA256.hexdigest(parts.join('|'))[0, 24]
         "#{namespace}:#{digest}"
       end
 

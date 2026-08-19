@@ -127,8 +127,7 @@ export function buildConfig(env: Env): AppConfig {
       secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
       bucket: env.S3_BUCKET,
       publicBaseUrl: trimTrailingSlash(
-        env.S3_PUBLIC_BASE_URL ||
-          (env.CLOUDFRONT_DOMAIN ? `https://${env.CLOUDFRONT_DOMAIN}` : ''),
+        env.S3_PUBLIC_BASE_URL || (env.CLOUDFRONT_DOMAIN ? `https://${env.CLOUDFRONT_DOMAIN}` : ''),
       ),
       cloudfrontDomain: env.CLOUDFRONT_DOMAIN,
       enabled: env.AWS_ACCESS_KEY_ID.length > 0 && env.AWS_SECRET_ACCESS_KEY.length > 0,

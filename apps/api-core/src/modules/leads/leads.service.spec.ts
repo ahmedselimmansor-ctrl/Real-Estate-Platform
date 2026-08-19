@@ -7,10 +7,13 @@ describe('LeadsService', () => {
     prisma: Record<string, unknown> = {},
     properties: Record<string, unknown> = {},
   ): LeadsService =>
-    new LeadsService(prisma as never, {
-      incrementLeadCount: jest.fn().mockResolvedValue(undefined),
-      ...properties,
-    } as never);
+    new LeadsService(
+      prisma as never,
+      {
+        incrementLeadCount: jest.fn().mockResolvedValue(undefined),
+        ...properties,
+      } as never,
+    );
 
   describe('honeypot', () => {
     it('accepts and silently drops a submission that fills `company`', async () => {
@@ -222,9 +225,7 @@ describe('LeadsService', () => {
 
       const service = buildService({
         lead: {
-          findUnique: jest
-            .fn()
-            .mockResolvedValue({ id: 'l1', status: 'contacted', contactedAt }),
+          findUnique: jest.fn().mockResolvedValue({ id: 'l1', status: 'contacted', contactedAt }),
           update,
         },
         user: { count: jest.fn().mockResolvedValue(1) },
@@ -257,7 +258,8 @@ describe('LeadsService', () => {
     });
 
     it('lets every non-terminal status be abandoned', () => {
-      for (const [status, allowed] of Object.entries(LEAD_TRANSITIONS)) {
+      // Only the allowed-set matters here; the key it came from does not.
+      for (const allowed of Object.values(LEAD_TRANSITIONS)) {
         if (allowed.length > 0) {
           expect(allowed).toContain('lost');
         }

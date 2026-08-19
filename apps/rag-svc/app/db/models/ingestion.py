@@ -25,9 +25,7 @@ class IngestionRun(Base):
     id: Mapped[uuid.UUID] = uuid_pk()
     source: Mapped[str] = mapped_column(String(32), nullable=False)
     status: Mapped[str] = mapped_column(String(16), nullable=False, default="pending")
-    stats: Mapped[dict] = mapped_column(
-        JSONB, nullable=False, default=dict, server_default="{}"
-    )
+    stats: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict, server_default="{}")
     error: Mapped[str | None] = mapped_column(Text, nullable=True)
     started_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()

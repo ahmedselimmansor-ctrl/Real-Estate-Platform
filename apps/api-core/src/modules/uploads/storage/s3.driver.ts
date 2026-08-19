@@ -77,9 +77,7 @@ export class S3StorageDriver implements StorageDriver {
 
   async delete(key: string): Promise<void> {
     try {
-      await this.client.send(
-        new DeleteObjectCommand({ Bucket: this.config.bucket, Key: key }),
-      );
+      await this.client.send(new DeleteObjectCommand({ Bucket: this.config.bucket, Key: key }));
     } catch (error) {
       this.logger.error(`could not delete ${key}: ${String(error)}`);
       throw AppException.serviceUnavailable(

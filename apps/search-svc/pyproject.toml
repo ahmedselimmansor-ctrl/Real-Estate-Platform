@@ -22,6 +22,13 @@ ignore = ["B008", "RUF001", "RUF002", "RUF003"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
+# These modules *are* the wire format. CONTRACT §5 fixes the envelope and the
+# query parameters as camelCase, so `finishedAt` and `durationMs` are the
+# field names the API is required to emit, not a naming slip. Renaming them to
+# satisfy pep8-naming would break every client.
+"app/schemas/*.py" = ["N815"]
+"app/services/runs.py" = ["N815"]
+"app/core/envelope.py" = ["N815"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]

@@ -164,7 +164,9 @@ class HybridSearcher:
             result.reranked = True
 
         selected = [
-            chunk for chunk in shortlist[:effective_n] if chunk.score >= self._settings.rag_min_score
+            chunk
+            for chunk in shortlist[:effective_n]
+            if chunk.score >= self._settings.rag_min_score
         ]
         result.chunks = selected
         result.degraded = not (
@@ -201,9 +203,7 @@ class HybridSearcher:
         rows = await self._execute(statement, payload, branch="text")
         return [_row_to_chunk(row, text_score=float(row["score"] or 0.0)) for row in rows]
 
-    async def _execute(
-        self, statement: Any, params: dict[str, Any], *, branch: str
-    ) -> list[Any]:
+    async def _execute(self, statement: Any, params: dict[str, Any], *, branch: str) -> list[Any]:
         try:
             async with self._database.session() as session:
                 if branch == "vector":
@@ -356,7 +356,7 @@ def _as_dict(value: Any) -> dict[str, Any]:
     """JSONB comes back as a dict (SQLAlchemy) or a string (raw driver)."""
     if isinstance(value, dict):
         return value
-    if isinstance(value, (str, bytes)):
+    if isinstance(value, str | bytes):
         try:
             decoded = orjson.loads(value)
         except orjson.JSONDecodeError:

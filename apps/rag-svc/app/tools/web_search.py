@@ -84,9 +84,7 @@ class WebSearchTool(Tool):
 
             if response.status_code >= 400:
                 detail = response.text[:200]
-                logger.warning(
-                    "web_search_failed", status=response.status_code, detail=detail
-                )
+                logger.warning("web_search_failed", status=response.status_code, detail=detail)
                 return ToolResult(
                     name=self.name,
                     ok=False,
@@ -117,9 +115,13 @@ class WebSearchTool(Tool):
             if citation.get("url")
         ]
 
-        summary = text[:1500] if text else "\n".join(
-            f"- {source['title']} ({source['domain']}): {source['snippet']}"
-            for source in sources[:5]
+        summary = (
+            text[:1500]
+            if text
+            else "\n".join(
+                f"- {source['title']} ({source['domain']}): {source['snippet']}"
+                for source in sources[:5]
+            )
         )
 
         return ToolResult(
@@ -133,9 +135,7 @@ class WebSearchTool(Tool):
     # ----------------------------------------------------------------- utils
 
     def _input_text(self, args: WebSearchArgs) -> str:
-        instruction = (
-            f"Search the web and answer concisely, with sources: {args.query}"
-        )
+        instruction = f"Search the web and answer concisely, with sources: {args.query}"
         if args.recency:
             instruction += f" (prioritise results from the last {args.recency})"
         return instruction

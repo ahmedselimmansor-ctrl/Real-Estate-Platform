@@ -182,7 +182,7 @@ export class TokenService {
     context: SessionContext = {},
   ): Promise<IssuedTokens> {
     const issued = await this.issueTokens(user, context);
-    const newJti = (await this.jwt.decode(issued.refreshToken)) as RefreshTokenPayload | null;
+    const newJti = this.jwt.decode<RefreshTokenPayload | null>(issued.refreshToken);
 
     await this.revokeRefreshJti(oldPayload.sub, oldPayload.jti, oldPayload.exp, newJti?.jti);
 
@@ -201,7 +201,11 @@ export class TokenService {
     const remaining = secondsUntilExpiry(expUnixSeconds);
 
     if (remaining > 0) {
-      await this.cache.set(cacheKeys.authDenylist(jti), { userId, revokedAt: Date.now() }, remaining);
+      await this.cache.set(
+        cacheKeys.authDenylist(jti),
+        { userId, revokedAt: Date.now() },
+        remaining,
+      );
     }
     await this.cache.del(cacheKeys.authRefresh(userId, jti));
 

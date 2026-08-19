@@ -11,8 +11,8 @@ import math
 from typing import Any, NamedTuple
 
 __all__ = [
-    "BoundingBox",
     "EARTH_RADIUS_KM",
+    "BoundingBox",
     "bbox_from_string",
     "es_point",
     "haversine_km",

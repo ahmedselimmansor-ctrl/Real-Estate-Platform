@@ -17,11 +17,7 @@ import { AreasService } from '../areas/areas.service';
 import { hashIp } from '../shared/hash.util';
 import { isObjectIdHex, isUuid } from '../shared/identifier.util';
 import { buildUniqueSlug } from '../shared/slug.util';
-import type {
-  CreatePropertyDto,
-  ListPropertiesDto,
-  UpdatePropertyDto,
-} from './dto/property.dto';
+import type { CreatePropertyDto, ListPropertiesDto, UpdatePropertyDto } from './dto/property.dto';
 import { PropertyMirrorService } from './property-mirror.service';
 import { SearchIndexClient } from './search-index.client';
 
@@ -207,8 +203,7 @@ export class PropertiesService {
       price: {
         amount: dto.price.amount,
         currency: 'EGP',
-        pricePerMeter:
-          dto.price.pricePerMeter ?? Math.round(dto.price.amount / dto.specs.areaSqm),
+        pricePerMeter: dto.price.pricePerMeter ?? Math.round(dto.price.amount / dto.specs.areaSqm),
       },
       paymentPlan: {
         downPaymentPercent: dto.paymentPlan.downPaymentPercent,
@@ -264,10 +259,7 @@ export class PropertiesService {
       .exec();
 
     if (!existing) {
-      throw AppException.notFound(
-        `Property "${id}" was not found`,
-        ERROR_CODES.PROPERTY_NOT_FOUND,
-      );
+      throw AppException.notFound(`Property "${id}" was not found`, ERROR_CODES.PROPERTY_NOT_FOUND);
     }
 
     const update: Record<string, unknown> = {};
@@ -384,16 +376,10 @@ export class PropertiesService {
   }
 
   async remove(id: string): Promise<{ id: string; deleted: true }> {
-    const existing = await this.propertyModel
-      .findOne({ propertyId: id })
-      .lean<Property>()
-      .exec();
+    const existing = await this.propertyModel.findOne({ propertyId: id }).lean<Property>().exec();
 
     if (!existing) {
-      throw AppException.notFound(
-        `Property "${id}" was not found`,
-        ERROR_CODES.PROPERTY_NOT_FOUND,
-      );
+      throw AppException.notFound(`Property "${id}" was not found`, ERROR_CODES.PROPERTY_NOT_FOUND);
     }
 
     await this.mirror.softDeleteWithMirror(id);

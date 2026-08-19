@@ -27,9 +27,7 @@ module Reports
         end
       when Array
         value.map { |v| normalize(v) }
-      when BigDecimal
-        value.to_f
-      when Rational
+      when BigDecimal, Rational
         value.to_f
       when Time
         value.utc.iso8601(3)
@@ -54,7 +52,7 @@ module Reports
 
     # snake_case / kebab-case -> camelCase. Already-camel strings survive.
     def camelize(string)
-      head, *rest = string.split(/[_\-]/)
+      head, *rest = string.split(/[_-]/)
       return string if rest.empty?
 
       ([head.to_s] + rest.map { |part| part.empty? ? '' : part[0].upcase + part[1..].to_s }).join

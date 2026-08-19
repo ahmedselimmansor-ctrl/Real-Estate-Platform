@@ -3,15 +3,14 @@
 from __future__ import annotations
 
 import pytest
-
 from app.retrieval.filters import (
-    parse_stated_amount,
     QueryFilters,
     parse_area,
     parse_bedrooms,
     parse_price_range,
     parse_property_type,
     parse_query_filters,
+    parse_stated_amount,
 )
 from app.retrieval.hybrid_search import build_filter_sql
 

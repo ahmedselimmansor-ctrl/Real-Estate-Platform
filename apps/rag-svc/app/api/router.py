@@ -12,9 +12,8 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 from fastapi.responses import ORJSONResponse
 
-from app.api import chat_routes
+from app.api import chat_routes, ingest_routes
 from app.api import health as health_module
-from app.api import ingest_routes
 
 API_PREFIX = "/api/chat"
 

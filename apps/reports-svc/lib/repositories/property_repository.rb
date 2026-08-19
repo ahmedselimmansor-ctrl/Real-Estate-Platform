@@ -183,9 +183,11 @@ module Reports
         }
 
         # Without $median we pull the price vector and compute it in Ruby.
-        result['prices'] = [{ '$group' => { '_id' => nil,
-                                            'prices' => { '$push' => '$price.amount' },
-                                            'pricesPerMeter' => { '$push' => '$price.pricePerMeter' } } }] unless median
+        unless median
+          result['prices'] = [{ '$group' => { '_id' => nil,
+                                              'prices' => { '$push' => '$price.amount' },
+                                              'pricesPerMeter' => { '$push' => '$price.pricePerMeter' } } }]
+        end
 
         result
       end

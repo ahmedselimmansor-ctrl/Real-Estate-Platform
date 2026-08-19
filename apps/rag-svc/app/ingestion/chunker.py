@@ -119,7 +119,9 @@ class TokenAwareChunker:
 
                 if unit_tokens > budget:
                     if current:
-                        chunks.append(self._make(len(chunks), prefix, current, heading, base_metadata))
+                        chunks.append(
+                            self._make(len(chunks), prefix, current, heading, base_metadata)
+                        )
                         current, current_tokens = [], 0
                     for piece in self._hard_split(unit, budget, overlap_budget):
                         chunks.append(
@@ -245,7 +247,8 @@ class TokenAwareChunker:
         ):
             return chunks
 
-        merged_content = f"{previous.content} {last.content.removeprefix(previous.heading or '').strip()}".strip()
+        tail = last.content.removeprefix(previous.heading or "").strip()
+        merged_content = f"{previous.content} {tail}".strip()
         chunks[-2] = Chunk(
             ordinal=previous.ordinal,
             content=merged_content,

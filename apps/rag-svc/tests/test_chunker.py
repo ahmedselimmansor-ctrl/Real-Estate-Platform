@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-import pytest
+import itertools
 
+import pytest
 from app.core.tokens import TokenCounter, estimate_tokens
 from app.ingestion.chunker import TokenAwareChunker, iter_sections, split_sentences
 
@@ -82,7 +83,7 @@ def test_overlap_repeats_trailing_sentences() -> None:
     chunks = chunker.split(" ".join(ENGLISH_SENTENCES))
     assert len(chunks) > 2
 
-    for previous, current in zip(chunks, chunks[1:], strict=False):
+    for previous, current in itertools.pairwise(chunks):
         previous_sentences = set(split_sentences(previous.content))
         current_sentences = set(split_sentences(current.content))
         assert previous_sentences & current_sentences, "adjacent chunks must overlap"
@@ -91,7 +92,7 @@ def test_overlap_repeats_trailing_sentences() -> None:
 def test_zero_overlap_produces_disjoint_chunks() -> None:
     chunker = build_chunker(chunk_tokens=120, overlap_tokens=0)
     chunks = chunker.split(" ".join(ENGLISH_SENTENCES))
-    for previous, current in zip(chunks, chunks[1:], strict=False):
+    for previous, current in itertools.pairwise(chunks):
         assert not set(split_sentences(previous.content)) & set(split_sentences(current.content))
 
 

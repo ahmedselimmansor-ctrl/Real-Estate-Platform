@@ -16,11 +16,7 @@ import { Public } from '../../common/decorators/public.decorator';
 import { Roles } from '../../common/decorators/roles.decorator';
 import type { PaginatedResult } from '../../common/types/api-response';
 import { assertUuid } from '../shared/identifier.util';
-import {
-  CompoundDetail,
-  CompoundListItem,
-  CompoundsService,
-} from './compounds.service';
+import { CompoundDetail, CompoundListItem, CompoundsService } from './compounds.service';
 import { CreateCompoundDto, ListCompoundsDto, UpdateCompoundDto } from './dto/compound.dto';
 
 @ApiTags('compounds')

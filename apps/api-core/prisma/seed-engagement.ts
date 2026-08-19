@@ -26,10 +26,26 @@ function mulberry32(seed: number): () => number {
 }
 
 const LEAD_NAMES = [
-  'Mostafa Kamel', 'Nour El-Sayed', 'Karim Adel', 'Salma Ibrahim', 'Youssef Tarek',
-  'Dina Mahmoud', 'Omar Shalaby', 'Hana Fouad', 'Ziad Nabil', 'Mariam Sobhy',
-  'Tamer Hosny', 'Rana Kamal', 'Amr Diab', 'Laila Hassan', 'Sherif Mounir',
-  'Yasmine Raafat', 'Hossam Ghaly', 'Nada Khaled', 'Bassem Youssef', 'Farida Adel',
+  'Mostafa Kamel',
+  'Nour El-Sayed',
+  'Karim Adel',
+  'Salma Ibrahim',
+  'Youssef Tarek',
+  'Dina Mahmoud',
+  'Omar Shalaby',
+  'Hana Fouad',
+  'Ziad Nabil',
+  'Mariam Sobhy',
+  'Tamer Hosny',
+  'Rana Kamal',
+  'Amr Diab',
+  'Laila Hassan',
+  'Sherif Mounir',
+  'Yasmine Raafat',
+  'Hossam Ghaly',
+  'Nada Khaled',
+  'Bassem Youssef',
+  'Farida Adel',
 ];
 
 const MESSAGES = [
@@ -45,7 +61,16 @@ const MESSAGES = [
 
 const SOURCES = ['property_detail', 'contact_page', 'chatbot', 'compound_page', 'phone'];
 const STATUSES: LeadStatus[] = [
-  'new', 'new', 'new', 'contacted', 'contacted', 'qualified', 'viewing', 'negotiating', 'won', 'lost',
+  'new',
+  'new',
+  'new',
+  'contacted',
+  'contacted',
+  'qualified',
+  'viewing',
+  'negotiating',
+  'won',
+  'lost',
 ];
 
 export interface EngagementCounts {

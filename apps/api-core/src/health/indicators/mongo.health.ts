@@ -15,7 +15,7 @@ export class MongoHealthIndicator {
 
     try {
       // 1 === connected
-      if (this.connection.readyState !== 1) {
+      if ((this.connection.readyState as number) !== 1) {
         return {
           [key]: { status: 'down', message: `connection state ${this.connection.readyState}` },
         };

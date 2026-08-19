@@ -8,6 +8,7 @@ it is reached directly on :8000 or through nginx.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Any
@@ -109,10 +110,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         log.info("service_stopping")
         if bootstrap_task is not None and not bootstrap_task.done():
             bootstrap_task.cancel()
-            try:
+            # The task was just cancelled; whatever it raises on the way out
+            # is not actionable during shutdown.
+            with contextlib.suppress(asyncio.CancelledError, Exception):
                 await bootstrap_task
-            except (asyncio.CancelledError, Exception):  # noqa: B014 - shutdown best effort
-                pass
         reset_indexer()
         await asyncio.gather(close_es(), close_mongo(), close_redis(), return_exceptions=True)
         log.info("service_stopped")

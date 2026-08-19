@@ -48,7 +48,7 @@ def _text(value: Any, lang: str) -> str:
 def _amenity_index() -> dict[str, dict[str, Any]]:
     try:
         return index_by_id(load_json(AMENITIES))
-    except Exception as exc:  # noqa: BLE001 - cosmetic lookup
+    except Exception as exc:
         logger.warning("amenity_index_unavailable", error=str(exc))
         return {}
 
@@ -57,7 +57,7 @@ def _amenity_index() -> dict[str, dict[str, Any]]:
 def _developer_index() -> dict[str, dict[str, Any]]:
     try:
         return index_by_id(load_json(DEVELOPERS))
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.warning("developer_index_unavailable", error=str(exc))
         return {}
 
@@ -66,7 +66,7 @@ def _developer_index() -> dict[str, dict[str, Any]]:
 def _area_index() -> dict[str, dict[str, Any]]:
     try:
         return index_by_id(load_json(AREAS))
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.warning("area_index_unavailable", error=str(exc))
         return {}
 

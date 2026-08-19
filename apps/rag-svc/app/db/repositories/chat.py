@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import delete, desc, func, select, update
@@ -62,14 +62,12 @@ class ChatRepository:
             thread = await session.get(ChatThread, identifier)
             return self._thread_dict(thread) if thread else None
 
-    async def touch_thread(
-        self, thread_id: str | uuid.UUID, *, title: str | None = None
-    ) -> None:
+    async def touch_thread(self, thread_id: str | uuid.UUID, *, title: str | None = None) -> None:
         identifier = _as_uuid(thread_id)
         if identifier is None:
             return
 
-        values: dict[str, Any] = {"last_message_at": datetime.now(timezone.utc)}
+        values: dict[str, Any] = {"last_message_at": datetime.now(UTC)}
         if title:
             values["title"] = title
 
@@ -88,20 +86,22 @@ class ChatRepository:
             condition = ChatThread.user_id == owner if owner else ChatThread.user_id.is_(None)
 
             total = (
-                await session.execute(
-                    select(func.count()).select_from(ChatThread).where(condition)
-                )
+                await session.execute(select(func.count()).select_from(ChatThread).where(condition))
             ).scalar_one()
 
             rows = (
-                await session.execute(
-                    select(ChatThread)
-                    .where(condition)
-                    .order_by(desc(ChatThread.last_message_at))
-                    .limit(limit)
-                    .offset(offset)
+                (
+                    await session.execute(
+                        select(ChatThread)
+                        .where(condition)
+                        .order_by(desc(ChatThread.last_message_at))
+                        .limit(limit)
+                        .offset(offset)
+                    )
                 )
-            ).scalars().all()
+                .scalars()
+                .all()
+            )
 
         return [self._thread_dict(row) for row in rows], int(total)
 
@@ -155,17 +155,21 @@ class ChatRepository:
             ).scalar_one()
 
             rows = (
-                await session.execute(
-                    select(ChatMessage)
-                    .where(
-                        ChatMessage.thread_id == identifier,
-                        ChatMessage.role.in_(("user", "assistant")),
+                (
+                    await session.execute(
+                        select(ChatMessage)
+                        .where(
+                            ChatMessage.thread_id == identifier,
+                            ChatMessage.role.in_(("user", "assistant")),
+                        )
+                        .order_by(ChatMessage.created_at)
+                        .limit(limit)
+                        .offset(offset)
                     )
-                    .order_by(ChatMessage.created_at)
-                    .limit(limit)
-                    .offset(offset)
                 )
-            ).scalars().all()
+                .scalars()
+                .all()
+            )
 
         return [self._message_dict(row) for row in rows], int(total)
 
@@ -239,9 +243,7 @@ class ChatRepository:
             return False
 
         async with self._database.session() as session:
-            result = await session.execute(
-                delete(ChatThread).where(ChatThread.id == identifier)
-            )
+            result = await session.execute(delete(ChatThread).where(ChatThread.id == identifier))
             await session.commit()
 
         return result.rowcount > 0

@@ -172,9 +172,7 @@ class IndexManager:
         wait_for_completion: bool = True,
     ) -> dict[str, Any]:
         """Server-side `_reindex` from one concrete index into another."""
-        response = await self.es.options(
-            request_timeout=self.settings.ES_BULK_TIMEOUT
-        ).reindex(
+        response = await self.es.options(request_timeout=self.settings.ES_BULK_TIMEOUT).reindex(
             source={"index": source_index},
             dest={"index": target_index},
             wait_for_completion=wait_for_completion,

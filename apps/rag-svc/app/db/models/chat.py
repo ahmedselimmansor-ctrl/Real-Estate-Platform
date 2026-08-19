@@ -14,7 +14,8 @@ from sqlalchemy import (
     Text,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base, created_at_column, uuid_pk
@@ -36,9 +37,7 @@ class ChatThread(Base):
     title: Mapped[str | None] = mapped_column(Text, nullable=True)
     locale: Mapped[str] = mapped_column(String(8), nullable=False, default="en")
     created_at: Mapped[datetime] = created_at_column()
-    last_message_at: Mapped[datetime] = mapped_column(
-        nullable=False, server_default=func.now()
-    )
+    last_message_at: Mapped[datetime] = mapped_column(nullable=False, server_default=func.now())
     meta: Mapped[dict] = mapped_column(
         "metadata", JSONB, nullable=False, default=dict, server_default="{}"
     )

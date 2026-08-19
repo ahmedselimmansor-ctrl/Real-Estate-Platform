@@ -92,9 +92,7 @@ const isHealthProbe = (url: string | undefined): boolean =>
 
     // ---- global rate limiting: 120 req/min (feature modules tighten it) -----
     ThrottlerModule.forRoot({
-      throttlers: [
-        { name: 'default', ttl: GLOBAL_RATE_LIMIT_TTL_MS, limit: GLOBAL_RATE_LIMIT },
-      ],
+      throttlers: [{ name: 'default', ttl: GLOBAL_RATE_LIMIT_TTL_MS, limit: GLOBAL_RATE_LIMIT }],
       errorMessage: 'Too many requests, slow down',
       skipIf: (context: ExecutionContext) => {
         if (context.getType() !== 'http') {

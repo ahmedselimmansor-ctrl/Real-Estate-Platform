@@ -30,11 +30,7 @@ describe('PropertyMirrorService', () => {
   const buildService = (
     model: Record<string, unknown>,
     prisma: Record<string, unknown>,
-  ): PropertyMirrorService =>
-    new PropertyMirrorService(
-      model as never,
-      prisma as never,
-    );
+  ): PropertyMirrorService => new PropertyMirrorService(model as never, prisma as never);
 
   describe('mirrorOf', () => {
     it('projects only the columns the relational mirror owns', () => {

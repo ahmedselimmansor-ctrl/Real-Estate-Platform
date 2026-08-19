@@ -202,7 +202,8 @@ module Reports
         return '' if id_column.nil?
 
         " LEFT JOIN #{PgIntrospect.quote_ident(property_table)} p " \
-          "ON p.#{PgIntrospect.quote_ident(id_column)}::text = l.#{PgIntrospect.quote_ident(lead_property_column)}::text"
+          "ON p.#{PgIntrospect.quote_ident(id_column)}::text = " \
+          "l.#{PgIntrospect.quote_ident(lead_property_column)}::text"
       end
 
       def resolve_property_index(conn, lead_property_column)
