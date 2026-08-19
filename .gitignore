@@ -35,6 +35,9 @@ venv/
 **/build/
 *.iml
 apps/mobile/android/local.properties
+apps/mobile/android/key.properties
+*.jks
+*.keystore
 apps/mobile/android/.gradle/
 apps/mobile/ios/Pods/
 apps/mobile/ios/.symlinks/

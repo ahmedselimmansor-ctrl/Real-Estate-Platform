@@ -284,9 +284,11 @@ class Property {
       saleType: (json['saleType'] as String?) ?? '',
       status: (json['status'] as String?) ?? 'available',
       finishing: json['finishing'] as String?,
-      price: Price.fromJson(json['price'] is Map<String, dynamic>
-          ? json['price'] as Map<String, dynamic>
-          : {'amount': json['price'] ?? json['priceMin']},),
+      price: Price.fromJson(
+        json['price'] is Map<String, dynamic>
+            ? json['price'] as Map<String, dynamic>
+            : {'amount': json['price'] ?? json['priceMin']},
+      ),
       specs: Specs.fromJson(json['specs'] as Map<String, dynamic>?),
       plan: PaymentPlan.fromJson(json['paymentPlan'] as Map<String, dynamic>?),
       location: PropertyLocation.fromJson(locationJson),

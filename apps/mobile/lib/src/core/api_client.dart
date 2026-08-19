@@ -8,8 +8,12 @@ import 'config.dart';
 
 /// One page of a list endpoint, with the server's pagination meta.
 class Paginated<T> {
-  const Paginated(
-      {required this.items, required this.page, required this.totalPages, required this.total,});
+  const Paginated({
+    required this.items,
+    required this.page,
+    required this.totalPages,
+    required this.total,
+  });
 
   final List<T> items;
   final int page;
@@ -193,7 +197,11 @@ class ApiClient {
     final meta = body['meta'];
     if (meta is! Map<String, dynamic>) {
       return Paginated<T>(
-          items: items, page: 1, totalPages: items.isEmpty ? 0 : 1, total: items.length,);
+        items: items,
+        page: 1,
+        totalPages: items.isEmpty ? 0 : 1,
+        total: items.length,
+      );
     }
 
     return Paginated<T>(

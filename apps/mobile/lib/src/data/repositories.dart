@@ -1,6 +1,7 @@
 import '../core/api_client.dart';
 import '../core/config.dart';
 import '../models/catalog.dart';
+import '../models/mortgage.dart';
 import '../models/property.dart';
 import '../models/search.dart';
 
@@ -177,5 +178,32 @@ class LeadsRepository {
           if (propertyType != null) 'propertyType': propertyType,
         },
         parse: (_) {},
+      );
+}
+
+/// reports-svc: the finance engine behind the calculator and the brochures.
+class ReportsRepository {
+  const ReportsRepository(this._api);
+
+  final ApiClient _api;
+
+  /// `annualRatePercent: 0` is a developer instalment plan rather than a bank
+  /// mortgage, which is how most primary stock here is actually sold.
+  Future<MortgageQuote> mortgage({
+    required int price,
+    required double downPaymentPercent,
+    required int years,
+    double annualRatePercent = 0,
+  }) =>
+      _api.post<MortgageQuote>(
+        AppConfig.reports,
+        '/mortgage/calculate',
+        body: {
+          'price': price,
+          'downPaymentPercent': downPaymentPercent,
+          'years': years,
+          'annualRatePercent': annualRatePercent,
+        },
+        parse: (json) => MortgageQuote.fromJson((json as Map<String, dynamic>?) ?? const {}),
       );
 }

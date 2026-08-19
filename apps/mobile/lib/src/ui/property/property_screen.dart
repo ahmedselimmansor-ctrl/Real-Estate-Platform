@@ -12,6 +12,7 @@ import '../../theme/theme.dart';
 import '../widgets/instalment_ledger.dart';
 import '../widgets/property_card.dart';
 import '../widgets/remote_image.dart';
+import '../calculator/calculator_screen.dart';
 import '../widgets/states.dart';
 import 'lead_sheet.dart';
 
@@ -168,8 +169,21 @@ class _Content extends StatelessWidget {
                 _SpecGrid(property: property),
                 if (property.plan.installmentYears > 0) ...[
                   const SizedBox(height: 24),
-                  _SectionTitle(strings.paymentPlan),
-                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(child: _SectionTitle(strings.paymentPlan)),
+                      TextButton.icon(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => CalculatorScreen(initialPrice: property.price.amount),
+                          ),
+                        ),
+                        icon: const Icon(Icons.calculate_outlined, size: 18),
+                        label: Text(strings.calculator),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
                   InstalmentLedger(
                     price: property.price.amount,
                     plan: property.plan,

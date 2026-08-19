@@ -78,6 +78,26 @@ class Strings {
   String get requestCallback => pick('Request a callback', 'اطلب اتصالاً');
   String get similarProperties => pick('Similar properties', 'وحدات مشابهة');
 
+  // --------------------------------------------------------------- compounds --
+  String get searchCompounds => pick('Search compounds', 'ابحث في الكمبوندات');
+  String get noCompounds => pick('No compounds found', 'لا توجد كمبوندات');
+  String get unitsFrom => pick('Units from', 'تبدأ من');
+  String get onRequest => pick('On request', 'عند الطلب');
+
+  // ------------------------------------------------------------- calculator --
+  String get calculator => pick('Payment calculator', 'حاسبة السداد');
+  String get price => pick('Price', 'السعر');
+  String get years => pick('Years', 'عدد السنوات');
+  String get interestRate => pick('Interest rate', 'نسبة الفائدة');
+  String get developerPlan => pick('Developer plan', 'خطة المطور');
+  String get financed => pick('Amount financed', 'المبلغ المقسط');
+  String get totalInterest => pick('Total interest', 'إجمالي الفوائد');
+  String get totalCost => pick('Total cost', 'التكلفة الإجمالية');
+  String get calculatorNote => pick(
+        'Indicative only. A rate of 0% is a developer instalment plan rather than a bank mortgage.',
+        'أرقام استرشادية. نسبة 0% تعني خطة تقسيط من المطور وليست تمويلًا بنكيًا.',
+      );
+
   // ------------------------------------------------------------------ leads --
   String get fullName => pick('Your name', 'الاسم');
   String get phone => pick('Phone number', 'رقم الهاتف');

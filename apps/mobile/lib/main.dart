@@ -26,6 +26,7 @@ Future<void> main() async {
         Provider(create: (_) => SearchRepository(api)),
         Provider(create: (_) => CatalogRepository(api)),
         Provider(create: (_) => LeadsRepository(api)),
+        Provider(create: (_) => ReportsRepository(api)),
         Provider(create: (_) => ChatRepository(api)),
       ],
       child: const TopChoiceApp(),

@@ -11,7 +11,9 @@ them.
 | Home          | `api-core` featured listings, areas, developers |
 | Search        | `search-svc` with facets, filters and infinite scroll |
 | Property      | `api-core` detail, similar units, view counter |
+| Compounds     | `api-core` masterplans, searchable, tapping through to their units |
 | Sell          | `api-core` leads, scoped to the real area/compound catalogue |
+| Calculator    | `reports-svc`, the same finance engine behind the PDF brochures |
 | Saved         | on-device, so it works offline and needs no account |
 | Assistant     | `rag-svc` retrieval-augmented chat |
 
@@ -46,6 +48,27 @@ Start the backend first, from the repo root:
 ```bash
 docker compose -p topchoice up -d
 ```
+
+## Building for Android
+
+```bash
+flutter build apk --release --split-per-abi   # one APK per ABI
+flutter build appbundle --release             # for the Play Store
+```
+
+Release builds are signed from `android/key.properties`, which is gitignored.
+Copy `android/key.properties.example`, generate a keystore, and fill it in.
+Without that file the build falls back to the debug key so `flutter run
+--release` still works — but such a build is not publishable.
+
+Two things worth knowing:
+
+- **R8 is on**, and `android/app/proguard-rules.pro` silences the Play Core
+  deferred-component references the Flutter embedding carries. The app uses no
+  deferred components, so pulling in a Play dependency to satisfy R8 would add
+  weight for nothing.
+- **Symbol stripping needs the NDK.** Without it the bundle still builds and
+  uploads, just larger. Install the NDK through Android Studio to shrink it.
 
 ## Tests
 

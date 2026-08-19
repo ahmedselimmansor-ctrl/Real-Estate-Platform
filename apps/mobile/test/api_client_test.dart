@@ -14,10 +14,12 @@ void main() {
   group('envelope handling', () {
     test('unwraps data so callers never see the envelope', () async {
       final client = ApiClient(
-        client: MockClient((_) async => _json({
-              'success': true,
-              'data': {'id': 'p1', 'slug': 'a-unit'},
-            }),),
+        client: MockClient(
+          (_) async => _json({
+            'success': true,
+            'data': {'id': 'p1', 'slug': 'a-unit'},
+          }),
+        ),
       );
 
       final property = await client.get<Property>(
@@ -31,7 +33,9 @@ void main() {
 
     test('turns an error envelope into an ApiException with its code', () async {
       final client = ApiClient(
-        client: MockClient((_) async => _json({
+        client: MockClient(
+          (_) async => _json(
+            {
               'success': false,
               'error': {
                 'code': 'VALIDATION_ERROR',
@@ -40,7 +44,10 @@ void main() {
                   {'field': 'phone', 'message': 'Phone must be a valid number'},
                 ],
               },
-            }, status: 422,),),
+            },
+            status: 422,
+          ),
+        ),
       );
 
       await expectLater(
@@ -67,10 +74,15 @@ void main() {
 
     test('401 is reported as unauthorized so the UI can react to it', () async {
       final client = ApiClient(
-        client: MockClient((_) async => _json({
+        client: MockClient(
+          (_) async => _json(
+            {
               'success': false,
               'error': {'code': 'UNAUTHORIZED', 'message': 'Sign in required'},
-            }, status: 401,),),
+            },
+            status: 401,
+          ),
+        ),
       );
 
       await expectLater(
@@ -128,14 +140,16 @@ void main() {
   group('list()', () {
     test('carries the pagination meta beside the items', () async {
       final client = ApiClient(
-        client: MockClient((_) async => _json({
-              'success': true,
-              'data': [
-                {'id': 'p1'},
-                {'id': 'p2'},
-              ],
-              'meta': {'page': 2, 'limit': 20, 'total': 45, 'totalPages': 3},
-            }),),
+        client: MockClient(
+          (_) async => _json({
+            'success': true,
+            'data': [
+              {'id': 'p1'},
+              {'id': 'p2'},
+            ],
+            'meta': {'page': 2, 'limit': 20, 'total': 45, 'totalPages': 3},
+          }),
+        ),
       );
 
       final page = await client.list<Property>(
@@ -152,12 +166,14 @@ void main() {
 
     test('a response with no meta is treated as a single complete page', () async {
       final client = ApiClient(
-        client: MockClient((_) async => _json({
-              'success': true,
-              'data': [
-                {'id': 'p1'},
-              ],
-            }),),
+        client: MockClient(
+          (_) async => _json({
+            'success': true,
+            'data': [
+              {'id': 'p1'},
+            ],
+          }),
+        ),
       );
 
       final page = await client.list<Property>('http://x', '/areas', parse: Property.fromJson);

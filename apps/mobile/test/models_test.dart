@@ -108,8 +108,11 @@ void main() {
       expect(property.price.amount, 7420000);
       expect(property.specs.bedrooms, 2);
       expect(property.compound?.name, 'Sheraton Heights');
-      expect(property.primaryImage.endsWith('/a.jpg'), isTrue,
-          reason: 'the primary image must sort first',);
+      expect(
+        property.primaryImage.endsWith('/a.jpg'),
+        isTrue,
+        reason: 'the primary image must sort first',
+      );
     });
 
     test('reads the flatter search-svc hit', () {

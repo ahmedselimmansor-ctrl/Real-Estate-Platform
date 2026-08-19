@@ -85,36 +85,38 @@ class FavoritesController extends ChangeNotifier {
   Future<void> _persist() async {
     // Only what is needed to redraw a card, not the whole document.
     final payload = _byId.values
-        .map((p) => {
-              'id': p.id,
-              'slug': p.slug,
-              'referenceNo': p.referenceNo,
-              'title': {'en': p.title.en, 'ar': p.title.ar},
-              'propertyType': p.propertyType,
-              'saleType': p.saleType,
-              'status': p.status,
-              'finishing': p.finishing,
-              'price': {'amount': p.price.amount, 'currency': p.price.currency},
-              'specs': {
-                'bedrooms': p.specs.bedrooms,
-                'bathrooms': p.specs.bathrooms,
-                'areaSqm': p.specs.areaSqm,
+        .map(
+          (p) => {
+            'id': p.id,
+            'slug': p.slug,
+            'referenceNo': p.referenceNo,
+            'title': {'en': p.title.en, 'ar': p.title.ar},
+            'propertyType': p.propertyType,
+            'saleType': p.saleType,
+            'status': p.status,
+            'finishing': p.finishing,
+            'price': {'amount': p.price.amount, 'currency': p.price.currency},
+            'specs': {
+              'bedrooms': p.specs.bedrooms,
+              'bathrooms': p.specs.bathrooms,
+              'areaSqm': p.specs.areaSqm,
+            },
+            'paymentPlan': {
+              'downPaymentPercent': p.plan.downPaymentPercent,
+              'installmentYears': p.plan.installmentYears,
+              'monthlyInstallment': p.plan.monthlyInstallment,
+              'deliveryDate': p.plan.deliveryDate,
+            },
+            'location': {'areaName': p.location.areaName, 'city': p.location.city},
+            'images': p.images,
+            if (p.compound != null)
+              'compound': {
+                'id': p.compound!.id,
+                'name': p.compound!.name,
+                'slug': p.compound!.slug,
               },
-              'paymentPlan': {
-                'downPaymentPercent': p.plan.downPaymentPercent,
-                'installmentYears': p.plan.installmentYears,
-                'monthlyInstallment': p.plan.monthlyInstallment,
-                'deliveryDate': p.plan.deliveryDate,
-              },
-              'location': {'areaName': p.location.areaName, 'city': p.location.city},
-              'images': p.images,
-              if (p.compound != null)
-                'compound': {
-                  'id': p.compound!.id,
-                  'name': p.compound!.name,
-                  'slug': p.compound!.slug,
-                },
-            },)
+          },
+        )
         .toList();
 
     await _prefs.setString(_key, jsonEncode(payload));

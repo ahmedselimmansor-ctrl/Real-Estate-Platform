@@ -1,0 +1,13 @@
+# Copy to android/key.properties and fill in. That file is gitignored: it
+# names a keystore and its passwords, neither of which belong in the repo.
+#
+# Generate a keystore once, and keep it somewhere you will not lose it —
+# Play Store updates must be signed with the same key forever:
+#
+#   keytool -genkey -v -keystore ~/topchoice-release.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias topchoice
+#
+storeFile=/absolute/path/to/topchoice-release.jks
+storePassword=
+keyAlias=topchoice
+keyPassword=

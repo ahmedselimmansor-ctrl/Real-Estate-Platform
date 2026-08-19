@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 
 import '../l10n/strings.dart';
 import '../state/controllers.dart';
+import 'catalog/compounds_screen.dart';
 import 'chat/chat_screen.dart';
 import 'favorites/favorites_screen.dart';
 import 'home/home_screen.dart';
 import 'search/search_screen.dart';
-import 'sell/sell_screen.dart';
 
 /// The five destinations, kept alive across taps.
 ///
@@ -34,7 +34,7 @@ class _AppShellState extends State<AppShell> {
         children: const [
           HomeScreen(),
           SearchScreen(),
-          SellScreen(),
+          CompoundsScreen(),
           FavoritesScreen(),
           ChatScreen(),
         ],
@@ -54,9 +54,9 @@ class _AppShellState extends State<AppShell> {
             label: strings.search,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.sell_outlined),
-            selectedIcon: const Icon(Icons.sell),
-            label: strings.sell,
+            icon: const Icon(Icons.location_city_outlined),
+            selectedIcon: const Icon(Icons.location_city),
+            label: strings.compounds,
           ),
           NavigationDestination(
             icon: Badge(

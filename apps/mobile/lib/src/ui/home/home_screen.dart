@@ -8,8 +8,10 @@ import '../../models/property.dart';
 import '../../models/search.dart';
 import '../../state/controllers.dart';
 import '../../theme/theme.dart';
+import '../calculator/calculator_screen.dart';
 import '../property/property_screen.dart';
 import '../search/search_screen.dart';
+import '../sell/sell_screen.dart';
 import '../widgets/property_card.dart';
 import '../widgets/remote_image.dart';
 import '../widgets/states.dart';
@@ -77,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 _HeroHeader(onSearchTap: () => _openSearch()),
+                const _QuickActions(),
                 if (snapshot.connectionState == ConnectionState.waiting)
                   const SliverPadding(
                     padding: EdgeInsets.all(16),
@@ -128,6 +131,81 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+/// Sell and the calculator: the two non-browsing jobs, given a place where
+/// they are found rather than buried behind a tab a browsing user never taps.
+class _QuickActions extends StatelessWidget {
+  const _QuickActions();
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = Strings.of(context);
+
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(16, 44, 16, 0),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          children: [
+            Expanded(
+              child: _Action(
+                icon: Icons.sell_outlined,
+                label: strings.sell,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const SellScreen()),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _Action(
+                icon: Icons.calculate_outlined,
+                label: strings.calculator,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const CalculatorScreen()),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Action extends StatelessWidget {
+  const _Action({required this.icon, required this.label, required this.onTap});
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+          child: Row(
+            children: [
+              Icon(icon, size: 20, color: scheme.primary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13.5),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -215,7 +293,9 @@ class _HeroHeader extends StatelessWidget {
                         Text(
                           strings.heroSubtitle,
                           style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.86), fontSize: 13.5,),
+                            color: Colors.white.withValues(alpha: 0.86),
+                            fontSize: 13.5,
+                          ),
                         ),
                         const SizedBox(height: 44),
                       ],
