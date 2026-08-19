@@ -23,7 +23,7 @@ gem 'jwt',  '~> 2.9'
 gem 'connection_pool', '~> 2.4'
 gem 'mongo',           '~> 2.21'
 gem 'pg',              '~> 1.5'
-gem 'redis',           '~> 5.3'
+gem 'redis',           '~> 6.0'
 
 # --- documents -------------------------------------------------------------
 gem 'prawn',       '~> 2.5'
