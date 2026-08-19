@@ -2,7 +2,7 @@
   "name": "@topchoice/web",
   "version": "1.0.0",
   "private": true,
-  "description": "TopChoice — Next.js 15 App Router storefront (UI, SSR, BFF proxy routes)",
+  "description": "TopChoice \u2014 Next.js 15 App Router storefront (UI, SSR, BFF proxy routes)",
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
@@ -66,5 +66,9 @@
   },
   "engines": {
     "node": ">=20.11.0"
+  },
+  "overrides": {
+    "sharp": "^0.35.3",
+    "postcss": "^8.5.26"
   }
 }

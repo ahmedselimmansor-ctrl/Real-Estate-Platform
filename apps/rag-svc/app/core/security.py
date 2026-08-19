@@ -14,9 +14,12 @@ from __future__ import annotations
 import secrets
 from typing import Annotated, Any, Literal
 
+# PyJWT rather than python-jose: python-jose is unmaintained, and its
+# `[cryptography]` extra drags in `ecdsa`, which has an advisory with no fix.
+# The surface used here is a single decode plus two exception types.
+import jwt
 from fastapi import Depends, Header, Request
-from jose import jwt
-from jose.exceptions import ExpiredSignatureError, JWTError
+from jwt import ExpiredSignatureError, PyJWTError
 from pydantic import BaseModel, Field
 
 from app.core.config import Settings, get_settings
@@ -58,11 +61,11 @@ def decode_access_token(token: str, settings: Settings | None = None) -> AuthUse
             algorithms=["HS256"],
             issuer=cfg.jwt_issuer,
             audience=cfg.jwt_audience,
-            options={"require_sub": False, "verify_aud": True, "verify_iss": True},
+            options={"verify_aud": True, "verify_iss": True},
         )
     except ExpiredSignatureError as exc:
         raise UnauthorizedError("Access token has expired", code="TOKEN_EXPIRED") from exc
-    except JWTError as exc:
+    except PyJWTError as exc:
         raise UnauthorizedError("Invalid access token", code="INVALID_TOKEN") from exc
 
     subject = claims.get("sub")
