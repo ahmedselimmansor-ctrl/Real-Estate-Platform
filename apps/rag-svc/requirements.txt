@@ -6,7 +6,7 @@
 # --- web framework ---------------------------------------------------------
 fastapi==0.141.1
 uvicorn[standard]==0.34.0
-sse-starlette==2.2.1
+sse-starlette==3.4.8
 python-multipart==0.0.32
 
 # --- agent / graph runtime -------------------------------------------------
