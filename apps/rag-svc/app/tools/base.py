@@ -13,7 +13,7 @@ import asyncio
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
@@ -51,22 +51,31 @@ class ToolResult:
         }
 
 
-class Tool(ABC):
-    """Base class for an agent tool."""
+#: The argument model a concrete tool validates its input with.
+ArgsT = TypeVar("ArgsT", bound=BaseModel)
+
+
+class Tool(ABC, Generic[ArgsT]):
+    """Base class for an agent tool.
+
+    Generic over its argument model so a subclass can type `run` with the
+    model it actually declares. Without the parameter, narrowing `args` from
+    `BaseModel` to a concrete model violates Liskov and mypy rejects it.
+    """
 
     #: Function name the model calls.
     name: str = ""
     #: One-sentence description shown to the model.
     description: str = ""
     #: Pydantic model validating the arguments.
-    args_model: type[BaseModel]
+    args_model: type[ArgsT]
     #: Per-tool timeout; falls back to :data:`DEFAULT_TOOL_TIMEOUT`.
     timeout: float = DEFAULT_TOOL_TIMEOUT
     #: Tools with side effects require explicit user confirmation first.
     requires_confirmation: bool = False
 
     @abstractmethod
-    async def run(self, args: BaseModel, context: ToolContext) -> ToolResult:
+    async def run(self, args: ArgsT, context: ToolContext) -> ToolResult:
         """Execute the tool. Implementations may raise; `invoke` contains it."""
 
     # ------------------------------------------------------------------ api

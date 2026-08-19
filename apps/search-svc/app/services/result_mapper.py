@@ -127,7 +127,7 @@ def _buckets(agg: Mapping[str, Any] | None) -> list[dict[str, Any]]:
         return []
     inner = agg.get("buckets")
     buckets = inner.get("buckets") if isinstance(inner, Mapping) else agg.get("buckets")
-    return [bucket for bucket in (buckets or []) if isinstance(bucket, Mapping)]
+    return [bucket for bucket in (buckets or []) if isinstance(bucket, dict)]
 
 
 def _simple_facet(

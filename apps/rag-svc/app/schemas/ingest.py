@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -34,7 +34,7 @@ class IngestRequest(BaseModel):
         description="Pages to fetch when source='url'.",
     )
     langs: list[Language] = Field(
-        default_factory=lambda: list(DEFAULT_LANGS),
+        default_factory=lambda: list(cast(tuple[Language, ...], DEFAULT_LANGS)),
         description="Language variants to render.",
     )
     limit: int | None = Field(

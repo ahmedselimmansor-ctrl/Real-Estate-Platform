@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import cast
 
 import numpy as np
 
@@ -17,7 +18,8 @@ def l2_normalize(vector: Sequence[float]) -> list[float]:
     norm = float(np.linalg.norm(array))
     if norm == 0.0 or not np.isfinite(norm):
         return [float(value) for value in array]
-    return (array / norm).astype(np.float32).tolist()
+    # `tolist()` is typed for any nesting depth; this array is 1-D.
+    return cast(list[float], (array / norm).astype(np.float32).tolist())
 
 
 def cosine_similarity(left: Sequence[float], right: Sequence[float]) -> float:

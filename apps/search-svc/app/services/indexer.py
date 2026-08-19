@@ -12,7 +12,7 @@ from __future__ import annotations
 import time
 from collections.abc import AsyncIterator, Iterable, Mapping
 from datetime import UTC, datetime
-from typing import Any
+from typing import Any, cast
 
 from elasticsearch import AsyncElasticsearch, NotFoundError
 from elasticsearch.helpers import async_bulk
@@ -161,7 +161,8 @@ class Indexer:
             raise_on_exception=False,
             stats_only=False,
         )
-        failures = list(errors or [])
+        # `stats_only=False` above, so `errors` is the list of failures.
+        failures = list(cast(list[Any], errors or []))
         if failures:
             log.error(
                 "bulk_errors",

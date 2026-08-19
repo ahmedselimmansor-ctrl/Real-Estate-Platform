@@ -97,7 +97,7 @@ def user_from_payload(payload: dict[str, Any]) -> AuthenticatedUser:
     """Build the user model from verified claims."""
     role = str(payload.get("role") or "user")
     return AuthenticatedUser(
-        sub=str(payload["sub"]),
+        id=str(payload["sub"]),
         email=payload.get("email"),
         role=role if role in USER_ROLES else "user",
         name=payload.get("name"),

@@ -243,9 +243,10 @@ class HybridSearcher:
 
         ordered: list[RetrievedChunk] = []
         for chunk_id, score in fused:
-            chunk = by_id.get(chunk_id)
-            if chunk is None:  # pragma: no cover - ids come from the same rows
+            found: RetrievedChunk | None = by_id.get(chunk_id)
+            if found is None:  # pragma: no cover - ids come from the same rows
                 continue
+            chunk = found
             chunk.fusion_score = score
             chunk.score = score
             chunk.vector_rank = vector_positions.get(chunk_id)

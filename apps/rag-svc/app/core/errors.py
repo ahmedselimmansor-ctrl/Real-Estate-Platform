@@ -58,7 +58,16 @@ class ApiError(Exception):
 
 
 class NotFoundError(ApiError):
-    def __init__(self, code: str, message: str, details: list[Any] | None = None) -> None:
+    # `message` first, `code` defaulted: the same shape as every sibling here.
+    # It used to take `code` first, so callers following the house style passed
+    # the message positionally *and* a `code=` keyword, and every 404 path
+    # raised TypeError instead of returning 404.
+    def __init__(
+        self,
+        message: str = "Resource not found",
+        code: str = "NOT_FOUND",
+        details: list[Any] | None = None,
+    ) -> None:
         super().__init__(code, message, status_code=404, details=details)
 
 

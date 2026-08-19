@@ -36,7 +36,7 @@ class WebSearchArgs(BaseModel):
     )
 
 
-class WebSearchTool(Tool):
+class WebSearchTool(Tool[WebSearchArgs]):
     name = "web_search"
     description = (
         "Search the public web for current information that the TopChoice property "

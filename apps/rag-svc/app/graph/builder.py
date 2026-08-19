@@ -15,9 +15,9 @@ through a small sequential fallback, so the service still answers.
 from __future__ import annotations
 
 import time
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Mapping
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 
 from app.core.config import Settings, get_settings
 from app.core.logging import get_logger
@@ -30,6 +30,17 @@ from app.providers.registry import ProviderBundle
 from app.retrieval.hybrid_search import HybridSearcher
 from app.tools.registry import ToolRegistry, build_tool_registry
 
+
+def _merge(state: GraphState, patch: Mapping[str, Any]) -> None:
+    """Fold a node's returned keys into the running state.
+
+    Nodes return `dict[str, Any]` by design: each one reports only what it
+    changed. `TypedDict.update` will not take a plain dict, so the single
+    narrowing lives here rather than at every call site.
+    """
+    cast(dict[str, Any], state).update(patch)
+
+
 logger = get_logger("rag-svc.graph.builder")
 
 try:  # pragma: no cover - exercised by the import, not by tests
@@ -39,7 +50,7 @@ try:  # pragma: no cover - exercised by the import, not by tests
 except ImportError:  # pragma: no cover
     LANGGRAPH_AVAILABLE = False
     END = START = None  # type: ignore[assignment]
-    StateGraph = None  # type: ignore[assignment]
+    StateGraph = None  # type: ignore[assignment,misc]
 
 
 # ------------------------------------------------------------------- routing
@@ -152,30 +163,30 @@ def build_checkpointer() -> Any | None:
 
 async def _run_sequential(state: GraphState, deps: NodeDeps) -> GraphState:
     """Fallback executor mirroring the graph edges exactly."""
-    state.update(await node_module.load_memory(state, deps))
-    state.update(await node_module.guard(state, deps))
+    _merge(state, await node_module.load_memory(state, deps))
+    _merge(state, await node_module.guard(state, deps))
     if state.get("guarded"):
         return state
 
-    state.update(await node_module.route(state, deps))
+    _merge(state, await node_module.route(state, deps))
     branch = _after_route(state)
 
     if branch == "rewrite_query":
         while True:
-            state.update(await node_module.rewrite_query(state, deps))
-            state.update(await node_module.retrieve(state, deps))
-            state.update(await node_module.grade_context(state, deps))
+            _merge(state, await node_module.rewrite_query(state, deps))
+            _merge(state, await node_module.retrieve(state, deps))
+            _merge(state, await node_module.grade_context(state, deps))
 
             next_node = _after_grade(state)
             if next_node == "rewrite_query":
                 continue
             if next_node == "call_tools":
-                state.update(await node_module.call_tools(state, deps))
+                _merge(state, await node_module.call_tools(state, deps))
             break
     elif branch == "call_tools":
-        state.update(await node_module.call_tools(state, deps))
+        _merge(state, await node_module.call_tools(state, deps))
 
-    state.update(await node_module.generate(state, deps))
+    _merge(state, await node_module.generate(state, deps))
     return state
 
 
@@ -263,8 +274,8 @@ class ChatAgent:
 
         # Everything up to generation runs buffered — those nodes have no
         # partial output to stream, and the client wants `sources` before tokens.
-        state.update(await node_module.load_memory(state, self._deps))
-        state.update(await node_module.guard(state, self._deps))
+        _merge(state, await node_module.load_memory(state, self._deps))
+        _merge(state, await node_module.guard(state, self._deps))
 
         if state.get("guarded"):
             yield {"event": "token", "data": {"text": state.get("answer", "")}}
@@ -272,14 +283,14 @@ class ChatAgent:
             yield {"event": "done", "data": turn.as_dict()}
             return
 
-        state.update(await node_module.route(self._as_state(state), self._deps))
+        _merge(state, await node_module.route(self._as_state(state), self._deps))
         branch = _after_route(state)
 
         if branch == "rewrite_query":
             while True:
-                state.update(await node_module.rewrite_query(state, self._deps))
-                state.update(await node_module.retrieve(state, self._deps))
-                state.update(await node_module.grade_context(state, self._deps))
+                _merge(state, await node_module.rewrite_query(state, self._deps))
+                _merge(state, await node_module.retrieve(state, self._deps))
+                _merge(state, await node_module.grade_context(state, self._deps))
 
                 next_node = _after_grade(state)
                 if next_node == "rewrite_query":
@@ -334,7 +345,7 @@ class ChatAgent:
             "data": {"route": state.get("route", "knowledge")},
         }
 
-        state.update(await node_module.call_tools(state, self._deps))
+        _merge(state, await node_module.call_tools(state, self._deps))
 
         for result in state.get("tool_results", [])[before:]:
             yield {

@@ -92,7 +92,7 @@ class SearchListingsArgs(BaseModel):
     limit: int = Field(default=5, ge=1, le=10)
 
 
-class SearchListingsTool(Tool):
+class SearchListingsTool(Tool[SearchListingsArgs]):
     name = "search_listings"
     description = (
         "Search live TopChoice property listings by budget, bedrooms, area, compound or "
@@ -218,7 +218,7 @@ class PropertyDetailsArgs(BaseModel):
     idOrSlug: str = Field(description="Listing UUID or slug, e.g. 'mivida-3br-apartment-tc-1042'")
 
 
-class GetPropertyDetailsTool(Tool):
+class GetPropertyDetailsTool(Tool[PropertyDetailsArgs]):
     name = "get_property_details"
     description = (
         "Fetch the full record for one listing (specs, payment plan, amenities, "
@@ -303,7 +303,7 @@ class MortgageArgs(BaseModel):
     )
 
 
-class CalculateMortgageTool(Tool):
+class CalculateMortgageTool(Tool[MortgageArgs]):
     name = "calculate_mortgage"
     description = (
         "Calculate the monthly payment, total interest and total cost for a property "
@@ -330,7 +330,8 @@ class CalculateMortgageTool(Tool):
         # reports-svc nests the figures under `summary`; older shapes put them
         # at the top level. Read whichever is present rather than rendering
         # "about None per month".
-        figures = data.get("summary") if isinstance(data.get("summary"), dict) else data
+        summary = data.get("summary")
+        figures: dict[str, Any] = summary if isinstance(summary, dict) else data
 
         monthly = figures.get("monthlyPayment") or figures.get("monthly_payment")
         principal = figures.get("principal")
@@ -359,7 +360,7 @@ class CreateLeadArgs(BaseModel):
     message: str | None = Field(default=None, max_length=2000)
 
 
-class CreateLeadTool(Tool):
+class CreateLeadTool(Tool[CreateLeadArgs]):
     name = "create_lead"
     description = (
         "Book a viewing or request a callback from a TopChoice consultant. Only call this "
@@ -427,7 +428,7 @@ class EscalateArgs(BaseModel):
     )
 
 
-class EscalateToHumanTool(Tool):
+class EscalateToHumanTool(Tool[EscalateArgs]):
     name = "escalate_to_human"
     description = (
         "Hand the conversation to a human consultant. Use for contracts, complaints, "

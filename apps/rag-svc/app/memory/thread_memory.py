@@ -13,8 +13,9 @@ Three layers, cheapest first:
 from __future__ import annotations
 
 import uuid
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Literal, cast
 
 from sqlalchemy import desc, select
 
@@ -239,7 +240,7 @@ class MemoryStore:
 
     @staticmethod
     def as_prompt_messages(
-        memory: ThreadMemory | dict[str, Any],
+        memory: ThreadMemory | Mapping[str, Any],
     ) -> list[ProviderMessage]:
         """Render memory as provider messages placed before the current turn."""
         if isinstance(memory, ThreadMemory):
@@ -275,7 +276,14 @@ class MemoryStore:
         for message in messages:
             role = message.get("role")
             if role in {"user", "assistant"} and message.get("content"):
-                rendered.append(ProviderMessage(role=role, content=message["content"]))
+                # The membership test above is the guarantee; mypy cannot
+                # narrow a `str` to a Literal from an `in` check.
+                rendered.append(
+                    ProviderMessage(
+                        role=cast(Literal["user", "assistant"], role),
+                        content=message["content"],
+                    )
+                )
 
         return rendered
 
