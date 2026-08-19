@@ -294,7 +294,11 @@ def test_every_seeded_listing_transforms(seed_properties, area_slugs):
             "furnished",
         }
         assert doc["amenities"] and all(isinstance(a, str) for a in doc["amenities"])
-        assert doc["primaryImage"].startswith("http")
+        # Seeded media is site-relative (`/properties/x.jpg`, served from the
+        # web app's public dir); an uploaded image is an absolute S3/CDN URL.
+        # Both are valid references, so assert it is one of the two rather
+        # than the absolute form the seed happened to use once.
+        assert doc["primaryImage"].startswith(("http://", "https://", "/"))
         assert len(doc["suggest"]) == 5
         assert doc["areaSlug"] in set(area_slugs.values())
 
