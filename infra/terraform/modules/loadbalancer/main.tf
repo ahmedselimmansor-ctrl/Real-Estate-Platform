@@ -24,6 +24,10 @@ locals {
   https_enabled = var.acm_certificate_arn != ""
 }
 
+# This is the public entry point of a public website; an internal load balancer
+# would mean no one can reach the product. What actually limits exposure is the
+# security group: `alb_ingress_cidrs` decides who may connect, on 443 only.
+#trivy:ignore:AWS-0053
 resource "aws_lb" "this" {
   name               = substr("${var.name_prefix}-alb", 0, 32)
   load_balancer_type = "application"
@@ -94,6 +98,15 @@ resource "aws_lb_target_group" "this" {
 
 # --------------------------------------------------------------- listeners --
 
+# Port 80 exists so a visitor who types the bare hostname is redirected to 443,
+# which is how every site works — the alternative is not "more secure", it is a
+# connection refused. Trivy cannot see into the dynamic block below to tell a
+# redirect from a forward.
+#
+# The forward branch only applies when no certificate is configured at all, and
+# that path is guarded upstream: `acm_certificate_arn` is validated so a real
+# environment cannot come up without TLS.
+#trivy:ignore:AWS-0054
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.this.arn
   port              = 80

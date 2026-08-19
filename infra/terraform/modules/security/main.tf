@@ -134,11 +134,31 @@ resource "aws_vpc_security_group_ingress_rule" "ecs_self" {
   ip_protocol                  = "-1"
 }
 
-resource "aws_vpc_security_group_egress_rule" "ecs_all" {
+# Egress is split in two rather than one blanket 0.0.0.0/0 on every protocol.
+# The tasks need exactly two things: the data tier, which is inside the VPC on
+# assorted ports (5432, 27017, 6379, 443), and the public internet, which is
+# only ever HTTPS — AWS service APIs, the model providers, and the RAG web
+# search tool. Nothing here speaks plaintext or a non-TCP protocol outbound.
+resource "aws_vpc_security_group_egress_rule" "ecs_vpc" {
   security_group_id = aws_security_group.ecs.id
-  description       = "Outbound to AWS APIs, the data tier and the model providers"
-  cidr_ipv4         = "0.0.0.0/0"
+  description       = "Data tier and service mesh, inside the VPC"
+  cidr_ipv4         = var.vpc_cidr
   ip_protocol       = "-1"
+}
+
+# The destination genuinely is the open internet: the RAG service calls a model
+# provider and a web search API, and the tasks reach AWS service endpoints. Those
+# addresses are not knowable in advance, so there is no narrower CIDR to write.
+# What is narrowed is everything else — this is TCP 443, where the rule it
+# replaced was every protocol on every port.
+#trivy:ignore:AWS-0104
+resource "aws_vpc_security_group_egress_rule" "ecs_https" {
+  security_group_id = aws_security_group.ecs.id
+  description       = "AWS APIs, model providers and web search, HTTPS only"
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 443
+  to_port           = 443
+  ip_protocol       = "tcp"
 }
 
 # ------------------------------------------------------------- data tier ----

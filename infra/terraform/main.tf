@@ -170,6 +170,7 @@ module "iam" {
   service_secret_arn_patterns = local.service_secret_arn_patterns
   kms_key_arn                 = module.security.kms_key_arn
   media_bucket_arn            = module.storage.media_bucket_arn
+  media_kms_key_arn           = module.storage.media_kms_key_arn
   media_bucket_prefixes       = ["properties/", "developers/", "compounds/", "brochures/", "uploads/"]
   opensearch_domain_arn       = module.database.opensearch_domain_arn
   cdn_distribution_arn        = module.storage.cdn_distribution_arn

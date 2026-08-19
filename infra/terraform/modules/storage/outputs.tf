@@ -1,5 +1,6 @@
 output "media_bucket_id" { value = aws_s3_bucket.media.id }
 output "media_bucket_arn" { value = aws_s3_bucket.media.arn }
+output "media_kms_key_arn" { value = aws_kms_key.media.arn }
 output "logs_bucket_id" { value = aws_s3_bucket.logs.id }
 output "logs_bucket_arn" { value = aws_s3_bucket.logs.arn }
 output "cdn_distribution_arn" { value = aws_cloudfront_distribution.media.arn }

@@ -45,13 +45,70 @@ resource "aws_s3_bucket_versioning" "media" {
   }
 }
 
+# The media bucket gets its own customer-managed key rather than SSE-S3, so it
+# matches how every other store in this stack is encrypted (RDS, DocumentDB,
+# Redis, Secrets Manager all use a CMK) and so key use shows up in CloudTrail.
+#
+# It is a separate key from the one in the security module on purpose: the
+# policy below has to name the distribution that is allowed to decrypt, and the
+# distribution lives here. Pointing at the security module's key would mean
+# security depending on storage while storage already depends on security.
+data "aws_iam_policy_document" "media_kms" {
+  statement {
+    sid       = "AccountRoot"
+    actions   = ["kms:*"]
+    resources = ["*"]
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"]
+    }
+  }
+
+  # Without this CloudFront serves 403 for every object: with Origin Access
+  # Control it fetches as a service principal, and a KMS-encrypted object needs
+  # an explicit decrypt grant. Scoped to this distribution, not to CloudFront
+  # at large.
+  statement {
+    sid       = "CloudFrontRead"
+    effect    = "Allow"
+    actions   = ["kms:Decrypt"]
+    resources = ["*"]
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.media.arn]
+    }
+  }
+}
+
+resource "aws_kms_key" "media" {
+  description             = "${var.name_prefix} media objects at rest"
+  deletion_window_in_days = var.kms_deletion_window_days
+  enable_key_rotation     = true
+  policy                  = data.aws_iam_policy_document.media_kms.json
+
+  tags = merge(var.tags, { Name = "${var.name_prefix}-media-kms" })
+}
+
+resource "aws_kms_alias" "media" {
+  name          = "alias/${var.name_prefix}-media"
+  target_key_id = aws_kms_key.media.key_id
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "media" {
   bucket = aws_s3_bucket.media.id
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.media.arn
     }
+    # Without a bucket key every object read is a separate KMS API call. With
+    # one, KMS request charges effectively disappear.
     bucket_key_enabled = true
   }
 }
@@ -122,6 +179,11 @@ resource "aws_s3_bucket_ownership_controls" "logs" {
   }
 }
 
+# ALB access logging cannot deliver to a bucket encrypted with a KMS customer-
+# managed key — only SSE-S3 is supported, and the failure is silent: the load
+# balancer simply never writes a log and reports nothing. The objects are still
+# encrypted at rest, with an AWS-managed key.
+#trivy:ignore:AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "logs" {
   bucket = aws_s3_bucket.logs.id
 
@@ -257,12 +319,21 @@ resource "aws_acm_certificate_validation" "cdn" {
   validation_record_fqdns = [for record in aws_route53_record.cdn_validation : record.fqdn]
 }
 
+# No WAF on this distribution by default, which is a deliberate choice for
+# what this distribution is: it serves static images out of a private bucket
+# reached only through Origin Access Control. There is no application behind it
+# to inject into, no form, no query the origin interprets — the request surface
+# is GET/HEAD/OPTIONS on an object key. Shield Standard already covers L3/L4.
+# Set `web_acl_arn` to attach one anyway (rate limiting is the usual reason);
+# it becomes necessary the moment this distribution fronts anything but media.
+#trivy:ignore:AWS-0011
 resource "aws_cloudfront_distribution" "media" {
   enabled             = true
   comment             = "${var.name_prefix} media"
   price_class         = var.cloudfront_price_class
   default_root_object = ""
   aliases             = var.cdn_domain_name != "" ? [var.cdn_domain_name] : []
+  web_acl_id          = var.web_acl_arn != "" ? var.web_acl_arn : null
 
   origin {
     domain_name              = aws_s3_bucket.media.bucket_regional_domain_name

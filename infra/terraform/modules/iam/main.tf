@@ -157,6 +157,24 @@ data "aws_iam_policy_document" "task" {
     }
   }
 
+  # The media bucket is encrypted with a customer-managed key, so s3:PutObject
+  # alone is not enough — writing an object means asking KMS for a data key, and
+  # reading one back means decrypting it. Scoped through S3 so this grant cannot
+  # be used against the key directly.
+  dynamic "statement" {
+    for_each = contains(local.s3_writers, each.value) ? [1] : []
+    content {
+      sid       = "MediaObjectEncryption"
+      actions   = ["kms:GenerateDataKey", "kms:Decrypt"]
+      resources = [var.media_kms_key_arn]
+      condition {
+        test     = "StringEquals"
+        variable = "kms:ViaService"
+        values   = ["s3.${var.region}.amazonaws.com"]
+      }
+    }
+  }
+
   dynamic "statement" {
     for_each = contains(local.opensearch_clients, each.value) ? [1] : []
     content {

@@ -42,10 +42,17 @@ resource "aws_internet_gateway" "this" {
 resource "aws_subnet" "public" {
   count = var.az_count
 
-  vpc_id                  = aws_vpc.this.id
-  cidr_block              = local.public_cidrs[count.index]
-  availability_zone       = local.azs[count.index]
-  map_public_ip_on_launch = true
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = local.public_cidrs[count.index]
+  availability_zone = local.azs[count.index]
+
+  # Nothing is ever launched *into* these subnets that needs an auto-assigned
+  # public IP: the only tenants are the ALB, whose ENIs get their addresses from
+  # the load balancer itself, and the NAT gateways, which carry explicit EIPs.
+  # Fargate runs in the private app subnets with assign_public_ip = false. So
+  # leaving this on only risks handing a public address to anything added here
+  # later by accident.
+  map_public_ip_on_launch = false
 
   tags = merge(var.tags, {
     Name = "${var.name_prefix}-public-${local.azs[count.index]}"
