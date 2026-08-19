@@ -84,6 +84,7 @@ jobs:
           F_RAG: ${{ steps.filter.outputs.rag_svc }}
           F_REPORTS: ${{ steps.filter.outputs.reports_svc }}
           F_INFRA: ${{ steps.filter.outputs.infra }}
+          F_MOBILE: ${{ steps.filter.outputs.mobile }}
         run: |
           set -euo pipefail
           on() { if [ "$FULL" = "true" ] || [ "$1" = "true" ]; then echo true; else echo false; fi; }
@@ -94,6 +95,7 @@ jobs:
           RAG=$(on "$F_RAG");        echo "rag_svc=$RAG"         >> "$GITHUB_OUTPUT"
           REPORTS=$(on "$F_REPORTS");echo "reports_svc=$REPORTS" >> "$GITHUB_OUTPUT"
           INFRA=$(on "$F_INFRA");    echo "infra=$INFRA"         >> "$GITHUB_OUTPUT"
+          MOBILE=$(on "$F_MOBILE");  echo "mobile=$MOBILE"       >> "$GITHUB_OUTPUT"
 
           ANY=false
           for v in "$API" "$WEB" "$SEARCH" "$RAG" "$REPORTS"; do
