@@ -6,6 +6,7 @@
 ![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Python%203.12-009688?logo=fastapi&logoColor=white)
 ![Sinatra](https://img.shields.io/badge/Sinatra-Ruby%203.3-CC342D?logo=ruby&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-3.47-02569B?logo=flutter&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%20%2B%20pgvector-4169E1?logo=postgresql&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-8.15-005571?logo=elasticsearch&logoColor=white)
@@ -14,25 +15,21 @@
 ![nginx](https://img.shields.io/badge/nginx-TLS%20edge-009639?logo=nginx&logoColor=white)
 ![LangGraph](https://img.shields.io/badge/RAG-LangGraph-1C3C3C)
 
-<!--
-  After pushing to GitHub, swap these in for live status badges:
-  ![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)
-  ![Security](https://github.com/<owner>/<repo>/actions/workflows/security.yml/badge.svg)
--->
-
 A production-shaped property marketplace for the Egyptian primary and resale
-market, built as a polyglot monorepo you can run end to end with one command. Browse 180 seeded listings across New Cairo, Sheikh Zayed, the North
-Coast, the New Administrative Capital, 6th of October and Mostakbal City from
-developers like Palm Hills, SODIC, Emaar Misr, Talaat Moustafa Group, Mountain
-View, Ora Developers and Hassan Allam; filter them through a real Elasticsearch
-index with Arabic + English analyzers; price them with a mortgage and
-installment engine that emits PDF brochures; and ask a streaming, retrieval-
-augmented chatbot "what's a 3-bedroom in Sheikh Zayed under 12M EGP with an 8
-year plan?" — every request arriving over TLS through a single nginx edge.
+market, built as a polyglot monorepo that runs end to end with one command.
+
+Browse 180 seeded listings across New Cairo, Sheikh Zayed, the North Coast, the
+New Administrative Capital, 6th of October and Mostakbal City from developers
+like Palm Hills, SODIC, Emaar Misr, Talaat Moustafa Group, Mountain View, Ora
+and Hassan Allam. Filter them through a real Elasticsearch index with Arabic and
+English analyzers, price them with a mortgage engine that emits PDF brochures,
+and ask a streaming retrieval-augmented chatbot *"what's a 3-bedroom in Sheikh
+Zayed under 12M EGP with an 8 year plan?"* — every request arriving over TLS
+through a single nginx edge.
 
 ```bash
 git clone <this-repo> && cd Real-Estate-Platform
-./infra/scripts/bootstrap.sh        # ~5-10 min on a cold cache
+make bootstrap                      # ~5-10 min on a cold cache
 open https://localhost              # accept the self-signed certificate once
 ```
 
@@ -40,765 +37,881 @@ open https://localhost              # accept the self-signed certificate once
 
 ## Table of contents
 
-- [Architecture](#architecture)
-- [Tech stack](#tech-stack)
+- [System architecture](#system-architecture)
+- [Request routing](#request-routing)
+- [Services](#services)
+- [Data architecture](#data-architecture)
+- [Database design](#database-design)
+  - [PostgreSQL — the relational core](#postgresql--the-relational-core)
+  - [MongoDB — the listing documents](#mongodb--the-listing-documents)
+  - [Elasticsearch — the search index](#elasticsearch--the-search-index)
+  - [pgvector — the RAG store](#pgvector--the-rag-store)
+  - [Redis — ephemeral state](#redis--ephemeral-state)
+- [Key flows](#key-flows)
 - [Quick start](#quick-start)
 - [Demo credentials](#demo-credentials)
-- [Services and ports](#services-and-ports)
+- [Ports](#ports)
 - [Configuration](#configuration)
 - [Repository layout](#repository-layout)
-- [How the RAG chatbot works](#how-the-rag-chatbot-works)
-- [API overview](#api-overview)
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Troubleshooting](#troubleshooting)
 
 ---
 
-## Architecture
+## System architecture
 
-Everything public enters through nginx on `:443`. nginx terminates TLS, applies
-security headers and rate limits, mints an `X-Request-Id` when the caller has
-not, and routes by path prefix. No backend is meant to be reached directly in
-production; the published host ports exist only to make local debugging easy.
+Five application services behind one TLS edge, each owning its own data store.
+Nothing shares a database: when one service needs another's data it asks over
+HTTP, which is what keeps the boundaries honest.
 
+```mermaid
+flowchart TB
+    subgraph clients["Clients"]
+        browser["Web browser"]
+        mobile["Flutter app<br/>Android"]
+    end
+
+    subgraph edge["Edge"]
+        nginx["<b>nginx</b><br/>TLS 1.2/1.3 termination<br/>rate limiting, CSP, HSTS<br/>request-id correlation<br/>SSE pass-through"]
+    end
+
+    subgraph apps["Application services"]
+        web["<b>web</b><br/>Next.js 15<br/>App Router, RSC<br/>:3000"]
+        api["<b>api-core</b><br/>NestJS 11<br/>catalogue, auth, leads<br/>:4000"]
+        search["<b>search-svc</b><br/>FastAPI<br/>query + index<br/>:8000"]
+        rag["<b>rag-svc</b><br/>FastAPI + LangGraph<br/>streaming chat<br/>:8001"]
+        reports["<b>reports-svc</b><br/>Sinatra + Prawn<br/>finance + PDF<br/>:4567"]
+    end
+
+    subgraph data["Data stores"]
+        pg[("<b>PostgreSQL 16</b><br/>+ pgvector")]
+        mongo[("<b>MongoDB 7</b>")]
+        es[("<b>Elasticsearch</b><br/>8.15")]
+        redis[("<b>Redis 7</b>")]
+    end
+
+    browser -->|HTTPS 443| nginx
+    mobile -.->|"direct service ports<br/>(no edge)"| api
+    mobile -.-> search
+    mobile -.-> rag
+    mobile -.-> reports
+
+    nginx --> web
+    nginx --> api
+    nginx --> search
+    nginx --> rag
+    nginx --> reports
+
+    web -->|SSR fetch| api
+    web -->|SSR fetch| search
+
+    api --> pg
+    api --> mongo
+    api --> redis
+
+    search -->|read listings| mongo
+    search --> es
+
+    rag --> pg
+    rag -->|"tool: search_listings"| search
+    rag -->|"tool: get_property"| api
+
+    reports --> mongo
+    reports --> pg
+    reports -->|PDF cache| redis
+
+    classDef svc fill:#1f6feb22,stroke:#1f6feb,stroke-width:1px
+    classDef store fill:#8957e522,stroke:#8957e5,stroke-width:1px
+    classDef edgeC fill:#2ea04322,stroke:#2ea043,stroke-width:1px
+    class web,api,search,rag,reports svc
+    class pg,mongo,es,redis store
+    class nginx edgeC
 ```
-                         ┌───────────────────────┐
-                         │  Browser (RTL/LTR UI) │
-                         └───────────┬───────────┘
-                                     │  https://localhost   (TLS 1.2 / 1.3)
-                                     ▼
-        ┌────────────────────────────────────────────────────────────┐
-        │  nginx  :80 → 301 → :443                                   │
-        │  self-signed cert · HSTS · CSP · gzip · rate limits         │
-        │  X-Request-Id · WebSocket upgrade · SSE passthrough         │
-        └───┬───────────┬─────────────┬─────────────┬────────────────┘
-            │ /         │ /api/v1/    │ /api/search/│ /api/chat/   │ /api/reports/
-            ▼           ▼             ▼             ▼              ▼
-    ┌──────────────┐ ┌──────────┐ ┌───────────┐ ┌──────────┐ ┌─────────────┐
-    │ web          │ │ api-core │ │ search-svc│ │ rag-svc  │ │ reports-svc │
-    │ Next.js 15   │ │ NestJS11 │ │ FastAPI   │ │ FastAPI  │ │ Sinatra     │
-    │ App Router   │ │ Prisma + │ │ + ES DSL  │ │ LangGraph│ │ Prawn/CSV   │
-    │ SSR + BFF    │ │ Mongoose │ │           │ │ pgvector │ │ calculators │
-    │ :3000        │ │ :4000    │ │ :8000     │ │ :8001    │ │ :4567       │
-    └──────┬───────┘ └────┬─────┘ └─────┬─────┘ └────┬─────┘ └──────┬──────┘
-           │              │             │            │              │
-           │              │             │            │              │
-           │   ┌──────────┴─────────────┴────────────┴──────────────┴────┐
-           │   │                     data plane                          │
-           │   ├──────────────┬──────────────┬───────────┬───────────────┤
-           └──▶│ PostgreSQL16 │  MongoDB 7   │  Redis 7  │ Elasticsearch │
-               │ + pgvector   │              │           │     8.15      │
-               │              │              │           │               │
-               │ topchoice:        │ topchoice:        │ cache     │ properties_v1 │
-               │  users       │  properties  │ ratelimit │  (alias       │
-               │  developers  │  property_   │ denylist  │   properties) │
-               │  compounds   │   views      │ queues    │  ar + en      │
-               │  areas       │  activity_   │           │  analyzers    │
-               │  leads       │   events     │           │  edge_ngram   │
-               │  favorites   │              │           │  geo_point    │
-               │ topchoice_rag:    │              │           │               │
-               │  rag_chunks  │              │           │               │
-               │  (vector1024)│              │           │               │
-               │  chat_*      │              │           │               │
-               └──────┬───────┴──────────────┴───────────┴───────────────┘
-                      │
-                      │  media                       ┌──────────────────────┐
-                      └─────────────────────────────▶│ AWS S3 + CloudFront  │
-                                                     │ presigned uploads    │
-                                                     └──────────────────────┘
 
-    rag-svc also talks out to the model providers (both need API keys):
-
-        ┌──────────────────────────────┐        ┌──────────────────────────┐
-        │ Alibaba Cloud Model Studio   │        │ OpenAI                   │
-        │ (DashScope, OpenAI-compat)   │        │                          │
-        │  · tongyi-embedding-vision-  │        │  · gpt-5.6-luna          │
-        │    flash  → 1024-d vectors   │        │    generation + tools    │
-        │  · qwen3-rerank → top-N      │        │  · web search tool       │
-        └──────────────────────────────┘        └──────────────────────────┘
-```
-
-**Data ownership is strict** (see [`docs/CONTRACT.md`](docs/CONTRACT.md) §2): the
-canonical property document lives in MongoDB, PostgreSQL holds the relational
-truth plus a thin `property_index` mirror for foreign keys, and Elasticsearch
-holds the denormalized search document. `search-svc` and `rag-svc` read from
-Mongo/Postgres but never write business data there.
+**Why the mobile app bypasses the edge.** The Flutter client talks to each
+service on its own port rather than through nginx. On an emulator the host is
+`10.0.2.2` and there is no trusted certificate for the self-signed edge, so
+going direct avoids shipping a TLS exception in a debug build. Every base URL is
+a `--dart-define`, so a real deployment points them all at the public edge.
 
 ---
 
-## Tech stack
+## Request routing
 
-| Layer | Technology | Where it lives |
+nginx owns every public path. The prefixes are contractual — see
+[`docs/CONTRACT.md`](docs/CONTRACT.md) §2 — and a service never sees a path
+outside its own namespace.
+
+```mermaid
+flowchart LR
+    R["https://localhost"]
+
+    R --> A["/"]
+    R --> B["/_next/*"]
+    R --> C["/api/v1/auth/*"]
+    R --> D["/api/v1/*"]
+    R --> E["/api/search<br/>/api/search/*"]
+    R --> F["/api/chat/*"]
+    R --> G["/api/reports/*"]
+    R --> H["/__health/*"]
+
+    A --> WEB["web"]
+    B --> WEB
+    C --> API["api-core<br/><i>20 req/min, burst 10</i>"]
+    D --> API2["api-core<br/><i>30 req/s</i>"]
+    E --> SRCH["search-svc<br/><i>20 req/s</i>"]
+    F --> RAG["rag-svc<br/><i>60 req/min, buffering off</i>"]
+    G --> REP["reports-svc"]
+    H --> ANY["edge-only probes"]
+```
+
+Auth gets its own tighter bucket because credential stuffing is the attack that
+actually happens. `/api/chat/` runs with `proxy_buffering off`, `gzip off` and
+`X-Accel-Buffering: no` so chat tokens arrive one at a time rather than in one
+lump at the end. Every rate limit, `413`, `502/503` and `504` returns the
+contract's JSON error envelope, not an HTML page — a client never has to parse
+HTML to discover what went wrong.
+
+---
+
+## Services
+
+| Service | Stack | Owns | Responsibility |
+|---|---|---|---|
+| **web** | Next.js 15, React 19, Tailwind | — | Storefront and admin. Server components fetch through the same envelope the public API uses. Bilingual EN/AR with RTL. |
+| **api-core** | NestJS 11, Prisma, Mongoose | PostgreSQL `nawy`, MongoDB `nawy`, Redis | The catalogue and the system of record. Auth with refresh-token rotation, areas, developers, compounds, amenities, favourites, saved searches, leads, reviews, audit log. |
+| **search-svc** | FastAPI, Python 3.12 | Elasticsearch | Query and index. Reads listings from Mongo, projects them into `properties_v1`, serves faceted search and autocomplete in both languages. |
+| **rag-svc** | FastAPI, LangGraph | PostgreSQL `nawy_rag` (pgvector) | Retrieval-augmented chat over SSE. Owns threads, messages, summaries, the document/chunk store and its embeddings; calls the other services as tools. |
+| **reports-svc** | Sinatra, Ruby 3.3, Prawn | — (reads Mongo + PG) | The finance engine: mortgage and installment maths, market aggregation, CSV exports and PDF brochures. Caches rendered PDFs in Redis. |
+
+---
+
+## Data architecture
+
+Four stores, each chosen for what it is actually good at, and one clear owner
+per store.
+
+```mermaid
+flowchart TB
+    subgraph pgb["PostgreSQL 16 + pgvector"]
+        direction TB
+        db1[("<b>nawy</b><br/>relational catalogue<br/>15 tables")]
+        db2[("<b>nawy_rag</b><br/>chat + embeddings<br/>7 tables")]
+    end
+
+    mg[("<b>MongoDB 7</b><br/>nawy<br/>properties, property_views<br/>activity_events")]
+    esx[("<b>Elasticsearch 8.15</b><br/>properties_v1<br/>59 fields, 4 analyzers")]
+    rd[("<b>Redis 7</b><br/>refresh tokens<br/>rate counters, PDF cache")]
+
+    API["api-core"] --> db1
+    API --> mg
+    API --> rd
+    RAG["rag-svc"] --> db2
+    SRC["search-svc"] --> esx
+    SRC -.->|"reindex reads"| mg
+    REP["reports-svc"] -.->|"reads"| mg
+    REP -.->|"reads"| db1
+    REP --> rd
+
+    classDef s fill:#1f6feb22,stroke:#1f6feb
+    class API,RAG,SRC,REP s
+```
+
+**Why listings live in Mongo and everything else in Postgres.** A listing is a
+deep, bilingual, irregularly-shaped document — nested price, specs, location,
+media arrays, an embedded payment plan, denormalised compound and developer
+stubs. Modelling that relationally means a dozen joins to render one card. The
+catalogue around it — users, areas, developers, leads, favourites — is
+genuinely relational and wants foreign keys and transactions, so it stays in
+Postgres.
+
+**The bridge between them** is `property_index`, a thin Postgres projection of
+each listing carrying only what a foreign key needs to point at: the UUID, the
+Mongo ObjectId, the slug, and the few columns other tables filter on. It is what
+lets `favorites.property_id` and `leads.property_id` be real relational columns
+without dragging the whole document into Postgres.
+
+---
+
+## Database design
+
+### PostgreSQL — the relational core
+
+Database `nawy`, owned by api-core, managed with Prisma migrations.
+
+```mermaid
+erDiagram
+    users ||--o{ accounts : "oauth identities"
+    users ||--o{ refresh_tokens : "rotating sessions"
+    users ||--o{ favorites : saves
+    users ||--o{ saved_searches : stores
+    users ||--o{ reviews : writes
+    users ||--o{ leads : "submits / is assigned"
+    users ||--o{ audit_logs : "acts"
+
+    developers ||--o{ compounds : builds
+    areas ||--o{ compounds : "located in"
+    compounds ||--o{ payment_plans : offers
+    compounds }o--o{ amenities : "compound_amenities"
+
+    areas ||--o{ property_index : "contains"
+    compounds ||--o{ property_index : "contains"
+    developers ||--o{ property_index : "built"
+
+    property_index ||--o{ favorites : "saved as"
+    property_index ||--o{ leads : "enquired about"
+    property_index ||--o{ reviews : "reviewed"
+
+    areas ||--o{ leads : "sell enquiry names"
+    compounds ||--o{ leads : "sell enquiry names"
+
+    users {
+        uuid id PK
+        varchar email UK
+        varchar name
+        text password_hash
+        varchar phone
+        user_role role "user|agent|admin"
+        boolean is_verified
+        boolean is_active
+        varchar locale "en|ar"
+        text reset_token_hash
+        timestamp last_login_at
+    }
+
+    refresh_tokens {
+        uuid id PK
+        uuid user_id FK
+        uuid jti UK "denylist key"
+        text token_hash
+        varchar ip_address
+        timestamp expires_at
+        timestamp revoked_at
+        uuid replaced_by_jti "rotation chain"
+    }
+
+    accounts {
+        uuid id PK
+        uuid user_id FK
+        varchar provider
+        varchar provider_account_id
+        text access_token
+        timestamp expires_at
+    }
+
+    areas {
+        uuid id PK
+        varchar slug UK
+        varchar name_en
+        varchar name_ar
+        varchar city
+        varchar governorate
+        double lat
+        double lng
+        integer property_count "denormalised"
+        integer avg_price_per_meter "denormalised"
+        boolean is_active
+    }
+
+    developers {
+        uuid id PK
+        varchar slug UK
+        varchar name
+        varchar name_ar
+        text logo_url
+        integer founded_year
+        integer projects_count
+        boolean is_featured
+    }
+
+    compounds {
+        uuid id PK
+        varchar slug UK
+        varchar name
+        varchar name_ar
+        uuid developer_id FK
+        uuid area_id FK
+        integer starting_price
+        integer max_price
+        integer delivery_year
+        integer installment_years
+        integer down_payment_percent
+        text_array images
+        text_array unit_types
+        boolean is_featured
+    }
+
+    amenities {
+        uuid id PK
+        varchar slug UK
+        varchar name_en
+        varchar name_ar
+        varchar icon
+        varchar category
+    }
+
+    payment_plans {
+        uuid id PK
+        uuid compound_id FK
+        varchar name
+        integer down_payment_percent
+        integer installment_years
+        integer monthly_installment
+        date delivery_date
+        boolean is_default
+    }
+
+    property_index {
+        uuid id PK "= Mongo propertyId"
+        varchar mongo_id "= Mongo _id"
+        varchar slug UK
+        uuid compound_id FK
+        uuid developer_id FK
+        uuid area_id FK
+        integer price_min
+        property_status status
+        boolean is_featured
+        timestamp published_at
+        timestamp deleted_at "soft delete"
+    }
+
+    leads {
+        uuid id PK
+        uuid property_id FK "null for sell enquiries"
+        uuid user_id FK
+        uuid area_id FK
+        uuid compound_id FK
+        varchar name
+        varchar phone
+        varchar email
+        text message
+        varchar source
+        lead_status status "new|contacted|qualified|viewing|negotiating|won|lost"
+        uuid assigned_to_id FK
+        timestamp contacted_at
+    }
+
+    favorites {
+        uuid id PK
+        uuid user_id FK
+        uuid property_id FK
+    }
+
+    saved_searches {
+        uuid id PK
+        uuid user_id FK
+        varchar name
+        jsonb criteria "serialised filter set"
+        boolean alert_enabled
+        timestamp last_run_at
+    }
+
+    reviews {
+        uuid id PK
+        uuid user_id FK
+        uuid property_id FK
+        uuid compound_id FK
+        integer rating
+        varchar title
+        text comment
+        boolean is_approved "moderation gate"
+    }
+
+    audit_logs {
+        uuid id PK
+        uuid user_id FK
+        varchar action
+        varchar entity_type
+        varchar entity_id
+        jsonb metadata
+        varchar ip_address
+        varchar request_id "correlates with nginx"
+    }
+```
+
+Three details worth calling out:
+
+- **`refresh_tokens.replaced_by_jti`** makes rotation auditable. Each refresh
+  mints a new token and points the old row at it, so replaying a spent token is
+  detectable rather than merely rejected — the whole chain can be revoked.
+- **`leads.property_id` is nullable.** A "sell my property" enquiry names an
+  area, a compound and a property type instead of an existing listing, so those
+  three columns carry it.
+- **`property_index.deleted_at`** is the soft-delete tombstone every consumer
+  filters on. A hard delete would orphan favourites and leads that legitimately
+  reference a withdrawn listing.
+
+### MongoDB — the listing documents
+
+Database `nawy`, collection `properties`. One document is everything needed to
+render a listing page without a join.
+
+```mermaid
+classDiagram
+    class Property {
+        ObjectId _id
+        string propertyId "UUID, the public id"
+        string slug
+        string referenceNo "TC-1042"
+        string propertyType
+        string saleType "primary|resale"
+        string status
+        string finishing
+        boolean isFeatured
+        string[] amenities "slugs"
+        Date publishedAt
+        Date createdAt
+        Date updatedAt
+        Date deletedAt "soft delete"
+    }
+    class Title {
+        string en
+        string ar
+    }
+    class Price {
+        number amount
+        string currency "EGP"
+        number pricePerMeter
+    }
+    class Specs {
+        number bedrooms
+        number bathrooms
+        number areaSqm
+        number gardenSqm
+        number floor
+        number parkingSpots
+    }
+    class Location {
+        string areaId
+        string areaName
+        string city
+        string governorate
+        string address
+        GeoJSON geo "Point"
+    }
+    class CompoundStub {
+        string id
+        string name
+        string slug
+    }
+    class DeveloperStub {
+        string id
+        string name
+        string slug
+        string logoUrl
+    }
+    class Media {
+        Image[] images
+        Image[] floorPlans
+        string videoUrl
+        string tourUrl
+    }
+    class PaymentPlan {
+        number downPaymentPercent
+        number installmentYears
+        number monthlyInstallment
+        string deliveryDate
+    }
+    class Stats {
+        number views
+        number favorites
+        number leads
+    }
+
+    Property *-- Title : title, description
+    Property *-- Price : price
+    Property *-- Specs : specs
+    Property *-- Location : location
+    Property *-- CompoundStub : compound
+    Property *-- DeveloperStub : developer
+    Property *-- Media : media
+    Property *-- PaymentPlan : paymentPlan
+    Property *-- Stats : stats
+```
+
+The `compound` and `developer` stubs are deliberately denormalised copies of the
+Postgres rows. A listing card needs the compound name and the developer logo;
+fetching those over HTTP per card would be absurd, and they change rarely enough
+that a reindex is the right refresh mechanism.
+
+`property_views` and `activity_events` sit alongside as append-only collections,
+kept out of Postgres because they are high-write and nothing joins against them.
+
+### Elasticsearch — the search index
+
+Index `properties_v1` behind the alias `properties`, projected from Mongo. 59
+fields, four custom analyzers.
+
+```mermaid
+flowchart LR
+    subgraph an["Analyzers"]
+        A1["<b>topchoice_english</b><br/>possessive stemmer, lowercase<br/>asciifolding, stopwords, stemmer"]
+        A2["<b>topchoice_arabic</b><br/>lowercase, decimal_digit<br/>arabic_normalization<br/>arabic_stop, arabic_stemmer"]
+        A3["<b>autocomplete</b><br/>edge n-grams over<br/>normalised Arabic + Latin"]
+        A4["<b>autocomplete_search</b><br/>same, without n-grams"]
+    end
+
+    subgraph fl["Field groups"]
+        F1["<b>full-text</b><br/>title_en/ar, description_en/ar<br/>all_en, all_ar, address"]
+        F2["<b>filters — keyword</b><br/>propertyType, saleType, status<br/>finishing, amenities<br/>areaId, compoundId, developerId"]
+        F3["<b>ranges — numeric</b><br/>price, pricePerMeter, areaSqm<br/>bedrooms, bathrooms<br/>deliveryYear, installmentYears"]
+        F4["<b>geo + dates</b><br/>geo_point, deliveryDate<br/>publishedAt, createdAt"]
+        F5["<b>suggest</b><br/>areaName, compoundName<br/>developerName + .autocomplete"]
+    end
+
+    A1 --> F1
+    A2 --> F1
+    A3 --> F5
+    A4 --> F5
+```
+
+`all_en` and `all_ar` are copy-to catch-alls, so a single query string matches a
+compound name, an area, a developer or the description without the caller
+enumerating fields. The alias indirection is what makes a zero-downtime reindex
+possible: build `properties_v2`, then flip the alias.
+
+### pgvector — the RAG store
+
+Database `nawy_rag`, owned by rag-svc. Conversation state and the embedded
+corpus live together so a thread and its citations are one transaction.
+
+```mermaid
+erDiagram
+    chat_threads ||--o{ chat_messages : contains
+    chat_threads ||--o{ chat_summaries : "rolled up into"
+    chat_threads ||--o{ tool_calls : "made during"
+    chat_messages ||--o{ tool_calls : "triggered"
+    rag_documents ||--o{ rag_chunks : "split into"
+
+    chat_threads {
+        uuid id PK
+        uuid user_id "null for guests"
+        text title
+        varchar locale "en|ar"
+        timestamptz last_message_at
+        jsonb metadata
+    }
+
+    chat_messages {
+        uuid id PK
+        uuid thread_id FK
+        varchar role "user|assistant|system|tool"
+        text content
+        jsonb sources "citations"
+        jsonb tool_calls
+        integer tokens
+        integer latency_ms
+        integer rating "thumbs up/down"
+        text feedback
+    }
+
+    chat_summaries {
+        uuid id PK
+        uuid thread_id FK
+        text summary
+        uuid up_to_message_id "watermark"
+    }
+
+    tool_calls {
+        uuid id PK
+        uuid thread_id FK
+        uuid message_id FK
+        varchar name
+        jsonb arguments
+        jsonb result
+        varchar status
+        integer latency_ms
+        text error
+    }
+
+    rag_documents {
+        uuid id PK
+        varchar source_type "property|compound|area|developer|faq|url"
+        varchar source_id
+        text uri
+        text title
+        varchar lang
+        varchar checksum "skips unchanged re-embeds"
+        jsonb metadata
+    }
+
+    rag_chunks {
+        uuid id PK
+        uuid document_id FK
+        integer ordinal
+        text content
+        integer token_count
+        jsonb metadata
+        vector embedding "1024 dimensions"
+    }
+
+    ingestion_runs {
+        uuid id PK
+        varchar source
+        varchar status
+        jsonb stats
+        text error
+        timestamptz started_at
+        timestamptz finished_at
+    }
+```
+
+`rag_documents.checksum` is what makes re-ingestion cheap: a document whose
+content hash has not moved is skipped rather than re-embedded. `chat_summaries`
+carries a watermark so a long thread is compacted incrementally instead of being
+re-summarised from the top every turn.
+
+### Redis — ephemeral state
+
+Nothing in Redis is a source of truth; it is all reconstructible.
+
+| Namespace | Written by | Purpose |
 |---|---|---|
-| Frontend | Next.js 15 (App Router, RSC, TypeScript strict) | `apps/web` |
-| UI | Tailwind CSS v4 + shadcn/ui (new-york, slate), sonner toasts | `apps/web/src/components` |
-| Client state | Zustand (`persist` for auth/favorites/compare) | `apps/web/src/store` |
-| Server state | TanStack Query v5 + typed fetcher with 401 auto-refresh | `apps/web/src/lib/api.ts` |
-| Core API | NestJS 11, class-validator, Swagger | `apps/api-core` |
-| ORM | Prisma (PostgreSQL) + Mongoose (MongoDB) | `apps/api-core/prisma`, `apps/api-core/src` |
-| AuthN/Z | JWT HS256 access (15m) + rotating refresh (30d), Google OAuth 2.0, RBAC | `apps/api-core/src/auth` |
-| Search | Elasticsearch 8.15 — Arabic + English analyzers, edge-ngram autocomplete, geo, facets | `apps/search-svc` |
-| Search API | Python 3.12 + FastAPI + Pydantic v2 | `apps/search-svc/app` |
-| RAG chatbot | LangGraph state machine, pgvector, DashScope embeddings, qwen3 rerank, GPT-5.6-Luna | `apps/rag-svc/app` |
-| Reports | Ruby 3.3 + Sinatra — PDF brochures, CSV exports, mortgage/installment engine | `apps/reports-svc` |
-| Relational + vectors | PostgreSQL 16 with `pgvector`, `pg_trgm`, `uuid-ossp` | `postgres` service, `infra/scripts/init-postgres.sql` |
-| Documents | MongoDB 7 | `mongo` service |
-| Cache / rate limit / queues | Redis 7 (AOF, `allkeys-lru`, 512 MB cap) | `redis` service |
-| Object storage | AWS S3 presigned uploads (+ optional CloudFront) — **needs AWS keys** | `apps/api-core/src/uploads` |
-| Edge | nginx 1.27 — TLS, HSTS, CSP, gzip, rate limiting, SSE, WebSocket | `infra/nginx` |
-| Local runtime | Docker Compose (10 services, healthchecks, named volumes) | `docker-compose.yml` |
-| Automation | Bash scripts + a self-documenting Makefile | `infra/scripts`, `Makefile` |
-| CI | GitHub Actions — path-filtered matrices, image builds, compose smoke test | `.github/workflows/ci.yml` |
-| Security scanning | Trivy, Gitleaks, npm audit, pip-audit, bundler-audit, Dependabot | `.github/workflows/security.yml` |
-| Cloud (optional) | Terraform | `infra/terraform` |
+| `auth:refresh:<jti>` | api-core | Refresh-token denylist. A rotated or revoked `jti` lands here until its natural expiry, so a stolen token dies before the JWT does. |
+| `cache:prop:<id>:<v>` | reports-svc | Rendered PDF brochures, keyed by property and template version. |
+| rate-limit counters | search-svc, reports-svc | Per-caller windows for the service-level limits that sit behind nginx's. |
+
+---
+
+## Key flows
+
+### Search
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant N as nginx
+    participant S as search-svc
+    participant E as Elasticsearch
+
+    B->>N: GET /api/search?bedrooms=3&areaId=…&facets=true
+    N->>S: proxy, adds X-Request-Id
+    S->>S: validate + build the ES query
+    S->>E: bool query + aggregations
+    E-->>S: hits + facet buckets
+    S-->>N: envelope with data, meta, facets
+    N-->>B: JSON, request-id echoed back
+```
+
+Facets are opt-in (`facets=true`) so an ordinary results page does not pay for
+fifteen aggregations it will not render.
+
+### Indexing
+
+```mermaid
+sequenceDiagram
+    participant Op as Operator
+    participant S as search-svc
+    participant M as MongoDB
+    participant E as Elasticsearch
+
+    Op->>S: POST /api/search/reindex {"full": true}
+    S-->>Op: 202 with runId, work continues async
+    loop batches
+        S->>M: read published, non-deleted listings
+        M-->>S: documents
+        S->>S: project to the flat index shape
+        S->>E: bulk index
+    end
+    S->>E: refresh + flip alias
+    Note over S: run recorded, queryable at /index/health
+```
+
+### Retrieval-augmented chat
+
+The LangGraph state machine behind `/api/chat/message`:
+
+```mermaid
+flowchart TB
+    START([message in]) --> LM["load_memory<br/><i>thread history + summary</i>"]
+    LM --> G["guard<br/><i>scope + safety</i>"]
+    G -->|refused| GEN
+    G --> C["classify<br/><i>smalltalk · knowledge · listing_search · web · handoff</i>"]
+
+    C -->|smalltalk| GEN
+    C -->|listing_search| TC["call_tools<br/><i>search_listings, get_property,<br/>calculate_mortgage</i>"]
+    C -->|knowledge| RW["rewrite_query<br/><i>resolve pronouns from history</i>"]
+
+    RW --> RET["retrieve<br/><i>hybrid: vector + keyword</i>"]
+    RET --> GR["grade_context<br/><i>is this enough to answer?</i>"]
+    GR -->|insufficient, retry| RW
+    GR -->|sufficient| GEN
+    TC --> GEN["generate<br/><i>stream tokens over SSE</i>"]
+    GEN --> END([answer + citations])
+```
+
+`grade_context` is the loop that stops the model answering from thin retrieval:
+if the chunks do not support an answer it rewrites the query and tries again, up
+to a bounded number of iterations, rather than confabulating.
 
 ---
 
 ## Quick start
 
-**Prerequisites:** Docker Engine 24+ with the Compose v2 plugin, `openssl`,
-`curl`, and roughly 6 GB of free RAM (Elasticsearch alone reserves 1 GB of heap).
-
 ```bash
-./infra/scripts/bootstrap.sh
+make bootstrap
 ```
 
-That single command is idempotent and does all of this:
+That one command creates `.env` with freshly generated secrets, issues a
+self-signed TLS certificate, builds every image, waits for health, seeds the
+catalogue, builds the Elasticsearch index and ingests the RAG corpus.
 
-| # | Step | Detail |
-|---|---|---|
-| 1 | Preflight | docker, compose, openssl, curl, Dockerfiles, host ports |
-| 2 | `.env` | copies `.env.example`, then mints `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET` and `INTERNAL_SERVICE_TOKEN` with `openssl rand` (never overwrites values you customised) |
-| 3 | TLS | `gen-certs.sh` → `infra/nginx/certs/localhost.{crt,key}` |
-| 4 | Build | `docker compose build` |
-| 5 | Up | `docker compose up -d` |
-| 6 | Wait | live per-service health display with a timeout and actionable failures |
-| 7 | Schema + seed | `prisma migrate deploy`, then the api-core seeder loads `seed/*.json` into Postgres and Mongo |
-| 8 | Index | `POST /api/search/reindex` builds `properties_v1` |
-| 9 | RAG | `POST /api/chat/ingest` for `properties` and `faq` — **skipped automatically when `DASHSCOPE_API_KEY` is empty** |
-| 10 | Summary | URL table, direct ports and demo credentials |
-
-Useful flags: `--skip-build`, `--skip-seed`, `--skip-reindex`, `--skip-ingest`,
-`--force-certs`, `--timeout 900`. Run `./infra/scripts/bootstrap.sh --help` for
-the full list.
-
-Then open **<https://localhost>** and accept the certificate once (or trust it
-permanently — `./infra/scripts/gen-certs.sh` prints the Linux and macOS
-commands).
-
-<details>
-<summary><b>Everyday commands (<code>make help</code>)</b></summary>
+Then:
 
 ```bash
-make bootstrap        # first run (wrapper around infra/scripts/bootstrap.sh)
-make up               # start everything
-make down             # stop, keep the data
-make restart          # bounce containers (also re-resolves backend DNS in nginx)
-make ps               # status + health + ports
-make health           # pass/fail table, direct and through nginx (exit 1 on failure)
-make logs             # follow everything
-make logs-rag-svc     # follow one service
-make shell-api-core   # shell inside one container
-make migrate          # prisma migrate deploy
-make seed             # reload seed/*.json
-make reindex          # rebuild the Elasticsearch index
-make ingest           # re-ingest the RAG corpus (needs DASHSCOPE_API_KEY)
-make test             # every service's suite
-make lint             # eslint + ruff + rubocop (exits 1 if any linter fails)
-make lint-nginx       # nginx -t in a throwaway container — no stack needed
-make certs            # regenerate the TLS certificate
-make clean            # drop build artefacts and caches (keeps volumes)
-make reset            # DESTRUCTIVE: containers + volumes, with a confirmation
+make health      # probe every service through TLS
+make ps          # container status
+make logs        # tail everything
+make down        # stop, keeping volumes
 ```
 
-</details>
+The chatbot answers from the knowledge base without any model key. Set
+`OPENAI_API_KEY` (and optionally `DASHSCOPE_API_KEY` for embeddings) in `.env`
+to get generated prose instead of rendered tool output.
 
 ---
 
 ## Demo credentials
 
-Created by the api-core seeder. **Development data only** — these accounts exist
-purely so you can log in on a fresh install.
-
 | Role | Email | Password |
 |---|---|---|
-| `admin` — admin dashboard | `admin@topchoice.local` | `TopChoice@Demo123` |
-| `agent` — can publish listings | `agent@topchoice.local` | `TopChoice@Demo123` |
-| `user` — favorites, leads | `buyer@topchoice.local` | `TopChoice@Demo123` |
-
-Admin dashboard: <https://localhost/admin>
-
-These come from the `DEMO_USERS` array in
-[`apps/api-core/prisma/seed.ts`](apps/api-core/prisma/seed.ts) — change them
-there and re-run `make seed`.
+| admin | `admin@topchoice.local` | `TopChoice@Demo123` |
+| agent | `agent@topchoice.local` | `TopChoice@Demo123` |
+| user | `buyer@topchoice.local` | `TopChoice@Demo123` |
 
 ---
 
-## Services and ports
+## Ports
 
-| Service | Public path (through nginx) | Direct URL | Container | Health |
-|---|---|---|---|---|
-| `web` | `/` | <http://localhost:3000> | `topchoice-web` | `https://localhost/__health/web` |
-| `api-core` | `/api/v1/*` | <http://localhost:4000> | `topchoice-api-core` | `/health`, `/health/ready` |
-| `search-svc` | `/api/search/*` | <http://localhost:8000> | `topchoice-search-svc` | `/health` |
-| `rag-svc` | `/api/chat/*` | <http://localhost:8001> | `topchoice-rag-svc` | `/health` |
-| `reports-svc` | `/api/reports/*` | <http://localhost:4567> | `topchoice-reports-svc` | `/health` |
-| `postgres` | — | `localhost:5432` | `topchoice-postgres` | `pg_isready` |
-| `mongo` | — | `localhost:27017` | `topchoice-mongo` | `db.adminCommand('ping')` |
-| `redis` | — | `localhost:6379` | `topchoice-redis` | `redis-cli ping` |
-| `elasticsearch` | — | <http://localhost:9200> | `topchoice-elasticsearch` | `_cluster/health` |
-| `nginx` | `:80` → `:443` | <https://localhost> | `topchoice-nginx` | `https://localhost/__health/nginx` |
+Every published host port is overridable, because a machine that already runs
+Postgres on 5432 should still be able to start this stack. Set any of these in
+`.env`; the container-side ports and all service-to-service URLs are unaffected.
 
-The `/__health/<service>` routes are edge-only aliases added by
-`infra/nginx/conf.d/topchoice.conf` so `make health` can probe each backend *through*
-TLS without colliding with any application route.
+| Service | Public path | Host port | Override |
+|---|---|---|---|
+| nginx | `https://localhost` | 80, 443 | `HTTP_HOST_PORT`, `HTTPS_HOST_PORT` |
+| web | `/` | 3000 | `WEB_HOST_PORT` |
+| api-core | `/api/v1/*` | 4000 | `API_CORE_HOST_PORT` |
+| search-svc | `/api/search*` | 8000 | `SEARCH_SVC_HOST_PORT` |
+| rag-svc | `/api/chat/*` | 8001 | `RAG_SVC_HOST_PORT` |
+| reports-svc | `/api/reports/*` | 4567 | `REPORTS_SVC_HOST_PORT` |
+| postgres | — | 5432 | `POSTGRES_HOST_PORT` |
+| mongo | — | 27017 | `MONGO_HOST_PORT` |
+| redis | — | 6379 | `REDIS_HOST_PORT` |
+| elasticsearch | — | 9200 | `ELASTIC_HOST_PORT` |
 
-<details>
-<summary><b>What the nginx edge actually does</b></summary>
-
-- **TLS 1.2 + 1.3 only**, modern ECDHE/AES-GCM/CHACHA20 cipher list, shared
-  session cache, session tickets off, OCSP stapling explicitly off (a
-  self-signed cert has no responder).
-- **HSTS** (`max-age=31536000; includeSubDomains`, no `preload` for localhost),
-  `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`,
-  `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and a
-  CSP that still allows Next.js dev (`'unsafe-inline'`/`'unsafe-eval'`) plus the
-  Unsplash/Picsum/S3/CloudFront/Mapbox image hosts.
-- **Correlation**: honours an inbound `X-Request-Id`, otherwise generates one
-  from `$request_id`; forwards it upstream and echoes it back to the client.
-- **SSE**: `/api/chat/` runs with `proxy_buffering off`, `proxy_cache off`,
-  `chunked_transfer_encoding on`, `X-Accel-Buffering: no` and a 600 s read
-  timeout, so chat tokens arrive one at a time instead of in one lump.
-- **WebSockets**: `/` and `/_next/` pass `Upgrade`/`Connection` through for Next.js
-  Fast Refresh. The `$connection_upgrade` map resolves to an *empty* string (not
-  the usual `close`) for ordinary requests, so nginx omits the header and the
-  upstream keepalive pools stay usable while upgrades still work.
-- **Rate limits**: 20 req/min on `/api/v1/auth/` (burst 10), 60 req/min on
-  `/api/chat/`, 20 req/s on `/api/search/`, 30 req/s elsewhere, plus a 128
-  concurrent-connection cap per IP — all returning the contract's JSON error
-  envelope with `code: "RATE_LIMITED"` and a `Retry-After` header rather than an
-  HTML page. `413`, `502/503` and `504` get the same treatment
-  (`PAYLOAD_TOO_LARGE`, `SERVICE_UNAVAILABLE`, `GATEWAY_TIMEOUT`), so a client
-  never has to parse HTML to find out what went wrong.
-- **Bodies** capped at 25 MB; gzip for text, JSON, SVG and friends (and
-  explicitly *off* on the SSE route, where compression would coalesce frames).
-- **Upstreams** are keep-alive pools with `max_fails`/`fail_timeout`, and Docker's
-  embedded DNS (`127.0.0.11`) is configured as the resolver. nginx resolves
-  upstream names at start/reload — after recreating a backend container, run
-  `make restart` if its IP changed.
-
-</details>
+`https://localhost/__health/<service>` probes each backend *through* TLS without
+colliding with any application route.
 
 ---
 
 ## Configuration
 
 Every value lives in `.env`, created from [`.env.example`](.env.example) by
-`bootstrap.sh`. Names are contractual — see
-[`docs/CONTRACT.md`](docs/CONTRACT.md) §7 — do not rename them.
+bootstrap. Names are contractual — see [`docs/CONTRACT.md`](docs/CONTRACT.md) §7
+— so do not rename them.
 
-| Variable | Default | Purpose |
-|---|---|---|
-| `FRONTEND_URL` | `https://localhost` | CORS origin, OAuth redirects |
-| `JWT_ACCESS_SECRET` | *generated* | HS256 access token signing (15 min TTL) |
-| `JWT_REFRESH_SECRET` | *generated* | HS256 refresh token signing (30 day TTL, rotated) |
-| `JWT_ISSUER` / `JWT_AUDIENCE` | `topchoice-api` / `topchoice-clients` | verified by all four backends |
-| `INTERNAL_SERVICE_TOKEN` | *generated* | `X-Service-Token` for reindex/ingest endpoints |
-| `DATABASE_URL` | `postgresql://topchoice:…@postgres:5432/topchoice` | api-core (Prisma) |
-| `RAG_DATABASE_URL` | `postgresql+asyncpg://…/topchoice_rag` | rag-svc (SQLAlchemy async) |
-| `MONGO_URI` | `mongodb://mongo:27017/topchoice` | canonical property documents |
-| `REDIS_URL` | `redis://redis:6379` | cache, rate limits, refresh-token denylist |
-| `ELASTICSEARCH_URL` | `http://elasticsearch:9200` | search index |
-| `ES_INDEX` / `ES_INDEX_VERSION` | `properties` / `properties_v1` | alias and concrete index |
-| `GOOGLE_CLIENT_ID` / `_SECRET` | *empty* | **optional** — Google sign-in stays disabled until set |
-| `AWS_ACCESS_KEY_ID` / `_SECRET_ACCESS_KEY` | *empty* | **optional** — S3 uploads need real keys |
-| `DASHSCOPE_API_KEY` | *empty* | **required for RAG ingest/retrieval** (embeddings + rerank) |
-| `EMBEDDING_MODEL` / `EMBEDDING_DIM` | `tongyi-embedding-vision-flash` / `1024` | must match the `vector(1024)` column |
-| `RERANK_MODEL` | `qwen3-rerank` | cross-encoder rerank of the candidate set |
-| `OPENAI_API_KEY` | *empty* | **required for chat answers** (generation + web search) |
-| `GENERATION_MODEL` | `gpt-5.6-luna` | answer synthesis |
-| `RAG_TOP_K` / `RAG_RERANK_TOP_N` | `20` / `6` | retrieve 20 chunks, keep the best 6 |
-| `RAG_MEMORY_WINDOW` | `10` | conversation turns kept verbatim before summarising |
-| `NEXT_PUBLIC_MAPBOX_TOKEN` | *empty* | **optional** — map view falls back gracefully |
-
-> **No key, no problem.** The marketplace, search, favorites, leads, reports and
-> calculators all work with zero third-party keys. Only the chatbot (DashScope +
-> OpenAI), Google sign-in, S3 uploads and Mapbox tiles require credentials, and
-> each degrades with a clear message instead of crashing.
+| Group | Keys |
+|---|---|
+| Secrets | `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `INTERNAL_SERVICE_TOKEN` |
+| Datastores | `DATABASE_URL`, `MONGO_URL`, `REDIS_URL`, `ELASTICSEARCH_URL` |
+| Service URLs | `API_CORE_URL`, `SEARCH_SVC_URL`, `RAG_SVC_URL`, `REPORTS_SVC_URL` |
+| Models | `OPENAI_API_KEY`, `DASHSCOPE_API_KEY` |
+| Public | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_*_URL` |
+| Host ports | `*_HOST_PORT` (see above) |
 
 ---
 
 ## Repository layout
 
 ```
-Real-Estate-Platform/
+.
 ├── apps/
-│   ├── web/                  Next.js 15 storefront + admin dashboard
-│   ├── api-core/             NestJS 11 — auth, catalogue, leads, uploads, admin
-│   ├── search-svc/           FastAPI — Elasticsearch indexing, search, facets, geo
-│   ├── rag-svc/              FastAPI + LangGraph — chatbot, pgvector, ingestion
-│   └── reports-svc/          Sinatra — PDF/CSV, mortgage & installment engine
-├── seed/                     shared demo dataset (fixed UUIDs, byte-deterministic)
-│   ├── generate.mjs          regenerates every .json below
-│   ├── verify.mjs            asserts counts, enums, foreign keys, arithmetic
-│   ├── developers.json       12 developers   (Palm Hills, SODIC, Emaar Misr, TMG …)
-│   ├── areas.json            14 areas        (New Cairo, Sheikh Zayed, Sahel …)
-│   ├── compounds.json        30 compounds
-│   ├── properties.json       180 listings    (canonical Mongo documents)
-│   ├── amenities.json        24 amenities
-│   └── faq.json              40 Q&A pairs    (RAG corpus)
+│   ├── web/            Next.js 15 storefront and admin
+│   ├── mobile/         Flutter client (Android)
+│   ├── api-core/       NestJS: catalogue, auth, leads
+│   ├── search-svc/     FastAPI: Elasticsearch query + index
+│   ├── rag-svc/        FastAPI + LangGraph: streaming chat
+│   └── reports-svc/    Sinatra: finance, CSV, PDF
 ├── infra/
-│   ├── nginx/
-│   │   ├── nginx.conf        TLS, gzip, logging, rate-limit zones, maps
-│   │   ├── conf.d/topchoice.conf  upstreams, :80 redirect, :443 routing
-│   │   ├── conf.d/snippets/  proxy-common, proxy-sse, security-headers, errors
-│   │   └── certs/            generated by gen-certs.sh, git-ignored
-│   ├── scripts/
-│   │   ├── bootstrap.sh      one-command first run
-│   │   ├── gen-certs.sh      self-signed localhost certificate
-│   │   ├── health-check.sh   pass/fail table, exit 1 on failure
-│   │   ├── reset.sh          destructive teardown with confirmation
-│   │   ├── init-postgres.sql creates topchoice_rag + vector/trgm/uuid extensions
-│   │   └── lib/common.sh     shared shell helpers
-│   └── terraform/            cloud deployment (see Deployment)
-├── docs/CONTRACT.md          THE cross-service contract — single source of truth
-├── docker-compose.yml        10 services, healthchecks, named volumes
-├── .env.example              every environment variable, documented
-├── .github/workflows/        ci.yml + security.yml
-└── Makefile                  self-documenting task runner
+│   ├── nginx/          TLS edge, routing, rate limits
+│   ├── terraform/      AWS: VPC, ECS, RDS, DocumentDB, OpenSearch, CloudFront
+│   └── scripts/        bootstrap, certs, health
+├── seed/               The catalogue: 180 listings, compounds, areas, developers
+├── docs/CONTRACT.md    The API contract every service is held to
+└── docker-compose.yml
 ```
-
----
-
-## How the RAG chatbot works
-
-The assistant lives bottom-right on every page, streams its answer token by
-token over SSE, and cites the listings it used. It is a **LangGraph** state
-machine in `apps/rag-svc`, not a single prompt.
-
-```
-  POST /api/chat/message  {threadId?, message, stream:true}
-            │
-            ▼
-   ┌────────────────┐   load thread + last RAG_MEMORY_WINDOW turns from
-   │  load_memory   │   chat_messages; older turns come back as a rolling
-   └────────┬───────┘   summary row in chat_summaries
-            ▼
-   ┌────────────────┐   rewrite the question standalone ("what about 4 beds?"
-   │  rewrite_query │   → "4 bedroom apartments in Sheikh Zayed under 12M EGP")
-   └────────┬───────┘   and extract filters: area, price band, bedrooms, type
-            ▼
-   ┌────────────────┐   needs listings / needs FAQ / needs fresh web data /
-   │      route     │   pure chit-chat  → decides which of the next nodes run
-   └───┬────────┬───┘
-       │        └─────────────────────────────┐
-       ▼                                      ▼
-   ┌────────────────┐                  ┌──────────────────┐
-   │    retrieve    │ pgvector ANN     │   tools          │
-   │  rag_chunks    │ cosine over      │  · search_properties → search-svc
-   │  vector(1024)  │ 1024-d embeddings│  · web_search        → OpenAI tool
-   │  + metadata    │ top RAG_TOP_K=20 │  · calc_installments → reports-svc
-   └────────┬───────┘                  └────────┬─────────┘
-            ▼                                   │  tool_start / tool_end
-   ┌────────────────┐                           │  events stream to the client
-   │     rerank     │ qwen3-rerank cross-encoder │
-   │                │ 20 → RAG_RERANK_TOP_N = 6  │
-   └────────┬───────┘                           │
-            ▼                                   │
-   ┌────────────────────────────────────────────┴─────┐
-   │  generate — gpt-5.6-luna, grounded, bilingual     │
-   │  context capped at RAG_MAX_CONTEXT_TOKENS (6000)  │
-   │  streams `token` events, then `sources`, `done`   │
-   └────────┬──────────────────────────────────────────┘
-            ▼
-   ┌────────────────┐   persist the turn, refresh the rolling summary,
-   │  save_memory   │   archive to Mongo `chat_transcripts_archive`
-   └────────────────┘
-```
-
-**Embeddings and storage.** Ingestion (`POST /api/chat/ingest`, protected by
-`X-Service-Token`) chunks the 180 property documents and the 40-entry FAQ,
-embeds each chunk with Alibaba Cloud Model Studio's
-`tongyi-embedding-vision-flash` (1024 dimensions) and writes them to
-`rag_chunks.embedding vector(1024)` in the `topchoice_rag` database, with an
-`ingestion_runs` row you can poll at `GET /api/chat/ingest/status/:runId`.
-Retrieval is a pgvector nearest-neighbour query filtered by the metadata the
-rewrite step extracted.
-
-**Reranking.** Vector similarity alone over-retrieves; `qwen3-rerank` scores the
-20 candidates against the rewritten question and only the best 6 reach the
-prompt, which keeps the context inside `RAG_MAX_CONTEXT_TOKENS`.
-
-**Generation.** `gpt-5.6-luna` answers strictly from the retrieved context plus
-tool output, in the language of the question (Arabic or English), and returns
-the `sources` event so the UI can render listing cards under the answer.
-
-**Tools.** The graph can call `search_properties` (delegating structured filters
-to `search-svc`), `web_search` (for things the index cannot know — new launches,
-market news) and the reports-svc installment calculator.
-
-**Memory.** The last `RAG_MEMORY_WINDOW` (10) turns are replayed verbatim;
-everything older is compacted into a running summary so long conversations stay
-inside the context budget.
-
-**SSE event names** (contract §6): `token`, `tool_start`, `tool_end`, `sources`,
-`done`, `error`.
-
-> ⚠️ The chatbot needs both `DASHSCOPE_API_KEY` (embeddings + rerank) and
-> `OPENAI_API_KEY` (generation + web search). Without them, `bootstrap.sh` skips
-> ingestion and the widget reports that the assistant is unavailable — the rest
-> of the site is unaffected.
-
----
-
-## API overview
-
-Every service returns the same envelope (contract §4):
-
-```jsonc
-// success
-{ "success": true, "data": { }, "meta": { "page": 1, "limit": 20, "total": 134, "totalPages": 7 } }
-// error
-{ "success": false, "error": { "code": "PROPERTY_NOT_FOUND", "message": "…", "details": [] } }
-```
-
-**Swagger / OpenAPI:** <https://localhost/api/v1/docs> — served by api-core
-(`SWAGGER_PATH = api/v1/docs`), also reachable directly at
-<http://localhost:4000/api/v1/docs>. The edge keeps <https://localhost/docs> as a
-301 shortcut to it. `search-svc` publishes its own generated schema at
-<https://localhost/api/search/docs> (`/api/search/openapi.json`).
-
-<details>
-<summary><b>Endpoint map</b></summary>
-
-**api-core — `/api/v1`**
-
-```
-POST   /auth/register            POST /auth/login          POST /auth/refresh
-POST   /auth/logout              GET  /auth/me             GET  /auth/google
-GET    /auth/google/callback     POST /auth/forgot-password POST /auth/reset-password
-
-GET    /properties               GET  /properties/:idOrSlug
-POST   /properties [agent|admin] PATCH /properties/:id     DELETE /properties/:id [admin]
-POST   /properties/:id/view      GET  /properties/:id/similar
-
-GET    /compounds  /developers  /areas  /amenities   (+ admin write routes)
-GET    /favorites                POST /favorites/:propertyId   DELETE /favorites/:propertyId
-GET    /saved-searches           POST /saved-searches          DELETE /saved-searches/:id
-POST   /leads                    GET  /leads [agent|admin]     PATCH /leads/:id
-GET    /users/me                 PATCH /users/me               GET /users [admin]
-POST   /uploads/presign          DELETE /uploads [admin]
-GET    /admin/stats              GET  /admin/activity
-```
-
-**search-svc — `/api/search`**
-
-```
-GET  /            q, propertyType[], saleType, minPrice, maxPrice, bedrooms[],
-                  minArea, maxArea, areaId[], compoundId[], developerId[],
-                  amenities[], finishing[], deliveryBefore, maxDownPayment,
-                  lat/lng/radiusKm, sort, page, limit
-GET  /autocomplete    GET /facets    GET /similar/:id    GET /map?bbox=…
-POST /reindex [X-Service-Token]   POST /index/:id   DELETE /index/:id
-```
-
-**rag-svc — `/api/chat`**
-
-```
-POST /threads     GET /threads/:id/messages    POST /message   GET /stream/:threadId
-POST /feedback    POST /ingest [X-Service-Token]   GET /ingest/status/:runId
-```
-
-**reports-svc — `/api/reports`**
-
-```
-GET  /property/:id/brochure.pdf      GET  /market/summary?areaId=&from=&to=
-POST /mortgage/calculate             POST /installment/schedule
-GET  /admin/export/leads.csv [admin] GET  /admin/export/properties.csv [admin]
-```
-
-</details>
-
-<details>
-<summary><b>Try it from the shell</b></summary>
-
-```bash
-# search (public)
-curl -sk "https://localhost/api/search?q=villa&areaId=&minPrice=5000000&limit=3" | jq
-
-# register + login
-curl -sk -X POST https://localhost/api/v1/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"email":"buyer@topchoice.local","password":"TopChoice@Demo123"}' | jq
-
-# mortgage calculator (EGP)
-curl -sk -X POST https://localhost/api/reports/mortgage/calculate \
-  -H 'Content-Type: application/json' \
-  -d '{"price":8500000,"downPaymentPercent":10,"years":8,"annualRatePercent":18.5}' | jq
-
-# stream a chat answer (needs the model keys)
-curl -skN -X POST https://localhost/api/chat/message \
-  -H 'Content-Type: application/json' \
-  -d '{"message":"3 bedroom apartment in New Cairo under 10M EGP","stream":true}'
-```
-
-</details>
 
 ---
 
 ## Testing
 
 ```bash
-make test            # everything, inside the running containers
-make test-api        # api-core   — Jest (unit + e2e)
-make test-search     # search-svc — pytest
-make test-rag        # rag-svc    — pytest
-make test-reports    # reports-svc — RSpec
-make lint            # eslint + ruff + rubocop, plus `nginx -t`
-make health          # black-box: every /health, direct and through nginx
+make test              # every suite
 ```
 
-CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same work on
-every push and pull request:
+| Component | Tests | Runner |
+|---|---|---|
+| api-core | 84 | Jest |
+| web | 39 | Vitest |
+| mobile | 33 | `flutter test` |
+| search-svc | 90 | pytest |
+| rag-svc | 197 | pytest |
+| reports-svc | 199 | RSpec |
 
-| Job | What it does |
-|---|---|
-| `changes` | path filters; pull requests build only what moved, `main` always runs everything |
-| `api-core` | `npm ci` → lint → `tsc --noEmit` → `prisma migrate deploy` → Jest, against real Postgres/Mongo/Redis service containers |
-| `web` | `npm ci` → lint → typecheck → `next build` |
-| `python` (matrix) | `search-svc` and `rag-svc`: pip install → ruff → mypy → pytest (Elasticsearch and Mongo booted for search) |
-| `reports-svc` | `bundle install` → RuboCop → RSpec |
-| `infra` | ShellCheck, `docker compose config`, `nginx -t` against the real config, `make help` |
-| `docker-build` (matrix) | builds all five images with BuildKit + GitHub Actions cache |
-| `compose-smoke` | boots the entire stack and runs `infra/scripts/health-check.sh`, then asserts the `:80 → :443` redirect and the four edge routes |
-| `ci-success` | single required check for branch protection |
+Static analysis runs alongside: ESLint and `tsc` for TypeScript, ruff and mypy
+for Python, RuboCop for Ruby, `flutter analyze --fatal-infos` for Dart, and
+`terraform fmt`/`validate` for the infrastructure.
 
-[`security.yml`](.github/workflows/security.yml) adds Trivy (vulnerabilities,
-secrets, IaC misconfiguration, SARIF uploaded to code scanning), Gitleaks over
-the full history and the working tree, `npm audit`, `pip-audit` and
-`bundler-audit`, on every push plus a weekly schedule. Dependabot keeps npm, pip,
-bundler, Docker and Actions up to date.
+Two workflows gate `main`: **CI** (lint, typecheck, test, image build, compose
+smoke test) and **Security** (npm audit, pip-audit, bundler-audit, Gitleaks, and
+Trivy across the filesystem, secrets and IaC).
 
 ---
 
 ## Deployment
 
-Local development is Docker Compose, and it is **the only path this repository
-actually implements today**. `bootstrap.sh` never touches a cloud account.
+`infra/terraform` provisions the AWS side: VPC with public/app/data tiers, ECS
+Fargate services behind an ALB, RDS PostgreSQL, DocumentDB, ElastiCache,
+OpenSearch, S3 plus CloudFront for media, Secrets Manager, and a customer-
+managed KMS key per store.
 
-> ⚠️ [`infra/terraform`](infra/terraform) is a **reserved, currently empty
-> directory** — the placeholder for a future cloud stack, not working code.
-> Nothing in this repo provisions cloud infrastructure, and no script here will
-> ever call `terraform`. Treat the shape below as the intended design, not as
-> something you can `terraform apply`.
+```bash
+cd infra/terraform/bootstrap && terraform init && terraform apply   # once per account
+cd .. && terraform init -backend-config=environments/prod.backend.hcl
+terraform plan
+```
 
-The intended target when that directory is filled in: VPC, ECS Fargate services
-behind an ALB, RDS PostgreSQL with `pgvector`, DocumentDB or MongoDB Atlas,
-ElastiCache, an OpenSearch domain, S3 + CloudFront for media, ACM for real
-certificates and Secrets Manager for the JWT and provider keys.
-
-Production checklist if you take this further:
-
-- Replace the self-signed certificate with ACM/Let's Encrypt — the `:80` server
-  already serves `/.well-known/acme-challenge/` for a webroot challenge.
-- Tighten the CSP: drop `'unsafe-eval'`/`'unsafe-inline'` once Next.js runs in
-  production mode with nonces.
-- Move `JWT_*`, `INTERNAL_SERVICE_TOKEN`, `DASHSCOPE_API_KEY` and
-  `OPENAI_API_KEY` into a secrets manager; rotate them on a schedule.
-- Enable Elasticsearch security (`xpack.security.enabled=true`) and authenticated
-  Redis; both run open here because they are on a private compose network.
-- Point the compose `target: development` builds at the production stage and
-  drop the source bind mounts.
+Release signing for the mobile app reads `apps/mobile/android/key.properties`,
+which is gitignored — copy `key.properties.example` and generate a keystore.
 
 ---
 
 ## Troubleshooting
 
-<details>
-<summary><b>The browser says the certificate is not trusted</b></summary>
+**The browser warns about the certificate.** It is self-signed. Accept it once,
+or trust it system-wide with the instructions in
+`infra/scripts/gen-certs.sh`.
 
-Expected — it is self-signed. Click through once, or trust it permanently:
+**A port is already in use.** Set the matching `*_HOST_PORT` in `.env` and
+`make up` again. Nothing internal depends on the host-side number.
 
-```bash
-# Debian/Ubuntu
-sudo cp infra/nginx/certs/localhost.crt /usr/local/share/ca-certificates/topchoice-localhost.crt
-sudo update-ca-certificates
+**Search returns `SEARCH_BACKEND_ERROR`.** Check `make health` and then the
+cluster: `curl localhost:9200/_cluster/health`. A red cluster on a full disk is
+the usual cause — Elasticsearch stops allocating shards near its watermark. The
+compose file already pushes those out for a single-node dev cluster; free some
+disk and it recovers.
 
-# Fedora/RHEL
-sudo cp infra/nginx/certs/localhost.crt /etc/pki/ca-trust/source/anchors/topchoice-localhost.crt
-sudo update-ca-trust extract
+**The chatbot answers but never streams.** SSE needs buffering off end to end.
+Confirm with `curl -skN https://localhost/api/chat/stream/<id>` and look for
+`content-type: text/event-stream` and `x-accel-buffering: no`.
 
-# macOS
-sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain \
-  infra/nginx/certs/localhost.crt
-```
-
-Firefox keeps its own store: *Settings → Privacy & Security → Certificates →
-View Certificates → Authorities → Import*. Restart the browser afterwards.
-`curl` users can pass `-k` (every example above does).
-
-</details>
-
-<details>
-<summary><b>A port is already in use / nginx will not start</b></summary>
-
-`bootstrap.sh` warns about this before starting. Find the owner and stop it:
-
-```bash
-sudo ss -lptn 'sport = :443'
-sudo ss -lptn 'sport = :5432'    # a local Postgres is the usual culprit
-```
-
-Apache, another nginx, a system Postgres/Redis or a previous run of this stack
-are the common conflicts. `make down` clears the last one.
-
-</details>
-
-<details>
-<summary><b>Elasticsearch keeps restarting or exits with code 78</b></summary>
-
-Raise the kernel map limit (it resets on reboot unless persisted):
-
-```bash
-sudo sysctl -w vm.max_map_count=262144
-echo 'vm.max_map_count=262144' | sudo tee /etc/sysctl.d/99-elasticsearch.conf
-```
-
-On Docker Desktop, give the VM at least 6 GB of RAM. Check with
-`make logs-elasticsearch`.
-
-</details>
-
-<details>
-<summary><b>I edited <code>infra/nginx/*.conf</code> and nothing changed</b></summary>
-
-`nginx.conf` is bind-mounted as a **single file**, so the container holds the
-original inode. Most editors write a temp file and rename it, which gives the
-host a new inode the container never sees — `nginx -s reload` then happily
-reloads the *old* config.
-
-```bash
-docker compose restart nginx     # or: make restart
-make lint-nginx                  # syntax-check the files on disk, no stack needed
-```
-
-`make lint-nginx` runs `nginx -t` in a throwaway container against the real
-config plus the generated certificate, so you can validate a change before
-restarting anything.
-
-</details>
-
-<details>
-<summary><b>A backend returns 502/503/504 through nginx but works on its direct port</b></summary>
-
-nginx resolves upstream names at start/reload. If you recreated a container it
-may now have a different IP:
-
-```bash
-make restart              # or: docker compose restart nginx
-make health               # confirm
-```
-
-What the status code tells you:
-
-| Code | Envelope `code` | Usually means |
-|---|---|---|
-| `502` | `SERVICE_UNAVAILABLE` | the container is up but nothing is listening on the port yet |
-| `503` | `SERVICE_UNAVAILABLE` | every upstream in the pool is marked failed (`max_fails`) |
-| `504` | `GATEWAY_TIMEOUT` | the container is stopped/unreachable, or the request genuinely ran long |
-
-</details>
-
-<details>
-<summary><b>Search returns nothing</b></summary>
-
-The index is built after seeding. Rebuild it:
-
-```bash
-make seed && make reindex
-curl -s http://localhost:9200/_cat/indices?v      # properties_v1 should have 180 docs
-```
-
-</details>
-
-<details>
-<summary><b>The chatbot answers "unavailable" or ingestion was skipped</b></summary>
-
-Both model keys must be present in `.env`:
-
-```bash
-grep -E '^(DASHSCOPE_API_KEY|OPENAI_API_KEY)=' .env
-# fill them in, then
-docker compose up -d rag-svc && make ingest
-```
-
-`GET /api/chat/ingest/status/:runId` reports progress; `make logs-rag-svc` shows
-provider errors (quota, region, wrong base URL).
-
-</details>
-
-<details>
-<summary><b>Chat replies arrive all at once instead of streaming</b></summary>
-
-Something is buffering. Verify the edge is passing SSE through:
-
-```bash
-curl -skN https://localhost/api/chat/stream/<threadId> -D - | head
-# expect: content-type: text/event-stream and x-accel-buffering: no
-```
-
-If the headers are missing, `docker compose exec nginx nginx -t` and confirm
-`infra/nginx/conf.d/snippets/proxy-sse.inc` is included by the `/api/chat/`
-location.
-
-</details>
-
-<details>
-<summary><b>Migrations or the seeder fail</b></summary>
-
-```bash
-make logs-api-core
-make shell-api-core
-# inside the container:
-npx prisma migrate deploy && npm run seed
-```
-
-A half-migrated database is fastest to fix with `make reset` followed by
-`./infra/scripts/bootstrap.sh` (this deletes all local data).
-
-</details>
-
-<details>
-<summary><b>Start over completely</b></summary>
-
-```bash
-make reset                    # containers + volumes, asks for confirmation
-./infra/scripts/bootstrap.sh  # rebuild from zero
-```
-
-</details>
+**nginx returns 502 after recreating a container.** nginx resolves upstream
+names at start. Run `make restart` if a backend's IP changed.
 
 ---
 
-## Contributing notes
-
-- [`docs/CONTRACT.md`](docs/CONTRACT.md) is binding: ports, routes, envelopes,
-  enums, JWT claims and database ownership. Change it before changing code, not
-  after.
-- `seed/*.json` is generated — edit `seed/data/**` and run `node seed/generate.mjs`
-  followed by `node seed/verify.mjs`.
-- Secrets never get committed: `.env`, `*.key` and `*.pem` are git-ignored and
-  Gitleaks runs in CI.
-
 ## License
 
-No licence file has been added yet, so all rights are reserved by default — the
-service manifests declare `UNLICENSED`. Add a `LICENSE` at the root before
-publishing or reusing this code.
-
-**The seeded data is synthetic.** Every developer name, compound, listing,
-price and image under `seed/` is generated by `seed/generate.mjs` for
-development and demonstration. It is not real market data, and the developer
-names that appear there belong to their respective owners. Replace the seed
-with real listings before running this against production traffic.
+MIT.
