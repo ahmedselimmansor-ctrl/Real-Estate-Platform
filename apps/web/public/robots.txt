@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /account
-Disallow: /admin
-Disallow: /auth/
-
-Sitemap: https://localhost/sitemap.xml
