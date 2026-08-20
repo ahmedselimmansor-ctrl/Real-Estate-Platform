@@ -138,8 +138,11 @@ module Reports
       title = doc['title'] || {}
 
       [
-        doc['id'] || doc['_id'].to_s,
-        doc['mongoId'] || doc['_id'].to_s,
+        # 'Property ID' is the UUID and 'Mongo ID' the ObjectId. Neither
+        # doc['id'] nor doc['mongoId'] exists on a property document, so both
+        # columns used to fall through and emit the same ObjectId.
+        doc['propertyId'] || doc['_id'].to_s,
+        doc['_id'].to_s,
         doc['referenceNo'],
         doc['slug'],
         single_line(title['en']),

@@ -16,7 +16,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-topchoice}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-topchoice_password}
       POSTGRES_DB: ${POSTGRES_DB:-topchoice}
-    ports: ["5432:5432"]
+    ports: ["${POSTGRES_HOST_PORT:-5432}:5432"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./infra/scripts/init-postgres.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
@@ -32,7 +32,7 @@ services:
     image: mongo:7
     container_name: topchoice-mongo
     restart: unless-stopped
-    ports: ["27017:27017"]
+    ports: ["${MONGO_HOST_PORT:-27017}:27017"]
     volumes:
       - mongo_data:/data/db
     healthcheck:
@@ -48,7 +48,7 @@ services:
     container_name: topchoice-redis
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
-    ports: ["6379:6379"]
+    ports: ["${REDIS_HOST_PORT:-6379}:6379"]
     volumes:
       - redis_data:/data
     healthcheck:
@@ -69,10 +69,20 @@ services:
       - xpack.security.http.ssl.enabled=false
       - ES_JAVA_OPTS=-Xms512m -Xmx1g
       - bootstrap.memory_lock=true
+      # The default watermarks (85/90/95%) assume a cluster that can shuffle
+      # shards onto a roomier node. This one is single-node, so on a laptop
+      # sitting at 91% full the result is not a rebalance — it is an unassigned
+      # shard, a red cluster, and every query coming back as
+      # SEARCH_BACKEND_ERROR with the real reason buried in an allocation
+      # explain. Pushed out so a full-ish disk degrades instead of breaking.
+      - cluster.routing.allocation.disk.watermark.low=93%
+      - cluster.routing.allocation.disk.watermark.high=95%
+      - cluster.routing.allocation.disk.watermark.flood_stage=97%
+      - cluster.routing.allocation.disk.watermark.flood_stage.frozen=97%
     ulimits:
       memlock: { soft: -1, hard: -1 }
       nofile: { soft: 65536, hard: 65536 }
-    ports: ["9200:9200"]
+    ports: ["${ELASTIC_HOST_PORT:-9200}:9200"]
     volumes:
       - es_data:/usr/share/elasticsearch/data
     healthcheck:
@@ -95,7 +105,7 @@ services:
     env_file: [.env]
     environment:
       PORT: 4000
-    ports: ["4000:4000"]
+    ports: ["${API_CORE_HOST_PORT:-4000}:4000"]
     depends_on:
       postgres: { condition: service_healthy }
       mongo: { condition: service_healthy }
@@ -122,7 +132,7 @@ services:
     env_file: [.env]
     environment:
       PORT: 8000
-    ports: ["8000:8000"]
+    ports: ["${SEARCH_SVC_HOST_PORT:-8000}:8000"]
     depends_on:
       elasticsearch: { condition: service_healthy }
       mongo: { condition: service_healthy }
@@ -148,7 +158,7 @@ services:
     env_file: [.env]
     environment:
       PORT: 8001
-    ports: ["8001:8001"]
+    ports: ["${RAG_SVC_HOST_PORT:-8001}:8001"]
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -173,7 +183,7 @@ services:
     env_file: [.env]
     environment:
       PORT: 4567
-    ports: ["4567:4567"]
+    ports: ["${REPORTS_SVC_HOST_PORT:-4567}:4567"]
     depends_on:
       postgres: { condition: service_healthy }
       mongo: { condition: service_healthy }
@@ -200,7 +210,7 @@ services:
     env_file: [.env]
     environment:
       PORT: 3000
-    ports: ["3000:3000"]
+    ports: ["${WEB_HOST_PORT:-3000}:3000"]
     depends_on:
       api-core: { condition: service_started }
     volumes:
@@ -213,7 +223,7 @@ services:
     image: nginx:1.27-alpine
     container_name: topchoice-nginx
     restart: unless-stopped
-    ports: ["80:80", "443:443"]
+    ports: ["${HTTP_HOST_PORT:-80}:80", "${HTTPS_HOST_PORT:-443}:443"]
     volumes:
       - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro

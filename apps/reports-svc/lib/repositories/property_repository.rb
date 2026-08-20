@@ -34,7 +34,10 @@ module Reports
         return nil if value.empty?
 
         clauses = [
-          { 'id' => value },
+          # The UUID lives in `propertyId`; there is no top-level `id` on a
+          # property document, so matching on 'id' silently never fired and the
+          # documented UUID lookup 404'd while slug and reference worked.
+          { 'propertyId' => value },
           { 'slug' => value.downcase },
           { 'referenceNo' => value.upcase },
           { '_id' => value }

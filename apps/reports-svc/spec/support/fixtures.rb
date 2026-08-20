@@ -9,10 +9,14 @@ module SpecSupport
     COMPOUND_ID  = '1a63850a-81c8-5c83-a7d6-3c0b69fd93f9'
     DEVELOPER_ID = 'fbbdfc50-271a-535e-814b-30585c974062'
 
+    # Shaped like a real document from the `properties` collection: the UUID is
+    # `propertyId`, the ObjectId is `_id`. This fixture used to invent an
+    # 'id'/'mongoId' pair that Mongo never produces, which is exactly why the
+    # lookup-by-UUID bug in this service passed its tests for so long.
     def property_document(overrides = {})
       {
-        'id' => PROPERTY_ID,
-        'mongoId' => 'bfeaaa033d129db4724c32bf',
+        'propertyId' => PROPERTY_ID,
+        '_id' => 'bfeaaa033d129db4724c32bf',
         'slug' => 'palm-hills-new-cairo-3br-apartment-tc-1042',
         'referenceNo' => 'TC-1042',
         'title' => { 'en' => '3 Bedroom Apartment 180 m² in Palm Hills New Cairo',

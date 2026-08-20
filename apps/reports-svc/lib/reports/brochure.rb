@@ -66,7 +66,10 @@ module Reports
     end
 
     def canonical_id(property)
-      property['id'] || property['_id'].to_s
+      # `propertyId`, not `id` — a property document has no top-level `id`, so
+      # this used to fall through to the ObjectId and key the brochure cache by
+      # the wrong identifier.
+      property['propertyId'] || property['_id'].to_s
     end
 
     def filename(property)
