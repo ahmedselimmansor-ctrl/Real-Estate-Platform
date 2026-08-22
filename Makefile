@@ -116,10 +116,15 @@ ingest: check-up ## Ingest properties + FAQ into pgvector for the RAG chatbot
 
 ##@ Quality
 
-test: test-api test-search test-rag test-reports ## Run every service's test suite
+test: test-api test-web test-search test-rag test-reports ## Every unit suite (web + the four services)
+
+test-all: test test-integration ## Every unit suite, then the black-box suite
 
 test-api: check-up ## api-core — Jest unit + e2e tests
 	@$(COMPOSE) exec -T api-core sh -lc 'npm test'
+
+test-web: ## web — Vitest (runs on the host; no container needed)
+	@cd apps/web && npm test
 
 test-search: check-up ## search-svc — pytest
 	@$(COMPOSE) exec -T search-svc sh -lc 'python -m pytest -q'
@@ -129,6 +134,14 @@ test-rag: check-up ## rag-svc — pytest
 
 test-reports: check-up ## reports-svc — RSpec
 	@$(COMPOSE) exec -T reports-svc sh -lc 'bundle exec rspec --format progress'
+
+test-mobile: ## mobile — flutter analyze + test (needs the Flutter SDK on PATH)
+	@cd apps/mobile && flutter analyze --fatal-infos && flutter test
+
+# Black-box, against the running stack. Asserts its own preconditions and tells
+# you which command to run when the catalogue or the index is empty.
+test-integration: check-up ## Integration suite against the live, seeded stack
+	@cd tests/integration && npm ci --silent --no-audit --no-fund && npm test
 
 # Every linter runs even when an earlier one fails; the target still exits 1 if
 # any of them did, so `make lint` is usable as a gate and not just as output.

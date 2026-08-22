@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -133,6 +134,15 @@ export function LoginForm({ next }: { next: string }) {
             )}
           </Button>
         </form>
+
+        <p className="text-center text-xs text-muted-foreground">
+          <Link
+            href={routes.forgotPassword}
+            className="underline underline-offset-2 hover:text-foreground"
+          >
+            <T en="Forgotten your password?" ar="نسيت كلمة المرور؟" />
+          </Link>
+        </p>
 
         {user && !STAFF_ROLES.has(user.role) && (
           <p className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-xs text-destructive">

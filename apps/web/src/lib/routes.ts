@@ -9,7 +9,6 @@ export const routes = {
   home: '/',
 
   search: (filters: SearchFilters = {}) => filtersToHref(filters, '/search'),
-  map: (filters: SearchFilters = {}) => filtersToHref(filters, '/map'),
 
   buy: '/search?saleType=primary',
   rent: '/search?saleType=rent',
@@ -31,20 +30,15 @@ export const routes = {
   compare: '/compare',
   savedSearches: '/saved-searches',
   mortgageCalculator: '/mortgage-calculator',
-  marketInsights: '/market-insights',
 
+  // Staff only — the storefront needs no account, so there is no /register.
   login: '/login',
-  register: '/register',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
-  authCallback: '/auth/callback',
 
   account: '/account',
-  accountProfile: '/account/profile',
-  accountLeads: '/account/leads',
 
   admin: '/admin',
-  adminProperties: '/admin/properties',
   adminLeads: '/admin/leads',
 
   about: '/about',

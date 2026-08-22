@@ -30,8 +30,10 @@ import type {
   AdminStats,
   CreateSavedSearchPayload,
   Favorite,
+  ForgotPasswordPayload,
   LoginPayload,
   RegisterPayload,
+  ResetPasswordPayload,
   SavedSearch,
   User,
 } from '@/types/user';
@@ -509,6 +511,32 @@ export function useRegister(options: MutationOpts<AuthResponse, RegisterPayload>
       void queryClient.invalidateQueries();
       options.onSuccess?.(...args);
     },
+  });
+}
+
+/**
+ * Ask for a reset link.
+ *
+ * The endpoint always answers 200, whether or not the address belongs to an
+ * account (CONTRACT §5) — so this deliberately cannot tell the caller which it
+ * was, and the UI must not try to infer it.
+ */
+export function useForgotPassword(
+  options: MutationOpts<{ sent: true }, ForgotPasswordPayload> = {},
+) {
+  return useMutation<{ sent: true }, ApiError, ForgotPasswordPayload>({
+    mutationFn: (payload) => api.post<{ sent: true }>('/auth/forgot-password', payload),
+    ...options,
+  });
+}
+
+/** Consume a single-use reset token and set the new password. */
+export function useResetPassword(
+  options: MutationOpts<{ reset: true }, ResetPasswordPayload> = {},
+) {
+  return useMutation<{ reset: true }, ApiError, ResetPasswordPayload>({
+    mutationFn: (payload) => api.post<{ reset: true }>('/auth/reset-password', payload),
+    ...options,
   });
 }
 

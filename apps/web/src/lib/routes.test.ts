@@ -50,7 +50,6 @@ describe('parameterised routes', () => {
 
   it('returns the bare search path when nothing is filtered', () => {
     expect(routes.search()).toBe('/search');
-    expect(routes.map()).toBe('/map');
   });
 
   it('serialises filters onto the search path', () => {

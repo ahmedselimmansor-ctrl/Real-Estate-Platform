@@ -1,0 +1,14 @@
+{
+  "name": "@topchoice/integration-tests",
+  "private": true,
+  "type": "module",
+  "description": "Black-box tests against a running, seeded TopChoice stack.",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.7"
+  }
+}
