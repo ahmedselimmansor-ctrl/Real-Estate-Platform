@@ -848,24 +848,53 @@ bootstrap. Names are contractual — see [`docs/CONTRACT.md`](docs/CONTRACT.md) 
 ## Testing
 
 ```bash
-make test              # every suite
+make test              # every unit suite
+make test-integration  # black-box, against the running stack
+make test-all          # both
 ```
 
-| Component | Tests | Runner |
-|---|---|---|
-| api-core | 84 | Jest |
-| web | 39 | Vitest |
-| mobile | 33 | `flutter test` |
-| search-svc | 90 | pytest |
-| rag-svc | 197 | pytest |
-| reports-svc | 199 | RSpec |
+| Component | Tests | Runner | Needs the stack? |
+|---|---|---|---|
+| api-core | 84 | Jest | no |
+| web | 251 | Vitest | no |
+| mobile | 36 | `flutter test` | no |
+| search-svc | 90 | pytest | no |
+| rag-svc | 197 | pytest | no |
+| reports-svc | 199 | RSpec | no |
+| **integration** | **100** | **Vitest** | **yes — seeded** |
 
-Static analysis runs alongside: ESLint and `tsc` for TypeScript, ruff and mypy
-for Python, RuboCop for Ruby, `flutter analyze --fatal-infos` for Dart, and
-`terraform fmt`/`validate` for the infrastructure.
+The unit suites run in disposable containers built from each service's own
+image, so they neither need the stack up nor disturb it if it is. The Python and
+Ruby ones mount the source rather than running inside the live container,
+because the production images correctly ship neither tests nor a compiler.
 
-Two workflows gate `main`: **CI** (lint, typecheck, test, image build, compose
-smoke test) and **Security** (npm audit, pip-audit, bundler-audit, Gitleaks, and
+### The integration suite
+
+[`tests/integration`](tests/integration) is black-box: no mocks, every request
+over TLS through the real nginx edge to real services and real data. It exists
+for the failures a single service's unit tests structurally cannot see —
+
+- a search hit whose slug does not resolve in the catalogue, and the index
+  count drifting from the published count (the Mongo ↔ Elasticsearch seam)
+- 401 versus 403, which only means anything with real tokens and real roles
+- the whole buyer journey — search, detail, save, enquire, staff triage —
+  crossing four services in one test
+- rate limits, security headers and the error envelope, which belong to the
+  edge and therefore to no service's own suite
+
+It refuses to run against an unhealthy or unseeded stack and names the command
+that fixes each case, because a suite that passes for want of data to
+contradict it is worse than no suite.
+
+### Static analysis
+
+ESLint and `tsc` for TypeScript, ruff and mypy for Python, RuboCop for Ruby,
+`flutter analyze --fatal-infos` for Dart, `terraform fmt`/`validate` for the
+infrastructure.
+
+Two workflows gate `main`: **CI** (lint, typecheck, unit tests, image builds,
+then a composed stack that is seeded, indexed and put through the integration
+suite) and **Security** (npm audit, pip-audit, bundler-audit, Gitleaks, and
 Trivy across the filesystem, secrets and IaC).
 
 ---
