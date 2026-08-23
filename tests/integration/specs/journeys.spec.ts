@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ACCOUNTS, call, fetchBytes, login, tokens } from '../setup/client';
+import { ACCOUNTS, call, fetchBytes } from '../setup/client';
+import { tokens } from '../setup/fixtures';
 
 /**
  * The flows that cross a service boundary — the ones no single service's unit
@@ -22,7 +23,7 @@ describe('the buyer journey: search → detail → save → enquire', () => {
     const propertyId = detail.body.data!.propertyId;
 
     // 3. Save it.
-    const token = await login(ACCOUNTS.user);
+    const token = tokens().user;
     const added = await call(`/api/v1/favorites/${propertyId}`, { method: 'POST', token });
     expect([200, 201, 409]).toContain(added.status);
 
@@ -45,7 +46,7 @@ describe('the buyer journey: search → detail → save → enquire', () => {
     const leadId = lead.body.data!.id;
 
     // 5. Staff can see it and move it along.
-    const { admin } = await tokens();
+    const { admin } = tokens();
     const queue = await call<Array<{ id: string }>>('/api/v1/leads?limit=100&sort=-createdAt', {
       token: admin,
     });
@@ -70,7 +71,7 @@ describe('favourites', () => {
   });
 
   it('is scoped per user — one account never sees another\'s saves', async () => {
-    const { user, agent } = await tokens();
+    const { user, agent } = tokens();
     const property = (await call<Array<{ propertyId: string }>>('/api/v1/properties?limit=1')).body
       .data![0].propertyId;
 
@@ -83,7 +84,7 @@ describe('favourites', () => {
   });
 
   it('is idempotent — saving twice does not duplicate', async () => {
-    const { user } = await tokens();
+    const { user } = tokens();
     const property = (await call<Array<{ propertyId: string }>>('/api/v1/properties?limit=1')).body
       .data![0].propertyId;
 
@@ -129,7 +130,7 @@ describe('leads', () => {
   });
 
   it('is not readable without staff rights', async () => {
-    const { user } = await tokens();
+    const { user } = tokens();
 
     expect((await call('/api/v1/leads', { token: user })).status).toBe(403);
   });
@@ -226,7 +227,7 @@ describe('the PDF brochure', () => {
 
 describe('admin exports', () => {
   it('emits a properties CSV whose two id columns differ', async () => {
-    const { admin } = await tokens();
+    const { admin } = tokens();
     const { status, bytes } = await fetchBytes('/api/reports/admin/export/properties.csv', {
       token: admin,
     });
@@ -246,7 +247,7 @@ describe('admin exports', () => {
   });
 
   it('refuses an export to a non-staff caller', async () => {
-    const { user } = await tokens();
+    const { user } = tokens();
     const { status } = await fetchBytes('/api/reports/admin/export/leads.csv', { token: user });
 
     expect([401, 403]).toContain(status);

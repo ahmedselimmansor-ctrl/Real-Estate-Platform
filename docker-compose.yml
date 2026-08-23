@@ -69,6 +69,17 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
     container_name: topchoice-elasticsearch
     restart: unless-stopped
+    # Without this the container's hostname is its random id, and log4j resolves
+    # that name before Elasticsearch has finished starting. On a busy host the
+    # lookup can time out, which log4j treats as fatal:
+    #
+    #   Could not determine local host name java.net.UnknownHostException:
+    #   a8eae19eca49: Temporary failure in name resolution
+    #   ERROR: Elasticsearch died while starting up, with exit code 1
+    #
+    # A fixed hostname is resolvable from the container's own /etc/hosts, so the
+    # lookup never leaves the container and cannot time out.
+    hostname: elasticsearch
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -222,6 +233,21 @@ services:
     volumes:
       - ./apps/web/src:/app/src
       - ./apps/web/public:/app/public
+    # The Dockerfile declares a HEALTHCHECK only in its production stage, and
+    # this service builds the development one — so nginx waiting on
+    # `service_healthy` could never be satisfied here. Declaring it in compose
+    # covers both targets. `start_period` is generous because the dev server
+    # compiles the first route on demand.
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"",
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
     networks: [topchoice]
     logging: *default-logging
 

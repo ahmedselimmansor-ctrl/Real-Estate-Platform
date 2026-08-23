@@ -110,21 +110,6 @@ export async function login(email: string, password = DEMO_PASSWORD): Promise<st
   return result.body.data.accessToken;
 }
 
-/** Tokens for the three seeded roles, resolved once per run. */
-let cachedTokens: Record<keyof typeof ACCOUNTS, string> | null = null;
-
-export async function tokens(): Promise<Record<keyof typeof ACCOUNTS, string>> {
-  if (!cachedTokens) {
-    const [admin, agent, user] = await Promise.all([
-      login(ACCOUNTS.admin),
-      login(ACCOUNTS.agent),
-      login(ACCOUNTS.user),
-    ]);
-    cachedTokens = { admin, agent, user };
-  }
-  return cachedTokens;
-}
-
 /** Poll until `check` passes, so a spec never races a background reindex. */
 export async function eventually<T>(
   check: () => Promise<T | null | undefined | false>,

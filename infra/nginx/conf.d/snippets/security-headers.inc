@@ -19,4 +19,10 @@ add_header Cross-Origin-Opener-Policy "same-origin"                   always;
 add_header Content-Security-Policy   $topchoice_csp                        always;
 
 # Echo the correlation id back so the browser/network tab can be matched to logs.
+#
+# The upstreams set this header too, so without hiding theirs the response
+# carries it twice and every HTTP client joins the pair: a caller sending
+# `X-Request-Id: abc` read `abc, abc` back, which is not the id it sent and not
+# an id anything will match in a log. Drop the upstream copy and emit one.
+proxy_hide_header X-Request-Id;
 add_header X-Request-Id              $req_id                          always;
