@@ -1,4 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- `flutter create` declares INTERNET only in the debug and profile
+         manifests, so `flutter run` works and the release build silently ships
+         without it. Every listing, search and chat request in this app is
+         network-bound, so a release APK missing this permission installs,
+         launches, and then fails on every screen. It belongs here, in main. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="TopChoice"
         android:name="${applicationName}"

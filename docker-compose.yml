@@ -228,7 +228,29 @@ services:
       - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./infra/nginx/certs:/etc/nginx/certs:ro
-    depends_on: [web, api-core, search-svc, rag-svc, reports-svc]
+    # nginx resolves its upstreams at start and caches what it finds. Starting
+    # as soon as the containers exist — rather than once they answer — is how
+    # the stack ends up serving 502s that only a restart clears.
+    depends_on:
+      web: { condition: service_healthy }
+      api-core: { condition: service_healthy }
+      search-svc: { condition: service_healthy }
+      rag-svc: { condition: service_healthy }
+      reports-svc: { condition: service_healthy }
+    # The edge is the one component whose failure is total, and it was the only
+    # service with nothing watching it. Probes its own config-driven endpoint
+    # over TLS, so a bad certificate or a broken server block shows up here
+    # rather than as an unexplained connection reset.
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-check-certificate -q -O /dev/null https://localhost/__health/nginx || exit 1",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks: [topchoice]
     logging: *default-logging
 
