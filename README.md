@@ -219,7 +219,7 @@ flowchart TB
 ```
 
 **Why listings live in Mongo and everything else in Postgres.** A listing is a
-deep, bilingual, irregularly-shaped document — nested price, specs, location,
+deep, bilingual, irregularly-shaped document , nested price, specs, location,
 media arrays, an embedded payment plan, denormalised compound and developer
 stubs. Modelling that relationally means a dozen joins to render one card. The
 catalogue around it — users, areas, developers, leads, favourites — is
