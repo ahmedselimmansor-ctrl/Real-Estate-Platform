@@ -125,6 +125,24 @@ CONTRACT_PROPERTY: dict[str, Any] = {
 }
 
 
+def _load_seed(seed_dir: Path, filename: str) -> list[dict[str, Any]]:
+    """Read a seed file, failing rather than skipping when it is absent.
+
+    These used to `pytest.skip`, which meant a checkout that had lost `seed/`
+    produced a green run with two tests quietly missing. The seed is committed
+    to the repository, so its absence is a broken setup, not an optional
+    dependency — and a green build that skipped the assertions is worse than a
+    red one that explains itself.
+    """
+    path = seed_dir / filename
+    if not path.is_file():
+        raise FileNotFoundError(
+            f"seed dataset missing at {path}. The suite asserts against the committed "
+            f"seed/ directory; check SEED_DIR or the working directory."
+        )
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 @pytest.fixture(scope="session")
 def seed_dir() -> Path:
     return SEED_DIR
@@ -132,18 +150,12 @@ def seed_dir() -> Path:
 
 @pytest.fixture(scope="session")
 def seed_properties(seed_dir: Path) -> list[dict[str, Any]]:
-    path = seed_dir / "properties.json"
-    if not path.is_file():
-        pytest.skip(f"seed dataset not available at {path}")
-    return json.loads(path.read_text(encoding="utf-8"))
+    return _load_seed(seed_dir, "properties.json")
 
 
 @pytest.fixture(scope="session")
 def seed_areas(seed_dir: Path) -> list[dict[str, Any]]:
-    path = seed_dir / "areas.json"
-    if not path.is_file():
-        pytest.skip(f"seed dataset not available at {path}")
-    return json.loads(path.read_text(encoding="utf-8"))
+    return _load_seed(seed_dir, "areas.json")
 
 
 @pytest.fixture(scope="session")

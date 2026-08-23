@@ -526,9 +526,9 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
-  # ----------------------------------------------------------- compose smoke -
+  # ------------------------------------------------------------- integration -
   compose-smoke:
-    name: compose smoke test
+    name: integration (composed stack)
     needs: [changes, docker-build]
     if: always() && needs.changes.outputs.any_app == 'true' && needs.docker-build.result != 'failure'
     runs-on: ubuntu-latest
@@ -576,16 +576,54 @@ jobs:
       - name: Health check table
         run: ./infra/scripts/health-check.sh
 
-      - name: Contract smoke — routing through nginx
+      # A stack that starts is not a stack that works. Seed it, index it, and
+      # let the integration suite exercise the real journeys — the previous
+      # smoke test only proved the containers were alive.
+      - name: Seed the catalogue
+        run: docker compose exec -T api-core sh -lc 'npm run seed'
+
+      - name: Build the search index
         run: |
           set -euo pipefail
-          code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost/)
-          [ "$code" = "301" ] || { echo "expected an HTTP->HTTPS redirect, got $code"; exit 1; }
-          curl -fsSk https://localhost/__health/api-core    >/dev/null
-          curl -fsSk https://localhost/__health/search-svc  >/dev/null
-          curl -fsSk https://localhost/__health/rag-svc     >/dev/null
-          curl -fsSk https://localhost/__health/reports-svc >/dev/null
-          echo "edge routing verified"
+          token=$(grep '^INTERNAL_SERVICE_TOKEN=' .env | cut -d= -f2-)
+          curl -fsSk -X POST https://localhost/api/search/reindex \
+            -H 'Content-Type: application/json' \
+            -H "X-Service-Token: ${token}" \
+            -d '{"full": true}' >/dev/null
+          # The reindex is queued; wait for the index to match the catalogue.
+          for attempt in $(seq 1 40); do
+            indexed=$(curl -sk 'https://localhost/api/search?limit=1' | jq -r '.meta.total // 0')
+            published=$(curl -sk 'https://localhost/api/v1/properties?limit=1' | jq -r '.meta.total // 0')
+            if [ "$indexed" != "0" ] && [ "$indexed" = "$published" ]; then
+              echo "indexed ${indexed}/${published}"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::the index never caught up with the catalogue"
+          exit 1
+
+      - name: Set up Node for the integration suite
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: tests/integration/package-lock.json
+
+      - name: Integration tests
+        run: |
+          cd tests/integration
+          npm ci --no-audit --no-fund
+          npm test
+
+      - name: Upload integration results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-results
+          path: tests/integration/results/
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Dump logs on failure
         if: failure()
