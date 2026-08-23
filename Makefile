@@ -96,10 +96,10 @@ health: ## Probe every service directly and through nginx (exit 1 on failure)
 ##@ Data
 
 migrate: check-up ## Apply Prisma migrations to Postgres (api-core owns the schema)
-	@$(COMPOSE) exec -T api-core sh -lc 'npx --yes prisma migrate deploy'
+	@$(COMPOSE) exec -T api-core sh -c 'npx --yes prisma migrate deploy'
 
 seed: check-up ## Load seed/*.json into Postgres + MongoDB via the api-core seeder
-	@$(COMPOSE) exec -T api-core sh -lc 'npm run seed'
+	@$(COMPOSE) exec -T api-core sh -c 'npm run seed'
 
 reindex: check-up ## Rebuild the Elasticsearch `properties` index from Mongo
 	@test -n "$(INTERNAL_TOKEN)" || { echo "INTERNAL_SERVICE_TOKEN missing from $(ENV_FILE) — run make bootstrap"; exit 1; }
@@ -125,19 +125,62 @@ test: test-api test-web test-search test-rag test-reports ## Every unit suite (w
 test-all: test test-integration ## Every unit suite, then the black-box suite
 
 test-api: check-up ## api-core — Jest unit + e2e tests
-	@$(COMPOSE) exec -T api-core sh -lc 'npm test'
+	@$(COMPOSE) exec -T api-core sh -c 'npm test'
 
 test-web: ## web — Vitest (runs on the host; no container needed)
 	@cd apps/web && npm test
 
-test-search: check-up ## search-svc — pytest
-	@$(COMPOSE) exec -T search-svc sh -lc 'python -m pytest -q'
+# `sh -c`, never `sh -lc`. A login shell re-reads the profile and rebuilds PATH
+# from scratch, dropping the /opt/venv/bin that the Python images put there via
+# ENV. Under -lc these targets silently ran the *system* interpreter, so pytest
+# was missing and installing it produced "No module named pydantic" — the app's
+# dependencies live in the venv the login shell had just discarded.
+# The runtime images are built without INSTALL_DEV and do not ship
+# requirements-dev.txt, so a bare `python -m pytest` fails with "No module named
+# pytest" — which reads like a broken suite rather than a missing dependency.
+# Install the runner on demand, pinned to the same versions requirements-dev.txt
+# uses. Build with INSTALL_DEV=true to bake it in and skip this.
+# Run in a throwaway container off the service image with the source mounted,
+# rather than `exec` into the running one.
+#
+# The production images deliberately do not ship `tests/` — rag-svc copies only
+# app, alembic and seed — so exec'ing in gives "no tests ran" no matter what is
+# installed. They also drop privileges, and their venv is root-owned, so an
+# in-place `pip install` stops at "Permission denied: /opt/venv/.../pluggy".
+# A disposable root container sidesteps both and leaves the running stack alone.
+#
+# $(1) service dir, $(2) image, $(3) pytest pins
+define pytest_svc
+	@docker run --rm -u root \
+		-v "$(CURDIR)/apps/$(1)":/src -v "$(CURDIR)/seed":/seed:ro -w /src \
+		-e SEED_DIR=/seed --entrypoint sh $(2) -c \
+		'python -c "import pytest" 2>/dev/null || pip install -q $(3); python -m pytest tests -q'
+endef
 
-test-rag: check-up ## rag-svc — pytest
-	@$(COMPOSE) exec -T rag-svc sh -lc 'python -m pytest -q'
+test-search: ## search-svc — pytest
+	$(call pytest_svc,search-svc,topchoice-realestate-search-svc,pytest==8.3.4 pytest-asyncio==0.24.0)
 
-test-reports: check-up ## reports-svc — RSpec
-	@$(COMPOSE) exec -T reports-svc sh -lc 'bundle exec rspec --format progress'
+test-rag: ## rag-svc — pytest
+	$(call pytest_svc,rag-svc,topchoice-realestate-rag-svc,pytest==8.3.4 pytest-asyncio==0.25.0)
+
+# Same reasoning as the Python suites, with one extra wrinkle. The runtime image
+# sets BUNDLE_WITHOUT=development:test, so rspec is absent and exec'ing in gives
+# "bundler: command not found: rspec". Reinstating the test group there fails
+# too: bigdecimal needs a native build and the runtime image has no compiler.
+#
+# The Dockerfile's `builder` stage already carries build-essential, so the suite
+# runs against that. The bundle lands in a named volume so the gems are compiled
+# once rather than on every invocation.
+REPORTS_TEST_IMAGE := topchoice-reports-svc-test
+
+test-reports: ## reports-svc — RSpec
+	@docker build --quiet --target builder -t $(REPORTS_TEST_IMAGE) apps/reports-svc >/dev/null
+	@docker run --rm -u root \
+		-v "$(CURDIR)/apps/reports-svc":/src -w /src \
+		-v topchoice_reports_test_bundle:/bundle \
+		-e BUNDLE_WITHOUT= -e BUNDLE_PATH=/bundle -e BUNDLE_APP_CONFIG=/bundle \
+		--entrypoint sh $(REPORTS_TEST_IMAGE) -c \
+		'bundle install --quiet && bundle exec rspec --format progress'
 
 test-mobile: ## mobile — flutter analyze + test (needs the Flutter SDK on PATH)
 	@cd apps/mobile && flutter analyze --fatal-infos && flutter test
@@ -152,7 +195,7 @@ test-integration: check-up ## Integration suite against the live, seeded stack
 lint: lint-nginx ## Lint every service (eslint, ruff, rubocop) and validate the nginx config
 	@failed=""; \
 	run() { printf '\n-> %s\n' "$$1"; shift; \
-	        if $(COMPOSE) exec -T $$1 sh -lc "$$2"; then :; else failed="$$failed $$1"; fi; }; \
+	        if $(COMPOSE) exec -T $$1 sh -c "$$2"; then :; else failed="$$failed $$1"; fi; }; \
 	run "api-core (eslint)"     api-core    'npm run lint'; \
 	run "web (eslint)"          web         'npm run lint'; \
 	run "search-svc (ruff)"     search-svc  'python -m ruff check app'; \
