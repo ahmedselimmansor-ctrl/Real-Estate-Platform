@@ -557,7 +557,7 @@ jobs:
         run: docker compose build
 
       - name: Start the stack
-        run: docker compose up -d --remove-orphans
+        run: docker compose up -d
 
       - name: Wait for the stack to become healthy
         run: |

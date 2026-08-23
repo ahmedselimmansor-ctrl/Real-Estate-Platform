@@ -204,7 +204,7 @@ fi
 # ================================================================= 5. up ======
 step "Starting the stack"
 
-if ! run_logged "docker compose up -d" dc up -d --remove-orphans; then
+if ! run_logged "docker compose up -d" dc up -d; then
   tail_log
   die "Could not start the containers. Check the log above and \`make ps\`."
 fi

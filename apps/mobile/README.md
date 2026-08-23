@@ -46,7 +46,7 @@ a service lives somewhere unusual.
 Start the backend first, from the repo root:
 
 ```bash
-docker compose -p topchoice up -d
+docker compose -p topchoice-realestate up -d
 ```
 
 ## Building for Android

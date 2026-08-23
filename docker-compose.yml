@@ -1,4 +1,10 @@
-name: topchoice
+# Compose identifies a project by this name, and `--remove-orphans` deletes any
+# container carrying it that is not in *this* file. A second project on the same
+# machine using `topchoice` therefore reaps this entire stack — containers and
+# volumes — the moment it comes up, and this one reaps that stack in return.
+# That is not hypothetical: it happened here. Keep this name specific to the
+# repository, not to the product.
+name: topchoice-realestate
 
 x-logging: &default-logging
   driver: json-file

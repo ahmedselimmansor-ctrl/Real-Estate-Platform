@@ -57,8 +57,12 @@ certs: ## Generate the self-signed localhost TLS certificate (idempotent)
 
 ##@ Stack lifecycle
 
+# No --remove-orphans on `up`. It deletes containers by project label, so a
+# name collision with another compose project on the same machine turns a
+# routine start into a silent teardown of that project. Teardown belongs in
+# `down` and `reset`, where the operator asked for it.
 up: check-env ## Start every container in the background
-	@$(COMPOSE) up -d --remove-orphans
+	@$(COMPOSE) up -d
 	@$(MAKE) --no-print-directory ps
 
 down: ## Stop and remove the containers (volumes are kept)
