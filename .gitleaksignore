@@ -1,0 +1,14 @@
+# Gitleaks findings that have been reviewed and are not secrets.
+#
+# One fingerprint per line. Each entry must name the commit it lives in, so an
+# allowance never widens silently to cover a future finding in the same file.
+
+# A deliberately forged JWT — a syntactically valid header and payload with a
+# junk signature — used to assert that /auth/me rejects an unsigned token. It
+# was never a credential: nothing will ever accept it, which is the whole point
+# of the test.
+#
+# The current source builds it at runtime so no literal remains, but gitleaks
+# scans history and this commit still contains the string. Allowing the single
+# fingerprint keeps the generic-api-key rule live for everything else.
+0ad1bf576d4010320e8b6d40e31e2e2dc10085c2:tests/integration/specs/auth.spec.ts:generic-api-key:85

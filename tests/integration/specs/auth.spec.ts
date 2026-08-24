@@ -12,6 +12,19 @@ import { throttleAuth, tokens } from '../setup/fixtures';
 // Every test here hits /api/v1/auth/*, which nginx throttles as one prefix.
 beforeEach(throttleAuth);
 
+/**
+ * A syntactically valid JWT with a junk signature, assembled at runtime.
+ *
+ * Built rather than written as a literal because a hardcoded one trips secret
+ * scanners — Gitleaks flagged exactly that as a `generic-api-key` and failed
+ * the Security workflow. Suppressing the rule would blunt it for the real
+ * finding it exists to catch; there is no literal here to flag.
+ */
+function forgedToken(): string {
+  const segment = (value: unknown) => Buffer.from(JSON.stringify(value)).toString('base64url');
+  return `${segment({ alg: 'HS256', typ: 'JWT' })}.${segment({ sub: 'u1' })}.not-a-real-signature`;
+}
+
 describe('login', () => {
   it('issues an access token and returns the user', async () => {
     const result = await call<{ accessToken: string; user: { email: string; role: string } }>(
@@ -95,7 +108,7 @@ describe('the authenticated identity', () => {
 
   it.each([
     ['garbage', 'not-a-jwt-at-all'],
-    ['a well-formed but unsigned token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1MSJ9.forged'],
+    ['a well-formed but unsigned token', forgedToken()],
   ])('refuses %s', async (_label, token) => {
     const result = await call('/api/v1/auth/me', { token });
 
