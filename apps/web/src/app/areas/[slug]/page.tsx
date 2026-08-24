@@ -118,7 +118,7 @@ export default async function AreaPage({ params }: PageProps) {
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
+              <PropertyCard key={property.propertyId} property={property} />
             ))}
           </div>
         </section>

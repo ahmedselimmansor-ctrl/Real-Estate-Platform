@@ -76,12 +76,17 @@ export interface PropertyStats {
 }
 
 export interface Property {
-  /** Mongo `_id` serialised as a string by api-core. */
-  id: string;
   /**
-   * The shared listing UUID — identical to Postgres `property_index.id` and the
-   * Elasticsearch document id. This is the id every other service expects, so
-   * favourites, leads and view tracking all use it rather than `id`.
+   * The listing's identity everywhere — identical to Postgres
+   * `property_index.id` and to the Elasticsearch document id, which is why
+   * favourites, leads and view tracking all key on it.
+   *
+   * There is deliberately no `id` alongside it. This interface used to declare
+   * one, documented as "Mongo `_id` serialised as a string by api-core", but
+   * nothing performs that mapping: the service returns lean documents, so a
+   * response carries a raw `_id` and no `id` at all. Because the type asserted
+   * the field, `property.id` type-checked everywhere while being `undefined` at
+   * runtime, and five React lists were keyed on it.
    */
   propertyId: string;
   slug: string;

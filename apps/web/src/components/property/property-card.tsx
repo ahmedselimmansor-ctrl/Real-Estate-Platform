@@ -41,8 +41,14 @@ export interface PropertyCardProps {
 export type PropertyCardData =
   | PropertySearchHit
   | {
-      id: string;
-      propertyId?: string;
+      /**
+       * The catalogue shape identifies a listing by `propertyId`; only an
+       * Elasticsearch hit carries `id`. This branch had the two the other way
+       * round — `id` required, `propertyId` optional — which is what let every
+       * `key={property.id}` in the app type-check against a field
+       * `/api/v1/properties` never returns.
+       */
+      propertyId: string;
       slug: string;
       title: { en: string; ar: string };
       propertyType: string;
@@ -130,7 +136,7 @@ function normalise(property: PropertyCardData): NormalisedCard {
   const primary = images.find((image) => image.isPrimary) ?? images[0];
 
   return {
-    id: property.propertyId ?? property.id,
+    id: property.propertyId,
     slug: property.slug,
     titleEn: property.title.en,
     titleAr: property.title.ar,

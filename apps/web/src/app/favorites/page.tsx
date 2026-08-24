@@ -74,7 +74,7 @@ export default function FavoritesPage() {
       ) : (
         <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {saved.map((property) => (
-            <PropertyCard key={property.id} property={property} />
+            <PropertyCard key={property.propertyId} property={property} />
           ))}
         </div>
       )}

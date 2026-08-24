@@ -390,7 +390,7 @@ export function PropertyDetail({ property }: PropertyDetailProps) {
             ) : similar && similar.length > 0 ? (
               <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {similar.slice(0, 6).map((item) => (
-                  <PropertyCard key={item.id} property={item} />
+                  <PropertyCard key={item.propertyId} property={item} />
                 ))}
               </div>
             ) : (

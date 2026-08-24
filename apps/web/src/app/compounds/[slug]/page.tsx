@@ -145,7 +145,7 @@ export default async function CompoundPage({ params }: PageProps) {
               </div>
               <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {units.map((unit) => (
-                  <PropertyCard key={unit.id} property={unit} />
+                  <PropertyCard key={unit.propertyId} property={unit} />
                 ))}
               </div>
             </section>
