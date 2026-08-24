@@ -57,18 +57,24 @@ class SearchRepository {
 
   final ApiClient _api;
 
-  /// search-svc returns `{results, facets, total, took}` inside the envelope,
-  /// which is not the `{data, meta}` list shape, so it is unwrapped by hand.
+  /// search-svc answers `{results, facets, took}` under `data`, with the match
+  /// count in `meta.total` — the same place every other endpoint puts it.
+  ///
+  /// This used to read `data.total`, which does not exist, so it fell through
+  /// to `results.length`: the header reported the size of the page it happened
+  /// to be holding rather than how many listings matched. Twenty results out of
+  /// a hundred and eighty read as "20 properties", and the feed stopped paging
+  /// because it believed it already had them all.
   Future<({List<Property> results, int total})> search(
     SearchFilters filters, {
     int page = 1,
     int limit = 20,
   }) =>
-      _api.get<({List<Property> results, int total})>(
+      _api.getWithMeta<({List<Property> results, int total})>(
         AppConfig.search,
         '',
         query: filters.toQuery(page: page, limit: limit),
-        parse: (json) {
+        parse: (json, meta) {
           final map = json is Map<String, dynamic> ? json : const <String, dynamic>{};
           final results = (map['results'] as List<dynamic>? ?? const [])
               .whereType<Map<String, dynamic>>()
@@ -76,7 +82,7 @@ class SearchRepository {
               .toList();
           return (
             results: results,
-            total: (map['total'] as num?)?.toInt() ?? results.length,
+            total: (meta['total'] as num?)?.toInt() ?? results.length,
           );
         },
       );

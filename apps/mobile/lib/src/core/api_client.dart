@@ -148,6 +148,41 @@ class ApiClient {
     return parse(json);
   }
 
+  /// [get], but the parser also sees the envelope's `meta`.
+  ///
+  /// `data` and `meta` are siblings, so a parser handed only the unwrapped
+  /// `data` cannot reach the pagination totals. That is fine for [list], whose
+  /// `data` is an array, but search answers with an *object* — `{results,
+  /// facets, took}` — and its total count lives in `meta` like everywhere else.
+  /// Without this, the caller has to invent a total from the page it happens to
+  /// be holding.
+  Future<T> getWithMeta<T>(
+    String base,
+    String path, {
+    Map<String, dynamic>? query,
+    required T Function(dynamic json, Map<String, dynamic> meta) parse,
+  }) async {
+    final uri = _uri(base, path, query);
+    late http.Response response;
+    try {
+      final streamed = await _client
+          .send(http.Request('GET', uri)..headers.addAll(_headers()))
+          .timeout(AppConfig.requestTimeout);
+      response = await http.Response.fromStream(streamed);
+    } on TimeoutException {
+      throw const ApiException(message: 'The request timed out. Check your connection.');
+    } catch (error) {
+      throw ApiException(message: 'Could not reach the server. $error');
+    }
+
+    final data = _unwrap(response); // throws on an error envelope
+
+    final body = response.body.isEmpty ? null : jsonDecode(utf8.decode(response.bodyBytes));
+    final meta = body is Map<String, dynamic> ? body['meta'] : null;
+
+    return parse(data, meta is Map<String, dynamic> ? meta : const <String, dynamic>{});
+  }
+
   Future<T> post<T>(
     String base,
     String path, {
