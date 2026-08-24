@@ -340,7 +340,12 @@ jobs:
           python -m pip install --upgrade pip
           [ -f requirements.txt ] && pip install -r requirements.txt
           [ -f requirements-dev.txt ] && pip install -r requirements-dev.txt
-          pip install ruff mypy pytest pytest-asyncio httpx
+          # Only fill gaps. This line used to install ruff and mypy unpinned,
+          # after requirements-dev.txt had already pinned ruff==0.8.4 — so the
+          # pin was overwritten with whatever was newest that morning, and a
+          # ruff release shipping a new rule would fail a commit that changed
+          # nothing. Linters have to be reproducible or the gate is noise.
+          pip install pytest pytest-asyncio httpx
           true
 
       - name: Ruff

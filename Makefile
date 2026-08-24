@@ -209,17 +209,46 @@ test-integration: check-up ## Integration suite against the live, seeded stack
 
 # Every linter runs even when an earlier one fails; the target still exits 1 if
 # any of them did, so `make lint` is usable as a gate and not just as output.
+#
+# The Node services are linted by exec'ing into the running container, which
+# carries eslint in its dev image. The Python and Ruby ones cannot be: their
+# runtime images correctly ship no linter, because ruff and rubocop are dev
+# dependencies. Exec'ing in reported "command not found: rubocop" and `make lint`
+# failed for three of five services however clean the code was. They get their
+# own targets below, each running in a throwaway container off the service image
+# with the source mounted — the same shape the test targets already use.
 lint: lint-nginx ## Lint every service (eslint, ruff, rubocop) and validate the nginx config
 	@failed=""; \
-	run() { printf '\n-> %s\n' "$$1"; shift; \
-	        if $(COMPOSE) exec -T $$1 sh -c "$$2"; then :; else failed="$$failed $$1"; fi; }; \
-	run "api-core (eslint)"     api-core    'npm run lint'; \
-	run "web (eslint)"          web         'npm run lint'; \
-	run "search-svc (ruff)"     search-svc  'python -m ruff check app'; \
-	run "rag-svc (ruff)"        rag-svc     'python -m ruff check app'; \
-	run "reports-svc (rubocop)" reports-svc 'bundle exec rubocop --format simple'; \
+	for target in lint-api-core lint-web lint-search lint-rag lint-reports; do \
+	  printf '\n-> %s\n' "$$target"; \
+	  $(MAKE) --no-print-directory $$target || failed="$$failed $$target"; \
+	done; \
 	if [ -n "$$failed" ]; then printf '\nlint failed for:%s\n' "$$failed"; exit 1; fi; \
 	printf '\nall linters clean\n'
+
+lint-api-core: ## api-core — eslint
+	@$(COMPOSE) exec -T api-core sh -lc 'npm run lint'
+
+lint-web: ## web — eslint
+	@$(COMPOSE) exec -T web sh -lc 'npm run lint'
+
+# Ruff is installed from the service's own requirements-dev.txt rather than
+# unpinned. An unpinned linter fails a commit that changed nothing the first
+# time a release ships a new rule — installing latest here flagged nine hits
+# from UP046/UP047/RUF046 against code the pinned 0.8.4 is happy with.
+lint-search: ## search-svc — ruff
+	@docker run --rm -u root -v "$(CURDIR)/apps/search-svc":/src -w /src \
+		--entrypoint sh topchoice-realestate-search-svc \
+		-c 'python -m ruff --version >/dev/null 2>&1 || pip install -q -r requirements-dev.txt; python -m ruff check app'
+
+lint-rag: ## rag-svc — ruff
+	@docker run --rm -u root -v "$(CURDIR)/apps/rag-svc":/src -w /src \
+		--entrypoint sh topchoice-realestate-rag-svc \
+		-c 'python -m ruff --version >/dev/null 2>&1 || pip install -q -r requirements-dev.txt; python -m ruff check app'
+
+lint-reports: ## reports-svc — rubocop
+	@docker run --rm -v "$(CURDIR)/apps/reports-svc":/src -w /src ruby:3.3-slim \
+		bash -lc 'apt-get update -qq >/dev/null 2>&1 && apt-get install -y -qq build-essential git >/dev/null 2>&1; bundle install --quiet >/dev/null 2>&1; bundle exec rubocop --format simple'
 
 lint-nginx: ## Validate infra/nginx against a throwaway nginx container
 	@echo "-> nginx config"
