@@ -19,7 +19,22 @@ describe('escapeRegExp', () => {
   });
 
   it('escapes every metacharacter', () => {
-    for (const character of ['.', '*', '+', '?', '^', '$', '{', '}', '(', ')', '|', '[', ']', '\\']) {
+    for (const character of [
+      '.',
+      '*',
+      '+',
+      '?',
+      '^',
+      '$',
+      '{',
+      '}',
+      '(',
+      ')',
+      '|',
+      '[',
+      ']',
+      '\\',
+    ]) {
       expect(escapeRegExp(character)).toBe(`\\${character}`);
     }
   });
