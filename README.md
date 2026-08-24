@@ -849,19 +849,33 @@ bootstrap. Names are contractual — see [`docs/CONTRACT.md`](docs/CONTRACT.md) 
 
 ```bash
 make test              # every unit suite
-make test-integration  # black-box, against the running stack
-make test-all          # both
+make test-integration  # black-box HTTP, against the running stack
+make test-e2e          # the real mobile app, against the running stack
+make test-all          # unit, then integration
 ```
 
 | Component | Tests | Runner | Needs the stack? |
 |---|---|---|---|
 | api-core | 84 | Jest | no |
-| web | 251 | Vitest | no |
-| mobile | 36 | `flutter test` | no |
+| web | 256 | Vitest | no |
+| mobile | 81 | `flutter test` | no |
 | search-svc | 90 | pytest | no |
 | rag-svc | 197 | pytest | no |
 | reports-svc | 199 | RSpec | no |
 | **integration** | **100** | **Vitest** | **yes — seeded** |
+| **end-to-end** | **6** | `integration_test` | **yes — seeded** |
+
+Three layers, each catching what the one below it structurally cannot. The unit
+suites prove a parser can handle a payload. The integration suite proves the
+services answer what the contract says, over TLS through the real edge. The
+end-to-end suite launches the actual mobile app and asserts on what reaches the
+screen — which is how a count read from the wrong half of an envelope gets
+caught, because the number a person sees is wrong even though every layer below
+returned exactly what it was asked for.
+
+The end-to-end suite runs on `flutter-tester`, the headless host VM, so it needs
+no emulator — `dart:io` is real there and so is the HTTP. See
+[`apps/mobile/integration_test/README.md`](apps/mobile/integration_test/README.md).
 
 The unit suites run in disposable containers built from each service's own
 image, so they neither need the stack up nor disturb it if it is. The Python and

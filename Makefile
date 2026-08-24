@@ -19,6 +19,11 @@ TAIL           ?= 200
 # work without exporting anything.
 INTERNAL_TOKEN = $(shell sed -n 's/^[[:space:]]*INTERNAL_SERVICE_TOKEN=//p' $(ENV_FILE) 2>/dev/null | tail -n 1)
 
+# Published host ports, so `make test-e2e` reaches a stack whose ports were
+# overridden to dodge a collision. `env_port` falls back to the compose default
+# when the key is absent, which is the common case.
+env_port = $(or $(shell sed -n 's/^[[:space:]]*$(1)=//p' $(ENV_FILE) 2>/dev/null | tail -n 1),$(2))
+
 # Colours (disabled automatically when not a TTY, e.g. in CI logs).
 ifneq ($(shell test -t 1 && echo tty),)
   C_CYAN  := \033[36m
@@ -184,6 +189,18 @@ test-reports: ## reports-svc — RSpec
 
 test-mobile: ## mobile — flutter analyze + test (needs the Flutter SDK on PATH)
 	@cd apps/mobile && flutter analyze --fatal-infos && flutter test
+
+# Drives the real app against the running stack. Runs on flutter-tester, the
+# headless host VM, so no emulator is needed — but the device flag is required,
+# because Flutter otherwise picks Chrome and refuses. The URLs are read from
+# .env so a stack on overridden ports is still targeted correctly.
+test-e2e: check-up ## mobile — end-to-end against the live stack
+	@cd apps/mobile && flutter test integration_test -d flutter-tester \
+		--dart-define=API_CORE_URL=http://localhost:$(call env_port,API_CORE_HOST_PORT,4000)/api/v1 \
+		--dart-define=SEARCH_URL=http://localhost:$(call env_port,SEARCH_SVC_HOST_PORT,8000)/api/search \
+		--dart-define=CHAT_URL=http://localhost:$(call env_port,RAG_SVC_HOST_PORT,8001)/api/chat \
+		--dart-define=REPORTS_URL=http://localhost:$(call env_port,REPORTS_SVC_HOST_PORT,4567)/api/reports \
+		--dart-define=MEDIA_ORIGIN=http://localhost:$(call env_port,WEB_HOST_PORT,3000)
 
 # Black-box, against the running stack. Asserts its own preconditions and tells
 # you which command to run when the catalogue or the index is empty.
