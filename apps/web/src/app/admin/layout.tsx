@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
+import { AdminNav } from '@/components/layout/admin-nav';
 import { T } from '@/components/i18n/t';
 import { Spinner } from '@/components/ui/spinner';
 import { routes } from '@/lib/routes';
@@ -47,5 +48,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div className="mx-auto w-full max-w-7xl px-4 lg:px-6">
+      <AdminNav />
+      {children}
+    </div>
+  );
 }

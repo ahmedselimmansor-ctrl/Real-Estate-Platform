@@ -90,7 +90,6 @@ export function FilterSidebar({
   const typeCounts = useMemo(() => countsOf(facets?.propertyType), [facets]);
   const finishingCounts = useMemo(() => countsOf(facets?.finishing), [facets]);
   const bedroomCounts = useMemo(() => countsOf(facets?.bedrooms), [facets]);
-  const amenityCounts = useMemo(() => countsOf(facets?.amenities), [facets]);
   const areaCounts = useMemo(() => facets?.areas ?? [], [facets]);
 
   /** Toggling a value inside an array filter, resetting to page 1. */

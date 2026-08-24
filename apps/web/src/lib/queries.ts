@@ -623,4 +623,182 @@ export function useAdminStats(options: QueryOpts<AdminStats> = {}) {
   });
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Catalogue writes (staff only)                                             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The API has carried POST/PATCH/DELETE on properties, compounds, developers
+ * and areas since the beginning; nothing in the dashboard could reach any of
+ * it, so the catalogue was editable only through the seeder or by hand.
+ *
+ * Each mutation invalidates the entity's whole key space rather than patching a
+ * single cache entry. A listing edit moves it between filtered lists, changes
+ * its position under every sort, and alters the admin counters — reconciling
+ * that by hand is how a stale row ends up on screen.
+ */
+
+export function useCreateProperty(options: MutationOpts<Property, Partial<Property>> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<Property, ApiError, Partial<Property>>({
+    mutationFn: (payload) => api.post<Property>('/properties', payload),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.properties.all });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.admin.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useUpdateProperty(
+  options: MutationOpts<Property, { id: string; patch: Partial<Property> }> = {},
+) {
+  const queryClient = useQueryClient();
+  return useMutation<Property, ApiError, { id: string; patch: Partial<Property> }>({
+    mutationFn: ({ id, patch }) => api.patch<Property>(`/properties/${id}`, patch),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.properties.all });
+      // The search index is rebuilt from the catalogue, so a listing edit can
+      // change what a search returns too.
+      void queryClient.invalidateQueries({ queryKey: queryKeys.search.all });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.admin.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useDeleteProperty(options: MutationOpts<void, string> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<void, ApiError, string>({
+    mutationFn: (id) => api.delete<void>(`/properties/${id}`),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.properties.all });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.search.all });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.admin.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useCreateCompound(options: MutationOpts<Compound, Partial<Compound>> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<Compound, ApiError, Partial<Compound>>({
+    mutationFn: (payload) => api.post<Compound>('/compounds', payload),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.compounds.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useUpdateCompound(
+  options: MutationOpts<Compound, { id: string; patch: Partial<Compound> }> = {},
+) {
+  const queryClient = useQueryClient();
+  return useMutation<Compound, ApiError, { id: string; patch: Partial<Compound> }>({
+    mutationFn: ({ id, patch }) => api.patch<Compound>(`/compounds/${id}`, patch),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.compounds.all });
+      // Listings carry a denormalised copy of the compound name.
+      void queryClient.invalidateQueries({ queryKey: queryKeys.properties.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useDeleteCompound(options: MutationOpts<void, string> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<void, ApiError, string>({
+    mutationFn: (id) => api.delete<void>(`/compounds/${id}`),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.compounds.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useCreateDeveloper(options: MutationOpts<Developer, Partial<Developer>> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<Developer, ApiError, Partial<Developer>>({
+    mutationFn: (payload) => api.post<Developer>('/developers', payload),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.developers.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useUpdateDeveloper(
+  options: MutationOpts<Developer, { id: string; patch: Partial<Developer> }> = {},
+) {
+  const queryClient = useQueryClient();
+  return useMutation<Developer, ApiError, { id: string; patch: Partial<Developer> }>({
+    mutationFn: ({ id, patch }) => api.patch<Developer>(`/developers/${id}`, patch),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.developers.all });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.compounds.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useDeleteDeveloper(options: MutationOpts<void, string> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<void, ApiError, string>({
+    mutationFn: (id) => api.delete<void>(`/developers/${id}`),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.developers.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useCreateArea(options: MutationOpts<Area, Partial<Area>> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<Area, ApiError, Partial<Area>>({
+    mutationFn: (payload) => api.post<Area>('/areas', payload),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.areas.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useUpdateArea(
+  options: MutationOpts<Area, { id: string; patch: Partial<Area> }> = {},
+) {
+  const queryClient = useQueryClient();
+  return useMutation<Area, ApiError, { id: string; patch: Partial<Area> }>({
+    mutationFn: ({ id, patch }) => api.patch<Area>(`/areas/${id}`, patch),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.areas.all });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.compounds.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
+export function useDeleteArea(options: MutationOpts<void, string> = {}) {
+  const queryClient = useQueryClient();
+  return useMutation<void, ApiError, string>({
+    mutationFn: (id) => api.delete<void>(`/areas/${id}`),
+    ...options,
+    onSuccess: (...args) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.areas.all });
+      options.onSuccess?.(...args);
+    },
+  });
+}
+
 export { queryKeys };

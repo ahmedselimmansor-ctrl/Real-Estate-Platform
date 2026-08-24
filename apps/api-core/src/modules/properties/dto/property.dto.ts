@@ -126,6 +126,20 @@ export class ListPropertiesDto extends PaginationQueryDto {
   @Transform(toBoolean)
   @IsBoolean()
   isFeatured?: boolean;
+
+  @ApiPropertyOptional({
+    description:
+      'Substring match on the reference number, slug or either title. This is for ' +
+      'the staff catalogue, where a listing is looked up by the reference printed ' +
+      'on a contract — not a replacement for /api/search, which is the analysed ' +
+      'index behind the storefront.',
+    example: 'TC-1042',
+  })
+  @IsOptional()
+  @Transform(trim)
+  @IsString()
+  @MaxLength(200)
+  q?: string;
 }
 
 // -------------------------------------------------------------- nested types

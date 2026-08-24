@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { AppException } from '../../common/errors/app.exception';
 import { ERROR_CODES } from '../../common/errors/error-codes';
 import type { PaginatedResult } from '../../common/types/api-response';
+import { escapeRegExp } from '../../common/utils/escape-regexp';
 import { paginate, parseSort } from '../../common/utils/pagination';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CacheService } from '../../redis/cache.service';
@@ -72,6 +73,22 @@ export class PropertiesService {
           ...(query.minPrice !== undefined ? { $gte: query.minPrice } : {}),
           ...(query.maxPrice !== undefined ? { $lte: query.maxPrice } : {}),
         };
+      }
+
+      // A substring match across the fields staff identify a listing by.
+      //
+      // Deliberately not a text index: this exists so the dashboard can find
+      // "TC-1042" or a half-remembered slug, and stemming a reference number
+      // only gets in the way. Anything language-aware belongs in search-svc,
+      // which is what the storefront queries.
+      if (query.q) {
+        const term = new RegExp(escapeRegExp(query.q), 'i');
+        filter.$or = [
+          { referenceNo: term },
+          { slug: term },
+          { 'title.en': term },
+          { 'title.ar': term },
+        ];
       }
 
       const sort = parseSort(query.sort, SORTABLE, { field: 'publishedAt', direction: 'desc' });

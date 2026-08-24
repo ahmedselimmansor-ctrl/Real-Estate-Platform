@@ -2,6 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ApiError } from '@/lib/api';
+import type * as ApiModule from '@/lib/api';
 import { useFavoritesStore } from './favorites.store';
 import { useAuthStore } from './auth.store';
 
@@ -12,7 +13,7 @@ import { useAuthStore } from './auth.store';
  */
 
 vi.mock('@/lib/api', async () => {
-  const actual = await vi.importActual<typeof import('@/lib/api')>('@/lib/api');
+  const actual = await vi.importActual<typeof ApiModule>('@/lib/api');
   return {
     ...actual,
     api: {

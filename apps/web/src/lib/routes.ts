@@ -39,7 +39,9 @@ export const routes = {
   account: '/account',
 
   admin: '/admin',
+  adminProperties: '/admin/properties',
   adminLeads: '/admin/leads',
+  adminCatalogue: '/admin/catalogue',
 
   about: '/about',
   contact: '/contact',

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { MortgageCalculator } from '@/components/property/mortgage-calculator';
-import { T, useT } from '@/components/i18n/t';
+import { T } from '@/components/i18n/t';
 import { PageHeader } from '@/components/layout/page-header';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,6 @@ import { formatEGP } from '@/lib/format';
  * call reports-svc, so the figures here match a brochure exactly.
  */
 export default function MortgageCalculatorPage() {
-  const t = useT();
   const [price, setPrice] = useState(8_500_000);
 
   return (

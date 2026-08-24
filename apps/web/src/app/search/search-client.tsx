@@ -355,7 +355,6 @@ function SearchHeader() {
   // a chip being cleared) without clobbering what is being typed.
   useEffect(() => {
     setTerm((current) => (current === committed ? current : committed));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [committed]);
 
   useEffect(() => {
