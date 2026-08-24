@@ -1,4 +1,4 @@
-import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
@@ -96,12 +96,17 @@ export class CreateAreaDto {
   @MaxLength(4000)
   descriptionAr?: string;
 
-  @ApiPropertyOptional({ example: 30.0304 })
+  // Required, and now documented as such. `areas.lat` and `areas.lng` are NOT
+  // NULL in Postgres and the validator has always enforced them, but these
+  // carried @ApiPropertyOptional — so the published spec said they could be
+  // omitted, and a client that believed it got a 422 naming a field the
+  // documentation called optional.
+  @ApiProperty({ example: 30.0304 })
   @Type(() => Number)
   @IsLatitude({ message: 'lat must be a valid latitude' })
   lat!: number;
 
-  @ApiPropertyOptional({ example: 31.4913 })
+  @ApiProperty({ example: 31.4913 })
   @Type(() => Number)
   @IsLongitude({ message: 'lng must be a valid longitude' })
   lng!: number;
