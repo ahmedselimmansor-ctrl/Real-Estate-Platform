@@ -6,7 +6,6 @@
 ![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Python%203.12-009688?logo=fastapi&logoColor=white)
 ![Sinatra](https://img.shields.io/badge/Sinatra-Ruby%203.3-CC342D?logo=ruby&logoColor=white)
-![Flutter](https://img.shields.io/badge/Flutter-3.47-02569B?logo=flutter&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%20%2B%20pgvector-4169E1?logo=postgresql&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-8.15-005571?logo=elasticsearch&logoColor=white)
@@ -69,7 +68,6 @@ HTTP, which is what keeps the boundaries honest.
 flowchart TB
     subgraph clients["Clients"]
         browser["Web browser"]
-        mobile["Flutter app<br/>Android"]
     end
 
     subgraph edge["Edge"]
@@ -92,10 +90,6 @@ flowchart TB
     end
 
     browser -->|HTTPS 443| nginx
-    mobile -.->|"direct service ports<br/>(no edge)"| api
-    mobile -.-> search
-    mobile -.-> rag
-    mobile -.-> reports
 
     nginx --> web
     nginx --> api
@@ -128,12 +122,6 @@ flowchart TB
     class pg,mongo,es,redis store
     class nginx edgeC
 ```
-
-**Why the mobile app bypasses the edge.** The Flutter client talks to each
-service on its own port rather than through nginx. On an emulator the host is
-`10.0.2.2` and there is no trusted certificate for the self-signed edge, so
-going direct avoids shipping a TLS exception in a debug build. Every base URL is
-a `--dart-define`, so a real deployment points them all at the public edge.
 
 ---
 
@@ -829,7 +817,6 @@ bootstrap. Names are contractual — see [`docs/CONTRACT.md`](docs/CONTRACT.md) 
 .
 ├── apps/
 │   ├── web/            Next.js 15 storefront and admin
-│   ├── mobile/         Flutter client (Android)
 │   ├── api-core/       NestJS: catalogue, auth, leads
 │   ├── search-svc/     FastAPI: Elasticsearch query + index
 │   ├── rag-svc/        FastAPI + LangGraph: streaming chat
@@ -850,7 +837,6 @@ bootstrap. Names are contractual — see [`docs/CONTRACT.md`](docs/CONTRACT.md) 
 ```bash
 make test              # every unit suite
 make test-integration  # black-box HTTP, against the running stack
-make test-e2e          # the real mobile app, against the running stack
 make test-all          # unit, then integration
 ```
 
@@ -858,24 +844,14 @@ make test-all          # unit, then integration
 |---|---|---|---|
 | api-core | 84 | Jest | no |
 | web | 256 | Vitest | no |
-| mobile | 81 | `flutter test` | no |
 | search-svc | 90 | pytest | no |
 | rag-svc | 197 | pytest | no |
 | reports-svc | 199 | RSpec | no |
 | **integration** | **100** | **Vitest** | **yes — seeded** |
-| **end-to-end** | **6** | `integration_test` | **yes — seeded** |
 
-Three layers, each catching what the one below it structurally cannot. The unit
+Two layers, each catching what the one below it structurally cannot. The unit
 suites prove a parser can handle a payload. The integration suite proves the
-services answer what the contract says, over TLS through the real edge. The
-end-to-end suite launches the actual mobile app and asserts on what reaches the
-screen — which is how a count read from the wrong half of an envelope gets
-caught, because the number a person sees is wrong even though every layer below
-returned exactly what it was asked for.
-
-The end-to-end suite runs on `flutter-tester`, the headless host VM, so it needs
-no emulator — `dart:io` is real there and so is the HTTP. See
-[`apps/mobile/integration_test/README.md`](apps/mobile/integration_test/README.md).
+services answer what the contract says, over TLS through the real edge.
 
 The unit suites run in disposable containers built from each service's own
 image, so they neither need the stack up nor disturb it if it is. The Python and
@@ -903,8 +879,7 @@ contradict it is worse than no suite.
 ### Static analysis
 
 ESLint and `tsc` for TypeScript, ruff and mypy for Python, RuboCop for Ruby,
-`flutter analyze --fatal-infos` for Dart, `terraform fmt`/`validate` for the
-infrastructure.
+`terraform fmt`/`validate` for the infrastructure.
 
 Two workflows gate `main`: **CI** (lint, typecheck, unit tests, image builds,
 then a composed stack that is seeded, indexed and put through the integration
@@ -925,9 +900,6 @@ cd infra/terraform/bootstrap && terraform init && terraform apply   # once per a
 cd .. && terraform init -backend-config=environments/prod.backend.hcl
 terraform plan
 ```
-
-Release signing for the mobile app reads `apps/mobile/android/key.properties`,
-which is gitignored — copy `key.properties.example` and generate a keystore.
 
 ---
 
